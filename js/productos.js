@@ -1,0 +1,17 @@
+let productos = [
+    { id: "medias-bulba",
+      nombre: "Medias Bullbasaur",
+      precio: 4500,
+      imagen: "/img/Bulbasaur-Photoroom (1).png"  
+},
+    { id: "llave-darth",
+      nombre: "Llavero Darth Vader",
+      precio: 4500,
+      imagen: "/img/darth-vader.png"  
+},
+    { id: "taza-dbz",
+      nombre: "Taza DragonBall Z",
+      precio: 8000,
+      imagen: "/img/dbz-Photoroom.png"  
+}
+]

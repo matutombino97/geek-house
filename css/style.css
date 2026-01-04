@@ -1,0 +1,548 @@
+/* ================= RESET GLOBAL ================= */
+/* Eliminamos estilos por defecto del navegador */
+*{
+    margin: 0;              /* Quita márgenes automáticos */
+    padding: 0;             /* Quita rellenos automáticos */
+    box-sizing: border-box; /* Incluye padding y borde dentro del width/height */
+}
+
+/* ================= FUENTE PERSONALIZADA ================= */
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+
+html, body {
+    height: 100%; /* Ocupa toda la altura de la ventana */
+}
+/* ================= ESTILOS BASE ================= */
+body{
+    display: flex; /* Activamos Flexbox */
+    flex-direction: column; /* Apilamos verticalmente */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 
+                 'Lucida Grande', 'Lucida Sans Unicode', 
+                 Geneva, Verdana, sans-serif; /* Fuente general */
+    font-weight: 100; /* Texto fino */
+    background: linear-gradient(90deg, #7b0f0f, #ca2626); /* Fondo degradado */
+}
+main{
+    flex:1; /* Ocupa todo el espacio disponible y empuja el footer abajo */
+}
+
+/* ================= VARIABLES CSS ================= */
+:root {
+    --color-principal: #910d08; /* Rojo principal */
+    --color-header: #b576ec;   
+    --fuente-principal: 'Roboto', sans-serif; /* Fuente alternativa */
+    --color-texto: white;       /* Color base del texto */
+    --fuente-harry: 'Henny Penny', serif; /* Fuente temática */
+}
+
+/* ================= HEADER ================= */
+header{
+    padding: 1rem; /* Espacio interno */
+    background: var(--color-header); /* Fondo del header */
+    display: flex; /* Activamos Flexbox */
+    justify-content: space-between; /* Logo izquierda, menú derecha */
+    align-items: center; /* Centrado vertical */
+}
+
+/* Títulos centrados */
+h1{
+    text-align: center;
+}
+/* ================= LOGO ================= */
+.logo{
+    height: 60px; /* Controla tamaño del logo */
+    text-align: center;
+}
+
+/* ================= MENÚ ================= */
+.menu a {
+    text-decoration: none; /* Quita subrayado */
+    color: var(--color-texto); /* Usa variable */
+    padding: 10px 15px; /* Área clickeable */
+    font-weight: bold; /* Texto destacado */
+    border-radius: 5px; /* Bordes suaves */
+}
+
+/* Hover del menú */
+.menu a:hover {
+    color: #00ffcc; /* Cambio de color al pasar el mouse */
+}
+
+/* ================= HERO ================= */
+.hero-home{
+    max-width: 800px; /* No se estira demasiado */
+    margin: 50px auto; /* Centrado horizontal */
+    text-align: center; /* Texto centrado */
+    padding: 20px; /* Espacio interno */
+}
+
+/* Título principal */
+.hero-home h1{
+    font-size: 2.5rem; /* Tamaño grande */
+    color: var(--color-fondo); /* Color oscuro */
+    text-transform: uppercase; /* Todo en mayúsculas */
+}
+
+/* Texto del hero */
+.hero-home p{
+    line-height: 1.5; /* Mejor legibilidad */
+    color: rgb(161, 157, 157); /* Gris suave */
+    font-family: var(--fuente-harry); /* Fuente temática */
+    font-size: 20px;
+    padding-bottom: 10px;
+}
+.btn-hero{
+    text-decoration: none;
+    background: linear-gradient(to left, #2c2235, #076956);
+    border: none;
+    display:block;
+    margin: auto;
+    padding: 10px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-style: italic;
+    color:white;
+    cursor: pointer;
+    transition: all 0.5s ease;
+
+}
+.btn-hero:hover{
+    background: linear-gradient(to right, #076956, #2c2235);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px #076956;
+}
+
+.destacados h2{
+    text-align: center;
+    color: rosybrown;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+}
+
+
+/*=================== FOOTER =============================*/
+
+footer{
+    background-color: var(--color-header);
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    color: var(--color-texto)
+
+}
+
+/* ================= LISTA DE PRODUCTOS ================= */
+.productos{
+    display: flex; /* Flexbox */
+    flex-wrap: wrap; /* Permite varias filas */
+    justify-content: center; /* Centrado */
+    gap: 20px; /* Espacio entre cards */
+    padding: 20px;
+}
+
+/* Tarjeta individual */
+.productos article{
+    background: linear-gradient(to right, #076956, #2c2235);
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px; /* Todas iguales */
+    text-align: center;
+    height: max-content;
+}
+.productos article:hover{
+    transform: scale(1.09);
+    box-shadow: 10px 0 0 0 #0e0808;
+}
+
+/* Imágenes de producto */
+.productos img {
+    max-width: 100%; /* No se desborda */
+    height: auto; /* Mantiene proporción */
+    border-radius: 5px;
+}
+
+/* ================= PRECIO ================= */
+.precio {
+    color: #00ffcc; /* Color llamativo */
+    font-size: 1.2rem; /* Tamaño destacado */
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* ================= BOTONES ================= */
+.productos button {
+    background: linear-gradient(to left, #2c2235, #741b7c);
+    color: var(--color-texto);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer; /* Mano al pasar el mouse */
+    font-weight: bold;
+    transition: background 1.5s; /* Transición suave */
+}
+
+/* Hover del botón */
+.productos button:hover {
+    background: linear-gradient(to left, #741b7c, #2c2235);
+}
+
+/* ================= LINKS ESTILO BOTÓN ================= */
+.productos a{
+    display: block; /* Ocupa todo el ancho */
+    margin: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-decoration: none;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 5px #0e0d0f;
+    font-weight: bold;
+    font-style: italic;
+    background-color: #0e0d0f;
+}
+
+/* ================= PRODUCTO DESTACADO (GRID) ================= */
+
+.titulo-producto h1 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-principal);
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Tarjeta de producto */
+.producto-card {
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  max-width: 1000px;
+  margin: 50px auto;
+  padding: 20px;
+  transition: all 0.5s ease;
+}
+
+.producto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+}
+
+/* Imagen */
+.producto-card img {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 10px;
+  justify-self: center;
+}
+
+/* Precio */
+.precio {
+  color: #00ffcc;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+/* Botón de compra */
+.btn-comprar {
+  background: linear-gradient(to right, #910d08, #741b7c);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-comprar:hover {
+  background: linear-gradient(to right, #741b7c, #910d08);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #00ffcc;
+}
+
+/* Detalles */
+.detalle {
+  margin-top: 20px;
+}
+
+.detalle h2 {
+  color: #201b1b;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.detalle ul {
+  list-style: none;
+  padding: 0;
+}
+
+.detalle li {
+  color: whitesmoke;
+  margin: 8px 0;
+  text-align: center;
+  position: relative;
+}
+
+.detalle li::before {
+  content: "✦ ";
+  color: #00ffcc;
+  font-weight: bold;
+}
+
+/*================ OFERTA ==================*/
+/* Corrección para que la Oferta no tenga fondo rojo */
+.body-oferta {
+    /* O podés usar el mismo gradiente oscuro de tu sección oferta */
+    background: linear-gradient(to left, rgba(130, 130, 0, 0.5), rgba(0, 130, 130, 0.5));
+    
+    /* Aseguramos que ocupe toda la altura por si el contenido es poco */
+    min-height: 100vh; 
+}
+
+.oferta {
+    text-align: center;
+    /* Muy bien el uso de rgba para transparencias */
+    
+    padding: 40px 20px; /* Le agregué padding al contenedor para que no se pegue el texto a los bordes */
+}
+
+.oferta del {
+    color: grey;
+    font-size: 1.2rem; /* Agregado tamaño */
+}
+
+.oferta span {
+    font-size: 2.5rem; /* CORREGIDO: font-size en vez de weight */
+    font-weight: bold;
+    color: rgb(219, 6, 17);
+    display: block; /* Hacemos que baje a otra línea para destacar más */
+    margin: 10px 0;
+}
+
+.oferta p {
+    padding: 10px;
+    margin: auto;
+    color: var(--color-texto);
+    font-family: var(--fuente-harry);
+    font-size: 2rem; /* CORREGIDO */
+    line-height: 1.2;
+    letter-spacing: 2px;
+}
+
+/* BOTÓN DE COMPRA */
+.oferta a {
+    display: inline-block; /* Necesario para que el padding y margin funcionen bien */
+    border: none;
+    background-color: #0e0d0f;
+    
+    /* CORRECCIÓN: Botón grande y clickeable */
+    padding: 15px 40px; 
+    font-size: 1.5rem;
+    border-radius: 50px; /* Bordes redondos modernos */
+    
+    margin: 25px 0;
+    text-decoration: none;
+    color: var(--color-texto);
+    font-weight: bold;
+    
+    /* CORRECCIÓN: La transición va acá para que sea suave a la ida y a la vuelta */
+    transition: all 0.5s ease; 
+}
+
+.oferta a:hover {
+    background: linear-gradient(to left, rgba(0, 130, 130, 0.8), rgba(130, 130, 0, 0.8));
+    cursor: pointer;
+    color: white;
+    transform: scale(1.05); /* Efecto extra: Crece un poquito */
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); /* Efecto neón */
+}
+.beneficios {
+    margin: 0 auto;
+    text-align: center;
+    font-family: var(--fuente-harry);
+    background: linear-gradient(to left, rgba(130, 130, 0, 0.5), rgba(0, 130, 130, 0.5));
+    padding: 20px;
+    line-height: 1.5;
+}
+
+.beneficios ul {
+    list-style-type: none; /* elimina viñetas */
+    padding-left: 0;       /* quita sangría */
+}
+
+.beneficios li {
+    color: var(--color-texto); /* opcional: color de texto */
+    margin: 5px 0;             /* espacio entre ítems */
+}
+
+/* ================= Sobre Nosotros ================= */
+.nosotros{
+    max-width: 800px; /* No se estira demasiado */
+    margin: 50px auto; /* Centrado horizontal */
+    text-align: center; /* Texto centrado */
+    padding: 20px; /* Espacio interno */
+}
+
+/* Título Secundario */
+.nosotros h2{
+    font-size: 1rem; /* Tamaño mediano */
+    color: var(--color-fondo); /* Color oscuro */
+    text-transform: uppercase; /* Todo en mayúsculas */
+    margin: 2px;
+}
+
+.nosotros p{
+    line-height: 1.5; /* Mejor legibilidad */
+    color: rgb(161, 157, 157); /* Gris suave */
+    font-family: var(--fuente-harry); /* Fuente temática */
+    margin: 10px;
+    font-size: 18px;
+}
+.imagenes-nosotros{
+  max-width: 50%;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 0 0 3px rgb(20, 11, 11);
+}
+
+/* ================= FORMULARIO ================= */
+.campo input, textarea{
+    width: 100%;
+    padding:10px;
+    margin-bottom:15px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.5);
+    color:#0e0d0f;
+
+}
+.campo label{
+    display: block;
+    font-weight: bold;
+    color: white;
+}
+
+.btn-form{
+  background: linear-gradient(to right, #910d08, #741b7c);
+  color: white;
+  border: none;
+  display: block;
+  margin:auto;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-form:hover {
+  background: linear-gradient(to right, #741b7c, #910d08);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #00ffcc;
+}
+
+/* CARRITO FLOTANTE */
+.carrito-flotante{
+    position: fixed;
+    margin: 10px;
+    top: 83px;
+    right: 20px;
+    width: 250px;
+    background-color: var(--color-header);
+    color: white;
+    border: 3px solid #080202;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    text-decoration: none;
+}
+.carrito-flotante h2{
+    text-align: center;
+    color:rgb(20, 11, 11);
+    font-weight: bold;
+}
+.carrito-flotante p{
+text-align: center;
+}
+
+.carrito-flotante ul{
+    padding-left: 10px;
+
+}
+
+.toast{
+    position: fixed;
+    top: 20px; /*Arriba de todo*/
+    right: 20px; /* A la derecha */
+    background-color: #076956;
+    color: aliceblue;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 25px;
+    margin: 10px;
+    font-weight: bold;
+    font-family: var(--fuente-harry);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    z-index: 1000; /*Para que flote encima de todo */
+    /* Animacion de opacidad */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.toast.oculto{
+    opacity: 0;
+    transform: translate(-20px);
+    pointer-events: none;
+}
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    /* Producto destacado en una sola columna */
+    .producto-one{
+        grid-template-columns: 1fr;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .producto-one h2{
+        font-size: 1.5rem;
+    }
+
+    /* Header en columna */
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    /* Menú más cómodo para touch */
+    .menu a {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 1.1rem;
+    }
+/* AJUSTE PÁGINA OFERTA */
+    .oferta-relampago {
+        width: 100%;
+        text-align: center;
+        padding: 20px;
+        overflow: hidden; /* Evita que si algo es muy grande rompa la pantalla */
+    }
+
+    .oferta-relampago h1 {
+        font-size: 1.8rem; /* Texto más chico */
+        margin-bottom: 20px;
+        color: red; /* O el color que uses */
+    }
+
+    .oferta-relampago img {
+        width: 100%;       /* Que ocupe el ancho disponible */
+        max-width: 300px;  /* Pero que no pase de 300px */
+        height: auto;      /* Mantiene la proporción */
+        display: block;    /* Para que respete los márgenes */
+        margin: 0 auto;    /* Centrado horizontal */
+    }
+}

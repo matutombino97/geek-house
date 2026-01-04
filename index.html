@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
+    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce">
+    <meta name="author" content="Tu Nombre">
+    <meta property="og:title" content="Geek House | Tu Mundo Geek">
+    <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
+    <meta property="og:image" content="img/logo.png">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="img/ojos-naruto.jpg">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Geek House</title>
+</head>
+<body>
+    <header>
+        <img src="img/logo.png" alt="logo Geek House" class="logo">
+        <nav class = "menu">
+            <a href="pages/productos.html">Productos</a>
+            <a href="pages/contacto.html">Contacto</a>
+            <a href="pages/sobre-nosotros.html">Sobre nosotros</a>
+            <a href="pages/oferta.html">OFERTA RELAMPAGO</a>
+        </nav>
+    </header>
+    <main>
+        <section class="hero-home">
+            <div class="hero-content">
+                <h1 class="titulo-principal">Tu Mundo Geek en un solo lugar</h1>
+                <p>Encontrá los mejores coleccionables, figuras y accesorios para llevar tu pasión al siguiente nivel.</p>
+                <a href="pages/productos.html" class="btn-hero">Ver Catálogo</a>
+            </div>
+        </section>
+
+       <section class="destacados">
+            <h2>Lo más vendido de la semana</h2>
+            <button class="btn-hero" onclick="cargarProductos() ">Cargar Catalogo</button> <!-- fuera del div -->
+            <button class = "btn-hero" onclick="alternarCatalogo()">Mostrar/Ocultar productos</button>
+            <!-- <button onclick="agregarAlCarrito('${producto.id}')"> Comprar </button> -->
+            <div class="productos"></div>
+        </section>
+        <aside class = "carrito-flotante">
+            <h2>Tu Carrito</h2>
+            <ul id="lista-carrito">
+                <li>El carrito esta vacio</li>
+            </ul>
+            <p>Total: $ <span id="total-carrito">0</span> </p>
+            <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form" >Finalizar compra</button>
+        </aside>
+    </main>
+
+
+    <div id="mensaje-oculto" class="toast oculto">
+        ¡Producto agregado con exito!
+    </div>
+    <footer>
+        <p>© 2025 Geek House. Todos los derechos reservados.</p>
+
+    </footer>
+    <script src="js/productos.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
