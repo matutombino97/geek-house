@@ -5,23 +5,29 @@ let carrito = []; // Tu canasta vacía
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
-function cargarProductos(){
+function cargarProductos() {
     const contenedor = document.querySelector(".productos");
-    // --- GUARDA DE SEGURIDAD ---
-    // Si el contenedor no existe (estamos en Contacto o Nosotros), 
-    // cortamos la función acá con 'return' para que no rompa nada.
-    if (!contenedor) {
-        return; 
-    }
+    
+    // VALIDACIÓN: Si no existe el contenedor, no hacemos nada (para evitar errores en Contacto)
+    if (!contenedor) return;
+
     let lista = "";
 
+    // DETECTAMOS DÓNDE ESTAMOS
+    // Si la URL tiene la palabra "pages", significa que estamos en una subcarpeta
+    const esSubcarpeta = window.location.pathname.includes("pages");
+    
+    // Si es subcarpeta, le agregamos "../" antes de la ruta. Si no, nada.
+    const prefijoImagen = esSubcarpeta ? "../" : "";
+
     productos.forEach(producto => {
+        // Acá usamos la variable prefijoImagen antes de producto.imagen
         lista += `
         <article> 
-            <img src="${producto.imagen}" alt="${producto.nombre}">
+            <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
             <h3>${producto.nombre}</h3>
             <p class="precio">$${producto.precio}</p>
-            <button onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
+            <button class="producto-btn" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
         </article>`;
     });
 
