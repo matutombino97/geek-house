@@ -1,3 +1,5 @@
+// const { act } = require("react");
+
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
 
@@ -79,22 +81,51 @@ function alternarCatalogo() {
    3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
    ================================= */
 
+/* =================================
+   3. LÓGICA DEL NEGOCIO
+   ================================= */
+
 function agregarAlCarrito(id) {
-    // 1. Buscamos el producto que coincida con el ID (sin comillas)
+    // 1. Buscamos el producto
     const productoAgregado = productos.find(producto => producto.id === id);
     
     // 2. Metemos el producto ADENTRO del carrito
     carrito.push(productoAgregado);
     
-    // 3. Mostramos feedback
-    // Actualizamos la vista apenas guardamos el producto
+    // 3. Mostramos feedback y guardamos
     actualizarCarritoVisual();    
     mostrarNotificacion();
+    guardarCarritoEnStorage();
+} // <--- ¡AQUÍ TIENE QUE CERRAR AGREGAR AL CARRITO!
+
+
+/* =================================
+   5. PERSISTENCIA (LOCAL STORAGE)
+   ================================= */
+
+// Esta función va AFUERA, solita
+function guardarCarritoEnStorage(){
+    const carritoGuardado = JSON.stringify(carrito);
+    localStorage.setItem("carritoGeek", carritoGuardado);
 }
+
+// Esta también va AFUERA, solita
+function recuperarCarrito(){
+    const memoria = localStorage.getItem("carritoGeek");
+    
+    if(memoria){
+        carrito = JSON.parse(memoria);
+        actualizarCarritoVisual();
+    }
+}
+
+
 /* =================================
    4. INICIALIZACIÓN (ARRANQUE)
    ================================= */
-cargarProductos(); // La llamada que arranca todo
+cargarProductos(); 
+recuperarCarrito(); // Ahora sí la va a encontrar
+manejarFormulario();
 
 
 /* =================================
@@ -157,6 +188,9 @@ function finalizarCompra(){
 
     // 4.Actualizamos la pantalla
     actualizarCarritoVisual()
+
+    //.5 Actualizamos el storage(Ahora se guarda una lista vacia)
+    guardarCarritoEnStorage();
 }
 
 
