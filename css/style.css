@@ -29,7 +29,7 @@ main{
 /* ================= VARIABLES CSS ================= */
 :root {
     --color-principal: #910d08; /* Rojo principal */
-    --color-header: #b576ec;   
+    --color-header: #0b4eb3;   
     --fuente-principal: 'Roboto', sans-serif; /* Fuente alternativa */
     --color-texto: white;       /* Color base del texto */
     --fuente-harry: 'Henny Penny', serif; /* Fuente temática */
@@ -37,16 +37,54 @@ main{
 
 /* ================= HEADER ================= */
 header{
-    padding: 1rem; /* Espacio interno */
+    padding: 0.5rem; /* Espacio interno */
     background: var(--color-header); /* Fondo del header */
     display: flex; /* Activamos Flexbox */
-    justify-content: space-between; /* Logo izquierda, menú derecha */
+    justify-content:end; /* Logo izquierda, menú derecha */
     align-items: center; /* Centrado vertical */
 }
 
 /* Títulos centrados */
 h1{
     text-align: center;
+}
+
+/* EXPERIMENTANDO CON TITULO */
+/* EL CONTENEDOR (TU FONDO CÓMIC) */
+.titulo-principal {
+    /* Establecemos un alto fijo para que no se agrande todo */
+    height: 350px; 
+    
+    /* Configuramos el fondo cómic */
+    background-image: url("../img/logo-fondo.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    /* Centramos el contenido (el logo) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Evitamos que cualquier cosa sobresalga */
+    overflow: hidden; 
+}
+
+/* EL LOGO (LA IMAGEN CON LAS LETRAS GEEK HOUSE) */
+.titulo-principal img {
+    /* Controlamos que el logo no sea más grande que el fondo */
+    max-height: 150%; 
+    width: auto; /* Para que no se deforme */
+    
+    /* Efecto de sombra para que resalte sobre el fondo cómic */
+    filter: drop-shadow(5px 10px 15px rgba(0,0,0,0.5));
+    
+    /* Animación opcional para darle un toque "Geek" */
+    transition: transform 0.3s ease;
+}
+
+.titulo-principal img:hover {
+    transform: scale(1.05); /* Se agranda un poquito al pasar el mouse */
 }
 /* ================= LOGO ================= */
 .logo{
@@ -411,14 +449,24 @@ footer{
 }
 
 /* ================= FORMULARIO ================= */
+.body-contacto{
+    background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
+    background-size:cover;
+}
+.body-contacto h1{
+    color:rgb(161, 157, 157);
+    text-transform: uppercase;
+}
+.campo{
+    text-align: center;
+}
 .campo input, textarea{
-    width: 100%;
+    width: 15%;
     padding:10px;
     margin-bottom:15px;
     border-radius: 5px;
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.5);
     color:#0e0d0f;
-
 }
 .campo label{
     display: block;
@@ -452,10 +500,10 @@ footer{
     top: 83px;
     right: 20px;
     width: 250px;
-    background-color: var(--color-header);
-    color: white;
+    background-color: transparent;
+    color: rgb(20, 20, 1);
     border: 3px solid #080202;
-    padding: 15px;
+    padding: 25px;
     z-index: 1000;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
     text-decoration: none;
