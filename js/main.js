@@ -7,23 +7,25 @@ let carrito = []; // Tu canasta vacía
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
-function cargarProductos() {
+// Aceptamos la lista que nos manden. Si no mandan nada, usamos 'productos'
+function cargarProductos(listaProductos = productos) { 
     const contenedor = document.querySelector(".productos");
     
-    // VALIDACIÓN: Si no existe el contenedor, no hacemos nada (para evitar errores en Contacto)
     if (!contenedor) return;
+
+    // IMPORTANTE: Limpiamos el contenedor antes de dibujar
+    // (Si no hacemos esto, los productos filtrados se suman abajo de los viejos)
+    contenedor.innerHTML = ""; 
 
     let lista = "";
 
-    // DETECTAMOS DÓNDE ESTAMOS
-    // Si la URL tiene la palabra "pages", significa que estamos en una subcarpeta
     const esSubcarpeta = window.location.pathname.includes("pages");
-    
-    // Si es subcarpeta, le agregamos "../" antes de la ruta. Si no, nada.
     const prefijoImagen = esSubcarpeta ? "../" : "";
 
-    productos.forEach(producto => {
-        // Acá usamos la variable prefijoImagen antes de producto.imagen
+    // AQUI ESTABA EL ERROR:
+    // Antes decia: productos.forEach...
+    // Ahora debe decir: listaProductos.forEach...
+    listaProductos.forEach(producto => {    // 👈 CAMBIO CLAVE
         lista += `
         <article> 
             <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
@@ -96,20 +98,20 @@ function agregarAlCarrito(id) {
     actualizarCarritoVisual();    
     mostrarNotificacion();
     guardarCarritoEnStorage();
-} // <--- ¡AQUÍ TIENE QUE CERRAR AGREGAR AL CARRITO!
+} // 
 
 
 /* =================================
    5. PERSISTENCIA (LOCAL STORAGE)
    ================================= */
 
-// Esta función va AFUERA, solita
+
 function guardarCarritoEnStorage(){
     const carritoGuardado = JSON.stringify(carrito);
     localStorage.setItem("carritoGeek", carritoGuardado);
 }
 
-// Esta también va AFUERA, solita
+
 function recuperarCarrito(){
     const memoria = localStorage.getItem("carritoGeek");
     
@@ -124,7 +126,7 @@ function recuperarCarrito(){
    4. INICIALIZACIÓN (ARRANQUE)
    ================================= */
 cargarProductos(); 
-recuperarCarrito(); // Ahora sí la va a encontrar
+recuperarCarrito(); 
 manejarFormulario();
 
 
@@ -195,7 +197,6 @@ function finalizarCompra(){
 
 
 // Al agregar producto
-carrito.push(productoAgregado);
 localStorage.setItem("carrito", JSON.stringify(carrito));
 
 // Al cargar la página
@@ -204,3 +205,58 @@ if (carritoGuardado) {
   carrito = JSON.parse(carritoGuardado);
   actualizarCarritoVisual();
 }
+
+
+/* =================================
+   6. FILTROS DE BÚSQUEDA
+   ================================= */
+const inputBusqueda = document.getElementById("input-busqueda");
+
+// PRUEBA 1: ¿Encontró el input?
+console.log("El input existe?", inputBusqueda); 
+
+if(inputBusqueda){
+    inputBusqueda.addEventListener("keyup", function(evento){
+        const textoUsuario = evento.target.value.toLowerCase();
+        
+        // PRUEBA 2: ¿Detecta lo que escribo?
+        console.log("Usuario escribió:", textoUsuario);
+
+        const productosFiltrados = productos.filter(producto => {
+            return producto.nombre.toLowerCase().includes(textoUsuario);
+        });
+
+        // PRUEBA 3: ¿Cuántos productos quedaron?
+        console.log("Productos encontrados:", productosFiltrados);
+
+        cargarProductos(productosFiltrados);
+    });
+}
+
+/* =================================
+   7. FILTROS POR CATEGORÍA
+   ================================= */
+//Seleccionamos todos los botones que tengan la clase .btn-cat
+const botonesCategorias = document.querySelectorAll(".btn-cat");
+
+// Les damos vida a cada uno
+botonesCategorias.forEach(boton =>{
+    boton.addEventListener("click", (e)=> {
+        //1. Averiguamos que boton se tocó (cat-ropa, cat-hogar, etc)
+        const idBoton = e.currentTarget.id;
+
+        //2. Si tocó "Todos" mostramos todo
+        if(idBoton ==="cat-todos"){
+            cargarProductos(productos) // PAsamos la lista completa
+        }else{
+            //3 Si toco otro, filtramos
+            // El ID del boton es "cat-ropa" pero la categoria es "ropa"
+            //Usamos .slice(4) para borrar los primeros 4 caracteres
+            const categoriaSeleccionada = idBoton.slice(4);
+
+            const productosFiltrados = productos.filter(producto => producto.categoria === categoriaSeleccionada);
+            cargarProductos(productosFiltrados)
+        }
+    })
+})
+

@@ -40,9 +40,10 @@ header{
     padding: 0.5rem; /* Espacio interno */
     background: var(--color-header); /* Fondo del header */
     display: flex; /* Activamos Flexbox */
-    justify-content:end; /* Logo izquierda, menú derecha */
+    justify-content:end;
     align-items: center; /* Centrado vertical */
 }
+
 
 /* Títulos centrados */
 h1{
@@ -169,23 +170,67 @@ footer{
 
 }
 
-/* ================= LISTA DE PRODUCTOS ================= */
-.productos{
-    display: flex; /* Flexbox */
-    flex-wrap: wrap; /* Permite varias filas */
-    justify-content: center; /* Centrado */
-    gap: 20px; /* Espacio entre cards */
-    padding: 20px;
+/* ================= INPUT DE FILTRACION================= */
+.filtros{
+    margin-bottom: 20px;
+    text-align: left;
+
 }
 
+#input-busqueda{
+    margin: 5px;
+    padding: 5px;
+    border-radius: 10px;
+    color: rgb(17, 12, 12);
+    background-color: #ddd8d8;
+    border: 2px solid black;   
+    transition: 0.5s;
+}
+
+#input-busqueda:hover{
+    transform: scale(1.1);
+}
+
+
+/* ================= BOTONES CATEGORIA================= */
+
+.categorias-nav{
+    padding: 3px;
+    margin:5px;
+}
+.btn-cat{
+    border-radius: 5px;
+    width: 5%;
+    height: 30px;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.btn-cat:hover{
+    background: linear-gradient(to right, rgba(150,50,100,0.5), rgba(100,50,150,0.5));
+    font-weight: bold;
+    transform: scale(1.09);
+}
+/* ================= LISTA DE PRODUCTOS ================= */
+
+.productos {
+    display: grid;
+    /* CAMBIO CLAVE: auto-fill en vez de auto-fit */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 30px;
+    padding: 20px;
+    justify-content: center;
+    /* OPCIONAL: Para que no se estire en pantallas ultra-wide */
+    max-width: 1200px; 
+    margin: 0 auto; /* Esto lo centra en la pantalla */
+}
 /* Tarjeta individual */
 .productos article{
     background: linear-gradient(to right, #076956, #2c2235);
     padding: 15px;
     border-radius: 10px;
-    width: 250px; /* Todas iguales */
+    width: 100%; /* Todas iguales */
     text-align: center;
-    height: max-content;
 }
 .productos article:hover{
     transform: scale(1.09);
