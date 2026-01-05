@@ -3,52 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Geek House es una tienda gamer especializada en periféricos, tecnología y productos geek.">
-    <link rel="icon" href="../img/ojos-naruto.jpg">
+    <title>Detalle del Producto</title>
     <link rel="stylesheet" href="../css/style.css">
-    <title>Geek House | Producto</title>
 </head>
 <body>
-     <header>
-        <nav class = "menu">
-            <a href="../index.html">Inicio</a>
-            <a href="productos.html">Productos</a>
-            <a href="contacto.html">Contacto</a>
-            <a href="sobre-nosotros.html">Sobre nosotros</a>
-            <a href="oferta.html">OFERTA RELAMPAGO</a>
+    <header>
+        <nav class="menu">
+            <a href="../index.html">⬅ Volver al Catálogo</a>
         </nav>
     </header>
-    <main>
-        <section class="titulo-producto">
-            <h1>Llavero Darth Vader</h1>
-        </section>
 
-        <section class="producto-card">
-            <img src="../img/darth-vader.png" alt="Llavero Darth Vader">
-            <article>
-            <h2>Información del llavero</h2>
-            <p>Fabricado en PVC de alta resistencia, con acabados duraderos y un diseño fiel al icónico Darth Vader.</p>
-            <p class="precio">$4500</p>
-            <button class="btn-comprar" onclick="agregarAlCarrito('llave-darth')">Comprar Ahora</button>
-
-            <section class="detalle">
-                <h2>Detalles</h2>
-                <ul>
-                <li>Producto oficial inspirado en la saga Star Wars</li>
-                <li>Material resistente y ligero, ideal para uso diario</li>
-                <li>Diseño coleccionable que refleja el lado oscuro de la Fuerza</li>
-                </ul>
-            </section>
-            </article>
-        </section>
+    <main class="detalle-container">
+        <div id="detalle-producto"></div>
     </main>
 
-
-    <footer>
-        <p>© 2025 Geek House. Todos los derechos reservados.</p>
-
-    </footer>
+    <script src="../js/productos.js"></script>
     <script src="../js/main.js"></script>
-
 </body>
 </html>

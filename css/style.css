@@ -590,6 +590,71 @@ text-align: center;
     transform: translate(-20px);
     pointer-events: none;
 }
+
+
+
+/* =================================
+   ESTILOS DE LA PÁGINA DE DETALLE
+   ================================= */
+
+/* El contenedor principal */
+.detalle-container {
+    max-width: 1000px;
+    margin: 40px auto; /* Centrado */
+    padding: 20px;
+    background-color: rgba(207, 196, 219, 0.308);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+/* La caja flexible que divide Foto | Info */
+.detalle-flex {
+    display: flex;
+    gap: 40px; /* Espacio entre foto y texto */
+    align-items: center; /* Centrados verticalmente */
+}
+
+/* Ajustes para la imagen */
+.detalle-flex img {
+    width: 50%; /* La foto ocupa la mitad */
+    max-width: 400px;
+    border-radius: 10px;
+    object-fit: cover;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Ajustes para el texto */
+.detalle-info {
+    width: 50%;
+}
+
+.detalle-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.categoria {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+.precio-grande {
+    font-size: 2rem;
+    color: #2ecc71; /* Verde dinero */
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.descripcion {
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
 
@@ -637,5 +702,14 @@ text-align: center;
         height: auto;      /* Mantiene la proporción */
         display: block;    /* Para que respete los márgenes */
         margin: 0 auto;    /* Centrado horizontal */
+    }
+  
+    .detalle-flex {
+        flex-direction: column; /* Uno abajo del otro */
+        text-align: center;
+    }
+
+    .detalle-flex img, .detalle-info {
+        width: 100%; /* Ocupan todo el ancho */
     }
 }

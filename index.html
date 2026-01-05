@@ -37,29 +37,29 @@
         <section class="filtros">
             <input type="text" id="input-busqueda" placeholder="🔍 Buscar producto...">
         </section>
-    <section class="categorias-nav">
-        <button class="btn-cat" id="cat-todos">Todos</button>
-        <button class="btn-cat" id="cat-ropa">Ropa</button>
-        <button class="btn-cat" id="cat-accesorios">Accesorios</button>
-        <button class="btn-cat" id="cat-hogar">Hogar</button>
-    </section>
-
-    <section class="productos"> ... </section>
-       <section class="destacados">
-            <h2>Lo más vendido de la semana</h2>
-            <button class="btn-hero" onclick="cargarProductos() ">Cargar Catalogo</button> <!-- fuera del div -->
-            <button class = "btn-hero" onclick="alternarCatalogo()">Mostrar/Ocultar productos</button>
-            <!-- <button onclick="agregarAlCarrito('${producto.id}')"> Comprar </button> -->
-            <div class="productos"></div>
+        <section class="categorias-nav">
+            <button class="btn-cat" id="cat-todos">Todos</button>
+            <button class="btn-cat" id="cat-ropa">Ropa</button>
+            <button class="btn-cat" id="cat-accesorios">Accesorios</button>
+            <button class="btn-cat" id="cat-hogar">Hogar</button>
         </section>
-        <aside class = "carrito-flotante">
-            <h2>Tu Carrito</h2>
-            <ul id="lista-carrito">
-                <li>El carrito esta vacio</li>
-            </ul>
-            <p>Total: $ <span id="total-carrito">0</span> </p>
-            <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form" >Finalizar compra</button>
-        </aside>
+
+     
+        <section class="destacados">
+                <h2>Lo más vendido de la semana</h2>
+                <button class="btn-hero" onclick="cargarProductos() ">Cargar Catalogo</button> <!-- fuera del div -->
+                <button class = "btn-hero" onclick="alternarCatalogo()">Mostrar/Ocultar productos</button>
+                <!-- <button onclick="agregarAlCarrito('${producto.id}')"> Comprar </button> -->
+                <div class="productos"></div>
+            </section>
+            <aside class = "carrito-flotante">
+                <h2>Tu Carrito</h2>
+                <ul id="lista-carrito">
+                    <li>El carrito esta vacio</li>
+                </ul>
+                <p>Total: $ <span id="total-carrito">0</span> </p>
+                <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form" >Finalizar compra</button>
+            </aside>
     </main>
 
 

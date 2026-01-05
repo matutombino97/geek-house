@@ -8,30 +8,35 @@ let carrito = []; // Tu canasta vacía
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
 // Aceptamos la lista que nos manden. Si no mandan nada, usamos 'productos'
-function cargarProductos(listaProductos = productos) { 
+function cargarProductos(listaProductos = productos) {
     const contenedor = document.querySelector(".productos");
-    
     if (!contenedor) return;
-
-    // IMPORTANTE: Limpiamos el contenedor antes de dibujar
-    // (Si no hacemos esto, los productos filtrados se suman abajo de los viejos)
+    
     contenedor.innerHTML = ""; 
 
     let lista = "";
-
+    
+    // DETECTAMOS DÓNDE ESTAMOS
     const esSubcarpeta = window.location.pathname.includes("pages");
+    
+    // 1. Ajuste para IMÁGENES (ya lo tenías)
     const prefijoImagen = esSubcarpeta ? "../" : "";
+    
+    // 2. Ajuste para ENLACES (¡NUEVO!)
+    // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
+    const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
-    // AQUI ESTABA EL ERROR:
-    // Antes decia: productos.forEach...
-    // Ahora debe decir: listaProductos.forEach...
-    listaProductos.forEach(producto => {    // 👈 CAMBIO CLAVE
+    listaProductos.forEach(producto => {
         lista += `
         <article> 
-            <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
+            <a href="${rutaProducto}?prod=${producto.id}">
+                <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
+            </a>
+            
             <h3>${producto.nombre}</h3>
             <p class="precio">$${producto.precio}</p>
-            <button class="producto-btn" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
+            
+            <button class="btn-comprar" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
         </article>`;
     });
 
@@ -39,10 +44,15 @@ function cargarProductos(listaProductos = productos) {
 }
 
 function actualizarCarritoVisual(){
+
     //1. Aca creamos una variable listaHTML y le asignamos y le pedimos al js que interactue en el elemento lista-carrito que en este caso es una ul
     const listaHTML = document.getElementById("lista-carrito");
     // 2. Aca tmb creamos una variable y  le pedimos que interactue sobre el elemento total-carrito que es un span donde esta el precio
     const totalHTML = document.getElementById("total-carrito");
+      // === EL FRENO DE SEGURIDAD ===
+    // Si no existe el elemento en esta página, cortamos la función acá.
+    if (!totalHTML) return; 
+    // =============================
     //3. Creamos una variable let que es flexible y puede cambiar en diferencia de const
     let total = 0
     // 4. Limpiamos lo que hay dentro de de lista-carrito con el elemento vacio "" y el inner
@@ -125,7 +135,8 @@ function recuperarCarrito(){
 /* =================================
    4. INICIALIZACIÓN (ARRANQUE)
    ================================= */
-cargarProductos(); 
+// cargarProductos(); Ya no se usa, asique la comento de recuerdo
+cargarBaseDeDatos() //Ahora arranco pidiendo los datos
 recuperarCarrito(); 
 manejarFormulario();
 
@@ -260,3 +271,77 @@ botonesCategorias.forEach(boton =>{
     })
 })
 
+
+/* =================================
+   8. LÓGICA DE PÁGINA DE DETALLE
+   ================================= */
+
+// 1. Preguntamos: ¿Estamos en la página de detalle?
+// Buscamos si existe el div con id "detalle-producto"
+const contenedorDetalle = document.getElementById("detalle-producto");
+
+if (contenedorDetalle) {
+    // 2. Leemos "el papelito" de la URL
+    const params = new URLSearchParams(window.location.search);
+    const idProducto = params.get("prod"); // "prod" es el nombre que pusimos en el enlace
+
+    // console.log("El ID que vino por URL es:", idProducto); // Para probar
+
+    // 3. Buscamos el producto en nuestro array (igual que en el carrito)
+    const productoEncontrado = productos.find(p => p.id === idProducto);
+
+    // 4. Si existe, lo dibujamos en GRANDE
+    if (productoEncontrado) {
+        contenedorDetalle.innerHTML = `
+            <div class="detalle-flex">
+                <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
+                <div class="detalle-info">
+                    <h1>${productoEncontrado.nombre}</h1>
+                    <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
+                    <p class="precio-grande">$${productoEncontrado.precio}</p>
+                    <p class="descripcion">Taza para recargar todo tu ki..</p>
+                    <button class="producto-btn" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
+                </div>
+            </div>
+        `;
+    } else {
+        contenedorDetalle.innerHTML = "<h2>Producto no encontrado 😢</h2>";
+    }
+}
+
+/* =================================
+   9. CARGA DE DATOS (FETCH)
+   ================================= */
+
+async function cargarBaseDeDatos(){
+    try{
+        //1. Defino la ruta(GPS): Donde esta el archivo json?
+        //Si estamos en 'pages' salimos una carpeta. Si no, entramos directo.
+        const esSubcarpeta = window.location.pathname.includes("pages");
+        const ruta = esSubcarpeta ? "../datos/productos.json" : "./datos/productos.json";
+
+        //2 FETCH: "Hola servidor (o archivo), traeme los datos"
+        //El 'await' le dice al codigo: "Frena aca hasta que responda el archivo"
+        const respuesta = await fetch(ruta);
+
+        //3 convertimos la respuesta (texto plano) en JSON (objetos reales)
+        const datos = await respuesta.json();
+        //4. Guardamos los datos que llegaron en nuestra variable global "productos"(la que dejamos vacia en productos.js)
+        productos = datos;
+
+        //5 Ahora si, que ya llegaron los datos dibujamos la web
+        cargarProductos();
+
+        // Mas pro ah, si hay algo en el carrito actualizamos nombres/precios por si cambiaron
+        //recuperarCarrito() // Lo vemos mas adelante
+    } catch(error){
+        //Esto se eejcuta si el archivo no existe o hay un error de internet
+        console.error("¡Upsss! Error cargando base de datos:", error);
+
+        //Feedback para el usuario si falla todo
+        const contenedor = document.querySelector(".productos");
+        if(contenedor){
+            contenedor.innerHTML = "<h2> Hubo un error cargando los productos. Intenta mas tarde. </h2>"
+        }
+    }
+}
