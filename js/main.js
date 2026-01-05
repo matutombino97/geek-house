@@ -300,7 +300,7 @@ function cargarDetalle(){
                         <h1>${productoEncontrado.nombre}</h1>
                         <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
                         <p class="precio-grande">$${productoEncontrado.precio}</p>
-                        <p class="descripcion">Taza para recargar todo tu ki..</p>
+                        <p class="descripcion"> Te amo juli </p>
                         <button class="producto-btn" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
                     </div>
                 </div>
