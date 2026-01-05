@@ -278,34 +278,36 @@ botonesCategorias.forEach(boton =>{
 
 // 1. Preguntamos: ¿Estamos en la página de detalle?
 // Buscamos si existe el div con id "detalle-producto"
-const contenedorDetalle = document.getElementById("detalle-producto");
+function cargarDetalle(){
+    const contenedorDetalle = document.getElementById("detalle-producto");
 
-if (contenedorDetalle) {
-    // 2. Leemos "el papelito" de la URL
-    const params = new URLSearchParams(window.location.search);
-    const idProducto = params.get("prod"); // "prod" es el nombre que pusimos en el enlace
+    if (contenedorDetalle) {
+        // 2. Leemos "el papelito" de la URL
+        const params = new URLSearchParams(window.location.search);
+        const idProducto = params.get("prod"); // "prod" es el nombre que pusimos en el enlace
 
-    // console.log("El ID que vino por URL es:", idProducto); // Para probar
+        // console.log("El ID que vino por URL es:", idProducto); // Para probar
 
-    // 3. Buscamos el producto en nuestro array (igual que en el carrito)
-    const productoEncontrado = productos.find(p => p.id === idProducto);
+        // 3. Buscamos el producto en nuestro array (igual que en el carrito)
+        const productoEncontrado = productos.find(p => p.id === idProducto);
 
-    // 4. Si existe, lo dibujamos en GRANDE
-    if (productoEncontrado) {
-        contenedorDetalle.innerHTML = `
-            <div class="detalle-flex">
-                <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
-                <div class="detalle-info">
-                    <h1>${productoEncontrado.nombre}</h1>
-                    <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
-                    <p class="precio-grande">$${productoEncontrado.precio}</p>
-                    <p class="descripcion">Taza para recargar todo tu ki..</p>
-                    <button class="producto-btn" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
+        // 4. Si existe, lo dibujamos en GRANDE
+        if (productoEncontrado) {
+            contenedorDetalle.innerHTML = `
+                <div class="detalle-flex">
+                    <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
+                    <div class="detalle-info">
+                        <h1>${productoEncontrado.nombre}</h1>
+                        <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
+                        <p class="precio-grande">$${productoEncontrado.precio}</p>
+                        <p class="descripcion">Taza para recargar todo tu ki..</p>
+                        <button class="producto-btn" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
+                    </div>
                 </div>
-            </div>
-        `;
-    } else {
-        contenedorDetalle.innerHTML = "<h2>Producto no encontrado 😢</h2>";
+            `;
+        } else {
+            contenedorDetalle.innerHTML = "<h2>Producto no encontrado 😢</h2>";
+        }
     }
 }
 
@@ -331,6 +333,7 @@ async function cargarBaseDeDatos(){
 
         //5 Ahora si, que ya llegaron los datos dibujamos la web
         cargarProductos();
+        cargarDetalle();
 
         // Mas pro ah, si hay algo en el carrito actualizamos nombres/precios por si cambiaron
         //recuperarCarrito() // Lo vemos mas adelante
