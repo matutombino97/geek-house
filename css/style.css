@@ -200,12 +200,20 @@ footer a{
     transform: scale(1.1);
 }
 
-
 /* ================= BOTONES CATEGORIA================= */
 
 .categorias-nav{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
     padding: 3px;
     margin:5px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.categorias-nav h3{
+    text-align: center;
+    color: white;
 }
 .btn-cat{
     border-radius: 5px;
@@ -219,6 +227,40 @@ footer a{
     background: linear-gradient(to right, rgba(150,50,100,0.5), rgba(100,50,150,0.5));
     font-weight: bold;
     transform: scale(1.09);
+}
+
+/* ================= Botones franquicias ================= */
+/* El contenedor: Para que los botones no se amontonen */
+#contenedor-franquicias {
+    display: flex;
+    flex-wrap: wrap; /* Si son muchos, bajan al renglón siguiente */
+    gap: 10px; /* Espacio entre botones */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+/* El botón en sí: Dale personalidad Geek */
+.btn-franquicia {
+    background-color: transparent;
+    border: 2px solid #6c5ce7; /* Un violeta medio geek */
+    color: white; /* O blanco si tu fondo es oscuro */
+    padding: 8px 16px;
+    border-radius: 20px; /* Bordes redondos tipo "pill" */
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; /* Para que la animación sea suave */
+    text-transform: capitalize; /* Pone la primera letra en Mayúscula */
+}
+.franquicias-container h3{
+    text-align: center;
+
+}
+/* Cuando le pasás el mouse por encima */
+.btn-franquicia:hover {
+    background-color: #6c5ce7;
+    color: white;
+    transform: scale(1.05); /* Se agranda un chiquitín */
+    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5); /* Brillito */
 }
 /* ================= LISTA DE PRODUCTOS ================= */
 

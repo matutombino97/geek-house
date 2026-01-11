@@ -7,7 +7,7 @@ let carrito = []; // Tu canasta vacía
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
-// Aceptamos la lista que nos manden. Si no mandan nada, usamos 'productos'
+// Acepta la lista que recibo como parametro. Si hay, usamos 'productos'
 function cargarProductos(listaProductos = productos) {
     const contenedor = document.querySelector(".productos");
     if (!contenedor) return;
@@ -19,10 +19,10 @@ function cargarProductos(listaProductos = productos) {
     // DETECTAMOS DÓNDE ESTAMOS
     const esSubcarpeta = window.location.pathname.includes("pages");
     
-    // 1. Ajuste para IMÁGENES (ya lo tenías)
+    // 1. Ajuste para IMÁGENES
     const prefijoImagen = esSubcarpeta ? "../" : "";
     
-    // 2. Ajuste para ENLACES (¡NUEVO!)
+    // 2. Ajuste para ENLACES 
     // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
@@ -49,10 +49,10 @@ function actualizarCarritoVisual(){
     const listaHTML = document.getElementById("lista-carrito");
     // 2. Aca tmb creamos una variable y  le pedimos que interactue sobre el elemento total-carrito que es un span donde esta el precio
     const totalHTML = document.getElementById("total-carrito");
-      // === EL FRENO DE SEGURIDAD ===
+      //  EL FRENO DE SEGURIDAD 
     // Si no existe el elemento en esta página, cortamos la función acá.
     if (!totalHTML) return; 
-    // =============================
+   
     //3. Creamos una variable let que es flexible y puede cambiar en diferencia de const
     let total = 0
     // 4. Limpiamos lo que hay dentro de de lista-carrito con el elemento vacio "" y el inner
@@ -91,10 +91,6 @@ function alternarCatalogo() {
 }
 /* =================================
    3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
-   ================================= */
-
-/* =================================
-   3. LÓGICA DEL NEGOCIO
    ================================= */
 
 function agregarAlCarrito(id) {
@@ -358,6 +354,7 @@ async function cargarBaseDeDatos(){
         //5 Ahora si, que ya llegaron los datos dibujamos la web
         cargarProductos();
         cargarDetalle();
+        renderizarFranquicias();
 
         // Mas pro ah, si hay algo en el carrito actualizamos nombres/precios por si cambiaron
         //recuperarCarrito() // Lo vemos mas adelante
@@ -371,4 +368,53 @@ async function cargarBaseDeDatos(){
             contenedor.innerHTML = "<h2> Hubo un error cargando los productos. Intenta mas tarde. </h2>"
         }
     }
+}
+
+/* =================================
+   10. FILTROS DINÁMICOS (FRANQUICIAS)
+   ================================= */
+function renderizarFranquicias() {
+    const contenedor = document.getElementById("contenedor-franquicias");
+    if (!contenedor) return;
+
+    // 1. Limpiamos lo que haya
+    contenedor.innerHTML = "";
+
+    // === NUEVO: BOTÓN "BORRAR FILTROS" ===
+    const btnBorrar = document.createElement("button");
+    btnBorrar.innerText = "Borrar Filtros";
+    btnBorrar.classList.add("btn-franquicia"); // Le damos el mismo estilo
+    
+    // Un toquecito visual extra para que se diferencie (opcional)
+    btnBorrar.style.borderColor = "#ff5252"; 
+    btnBorrar.style.background = "black"
+    btnBorrar.style.color = "#ff5252";
+
+    btnBorrar.addEventListener("click", () => {
+        // Al hacer click, volvemos a cargar LA LISTA COMPLETA original
+        cargarProductos(productos);
+    });
+
+    // Lo agregamos PRIMERO a la lista
+    contenedor.appendChild(btnBorrar);
+    // =====================================
+
+    // 2. botones automáticos
+    const franquiciasSucias = productos.map(producto => producto.franquicia);
+    const franquiciasUnicas = [...new Set(franquiciasSucias)];
+
+    franquiciasUnicas.forEach(franquicia => {
+        if(franquicia){
+            const btn = document.createElement("button");
+            btn.innerText = franquicia;
+            btn.classList.add("btn-franquicia");
+            
+            btn.addEventListener("click", () => {
+                const productosFiltrados = productos.filter(p => p.franquicia === franquicia);
+                cargarProductos(productosFiltrados);
+            });
+            
+            contenedor.appendChild(btn);
+        }
+    });
 }
