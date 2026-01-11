@@ -193,16 +193,40 @@ function finalizarCompra(){
         return;
     }
 
-    //2. Si hay elementos finalizamos la compra
-    alert(`¡Compra realizada con éxito!`)
+    //2 Defino mi numero de telefono
+    const telefono = "5492612451593";
 
-    //3. Vaciamos el carrito
+    //3. Empiezo a armar el mensaje
+    let mensaje = "Hola GeekHouse! Quiero comprar lo siguiente: \n\n";
+    let total = 0;
+
+    //4. Recorremos el carrito para agregar producto por producto al texto
+    carrito.forEach(producto =>{
+        mensaje += `1x ${producto.nombre} - $${producto.precio}\n`;
+        total += parseInt(producto.precio);
+    })
+
+    //5. Agregamos el monto final al mensaje
+    mensaje += `\n Total a pagar: $${total}`;
+    mensaje += `\n\n¿Cómo podemos coordinar el pago y envío?`;
+
+    //6. Convertimos el texto a formato URL
+    // encodeURIComponent cambio los espacios por %20, los enters por %0A, etc.
+    const mensajeCodificado = encodeURIComponent(mensaje);
+
+    //7.Creamos el link final de Whatsapp API
+    const urlWhatsapp = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
+
+    //8. Abrimos WhattsApp en una pestaña nueva
+    window.open(urlWhatsapp, "_blank");
+
+    //9. Vaciamos el carrito
     carrito = []
 
-    // 4.Actualizamos la pantalla
+    //10.Actualizamos la pantalla
     actualizarCarritoVisual()
 
-    //.5 Actualizamos el storage(Ahora se guarda una lista vacia)
+    //11. Actualizamos el storage(Ahora se guarda una lista vacia)
     guardarCarritoEnStorage();
 }
 
