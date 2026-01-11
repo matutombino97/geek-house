@@ -169,6 +169,15 @@ footer{
     color: var(--color-texto)
 
 }
+footer p{
+    color: rgb(214, 207, 207);
+
+}
+footer a{
+    text-decoration: none;
+    color: rgb(17,12,12);
+    font-style: italic;
+}
 
 /* ================= INPUT DE FILTRACION================= */
 .filtros{
