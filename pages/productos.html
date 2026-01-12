@@ -19,10 +19,41 @@
     </header>
      <main>
         <h1>Nuestro catálogo de productos</h1>
+
+         <section class="filtros">
+            <input type="text" id="input-busqueda" placeholder="🔍 Buscar producto...">
+        </section>
+        <section class="categorias-nav">
+            <h3>Filtrar por categoria</h3>
+            <button class="btn-cat" id="cat-todos">Todos</button>
+            <button class="btn-cat" id="cat-ropa">Ropa</button>
+            <button class="btn-cat" id="cat-Bazar">Bazar</button>
+            <button class="btn-cat" id="cat-accesorio">Accesorios</button>
+            <button class="btn-cat" id="cat-Figuras">Figuras</button>
+        </section>
+        <section class = "franquicias-container">
+            <h3>Filtrar por franquicia</h3>
+            <div id="contenedor-franquicias" class="lista-franquicias">
+
+            </div>
+        </section>
         
         <section class="productos">
 
         </section>
+           <aside class = "carrito-flotante">
+                <h2>Tu Carrito</h2>
+                <ul id="lista-carrito">
+                    <li>El carrito esta vacio</li>
+                </ul>
+                <p>Total: $ <span id="total-carrito">0</span> </p>
+                <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form" >Finalizar compra</button>
+            </aside>
+
+
+        <div id="mensaje-oculto" class="toast oculto">
+            ¡Producto agregado con exito!
+        </div>
 
     </main>
     

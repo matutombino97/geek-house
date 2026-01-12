@@ -15,6 +15,15 @@ function cargarProductos(listaProductos = productos) {
     contenedor.innerHTML = ""; 
 
     let lista = "";
+
+    if(listaProductos.length === 0){
+        contenedor.innerHTML = `
+            <section class = 'error-busqueda'> <h2> No hay productos encontrados con ese nombre o categoria D: </h2> 
+            <h3> Intenta con otro nombre o categoria </h3>
+            </section>
+        `
+        return 
+    }
     
     // DETECTAMOS DÓNDE ESTAMOS
     const esSubcarpeta = window.location.pathname.includes("pages");
@@ -26,11 +35,12 @@ function cargarProductos(listaProductos = productos) {
     // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
+
     listaProductos.forEach(producto => {
         lista += `
         <article> 
             <a href="${rutaProducto}?prod=${producto.id}">
-                <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
+                <img class ="imagen-prod" src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
             </a>
             
             <h3>${producto.nombre}</h3>
@@ -62,9 +72,13 @@ function actualizarCarritoVisual(){
     carrito.forEach(producto =>{
         //6. En este bucle vamos añadiendo los elementos que creamos en el array de arriba, para agregarlos a la variable listaHTML
         listaHTML.innerHTML+= `
-        <li>
-        ${producto.nombre} - ${producto.precio}
-        </li>
+            <li>
+                <div class='informacion-carrito'>
+                ${producto.nombre} - ${producto.precio}
+                </div>
+                <button class='btn-eliminar' onclick="eliminarDelCarrito('${producto.id}')">X</button>
+            </li>
+        </div>
         `;
         //7. La variable total va aumentando su precio a medida que una iteracion termine
         total += producto.precio;
@@ -81,14 +95,7 @@ function mostrarNotificacion(){
     noti.classList.add("oculto");
 }, 3000); 
 }
-function alternarCatalogo() {
-    const contenedor = document.querySelector('.productos');
-    if (contenedor.style.display === 'none') {
-        contenedor.style.display = 'flex';
-    } else {
-        contenedor.style.display = 'none';
-    }
-}
+
 /* =================================
    3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
    ================================= */
@@ -106,7 +113,23 @@ function agregarAlCarrito(id) {
     guardarCarritoEnStorage();
 } // 
 
+function eliminarDelCarrito(id){
+    //1. Buscamos en que posicion se encuentra el producto con el id recibido
+    //findex devuelve el numero de asiento (0,1,2...) o -1 si no esta.
+    const indice = carrito.findIndex(producto => producto.id === id);
 
+    //2. Si lo encontro(Osea si el indice no es -1)
+
+    if(indice !==-1){
+        //3 Usamos la tijera (splice) je
+        //(posicion, cantidad_a_borrar) -> borramos un solo elemento
+        carrito.splice(indice,1);
+    }
+
+    //4. Actualizamos todo(Vista y memoria)
+    actualizarCarritoVisual();
+    guardarCarritoEnStorage();
+}
 /* =================================
    5. PERSISTENCIA (LOCAL STORAGE)
    ================================= */

@@ -51,7 +51,7 @@ h1{
 }
 
 /* EXPERIMENTANDO CON TITULO */
-/* EL CONTENEDOR (TU FONDO CÓMIC) */
+/* CONTENEDOR */
 .titulo-principal {
     /* Establecemos un alto fijo para que no se agrande todo */
     height: 350px; 
@@ -228,6 +228,29 @@ footer a{
     font-weight: bold;
     transform: scale(1.09);
 }
+/* ================= BOTON ELIMINAR ================= */
+.btn-eliminar{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    transition: transform 0.2s;
+}
+.btn-eliminar:hover{
+    transform: scale(1.2);
+}
+
+#lista-carrito li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
+
 
 /* ================= Botones franquicias ================= */
 /* El contenedor: Para que los botones no se amontonen */
@@ -286,6 +309,12 @@ footer a{
 .productos article:hover{
     transform: scale(1.09);
     box-shadow: 10px 0 0 0 #0e0808;
+}
+
+/* Esto lo agregue nuevo */
+.imagen-prod{
+    width:100%;
+    height: 100%;
 }
 
 /* Imágenes de producto */
