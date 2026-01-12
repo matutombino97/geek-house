@@ -40,7 +40,7 @@ function cargarProductos(listaProductos = productos) {
         lista += `
         <article> 
             <a href="${rutaProducto}?prod=${producto.id}">
-                <img class ="imagen-prod" src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
+                <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
             </a>
             
             <h3>${producto.nombre}</h3>
@@ -65,26 +65,29 @@ function actualizarCarritoVisual(){
    
     //3. Creamos una variable let que es flexible y puede cambiar en diferencia de const
     let total = 0
+    
     // 4. Limpiamos lo que hay dentro de de lista-carrito con el elemento vacio "" y el inner
     listaHTML.innerHTML="";
+
+    let lista = ""
     //5. Recorremos el carrito y creamos los <li>
 
     carrito.forEach(producto =>{
         //6. En este bucle vamos añadiendo los elementos que creamos en el array de arriba, para agregarlos a la variable listaHTML
-        listaHTML.innerHTML+= `
+        lista+= `
             <li>
                 <div class='informacion-carrito'>
                 ${producto.nombre} - ${producto.precio}
                 </div>
                 <button class='btn-eliminar' onclick="eliminarDelCarrito('${producto.id}')">X</button>
             </li>
-        </div>
         `;
         //7. La variable total va aumentando su precio a medida que una iteracion termine
         total += producto.precio;
     });
     // 8. Actualizamos la variable totalHTML dandole el valor de la variable total
     totalHTML.innerText = total;
+    listaHTML.innerHTML=lista;
 }
 
 function mostrarNotificacion(){
@@ -328,31 +331,31 @@ function cargarDetalle(){
         // 2. Leemos "el papelito" de la URL
         const params = new URLSearchParams(window.location.search);
         const idProducto = params.get("prod"); // "prod" es el nombre que pusimos en el enlace
-
-        // console.log("El ID que vino por URL es:", idProducto); // Para probar
-
         // 3. Buscamos el producto en nuestro array (igual que en el carrito)
         const productoEncontrado = productos.find(p => p.id === idProducto);
 
         // 4. Si existe, lo dibujamos en GRANDE
         if (productoEncontrado) {
             contenedorDetalle.innerHTML = `
+             <h1>${productoEncontrado.nombre}</h1>
                 <div class="detalle-flex">
                     <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
                     <div class="detalle-info">
-                        <h1>${productoEncontrado.nombre}</h1>
                         <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
                         <p class="precio-grande">$${productoEncontrado.precio}</p>
-                        <p class="descripcion"> Te amo juli </p>
-                        <button class="producto-btn" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
+                        <div class="descripcion-container"> 
+                         ${generarDescripcion(productoEncontrado)}
+                        <div>
                     </div>
                 </div>
+                <button class="btn-comprar" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
             `;
         } else {
             contenedorDetalle.innerHTML = "<h2>Producto no encontrado 😢</h2>";
         }
     }
 }
+
 
 /* =================================
    9. CARGA DE DATOS (FETCH)
@@ -440,4 +443,83 @@ function renderizarFranquicias() {
             contenedor.appendChild(btn);
         }
     });
+}
+
+//10. Añadir descripcion automatica
+
+// Recibe UN producto por parámetro (no recorre todo el array)
+function generarDescripcion(producto) {
+    
+    // Pasamos el nombre a minúsculas una sola vez para no repetir código
+    // Usamos || "" por si algún producto no tiene nombre y evitar error
+    const nombre = producto.nombre.toLowerCase(); 
+
+    // 1. MEDIAS
+    // Usamos .includes() este metodo es igual a un IN en python
+    if (nombre.includes("medias")) {
+      return `
+        <ul class="descripcion-producto">
+            <li>Medias inspiradas en el universo geek y la cultura pop</li>
+            <li>Diseño pensado para fans que quieren llevar su pasión puesta</li>
+            <li>Ideales para uso diario o para completar un outfit geek</li>
+            <li>Comodidad y estilo en una sola prenda</li>
+            <li>Un detalle infaltable para verdaderos fans</li>
+        </ul>`;
+    }
+
+    // 2. FUNKO 
+    else if (nombre.includes("funko") || nombre.includes("pop")) {
+        return `
+        <ul class="descripcion-producto">
+            <li>Figura Funko Pop original de colección</li>
+            <li>Diseño característico con gran nivel de detalle</li>
+            <li>Ideal para exhibir en caja o fuera de ella</li>
+            <li>Perfecta para coleccionistas y fans</li>
+            <li>Un clásico infaltable en cualquier colección geek</li>
+        </ul>`;
+    }
+
+    // 3. FIGURAS 
+    else if (nombre.includes("llavero")){
+        return `
+           <ul class="descripcion-producto">
+            <li>Llavero inspirado en la cultura geek y personajes icónicos</li>
+            <li>Un detalle ideal para llevar tu fandom a todos lados</li>
+            <li>Perfecto para mochilas, llaves o accesorios</li>
+            <li>Diseño pensado para fans del universo geek</li>
+            <li>Pequeño, práctico y lleno de personalidad</li>
+        </ul>`;
+    }
+
+    // 4. LLAVEROS
+    else if (nombre.includes("figura")) {
+        return `
+            <ul class="descripcion-producto">
+                <li>Figura coleccionable basada en el universo de Naruto </li>
+                <li>Diseñada para destacar en cualquier lado</li>
+                <li>Ideal para fans del Animé</li>
+                <li>Perfecta para exhibir en escritorios o estanterías</li>
+            </ul>`;
+    }
+    
+    // 5. TAZAS
+    else if (nombre.includes("taza")) {
+        return `
+        <ul class="descripcion-producto">
+            <li>Taza de ceramica con diseño inspirado en el mundo geek</li>
+            <li>Ideal para acompañar maratones de series, anime o gaming</li>
+            <li>Perfecta para fans de la cultura GEEK</li>
+            <li>Un clásico del desayuno o la oficina geek</li>
+            <li>Un regalo ideal para cualquier fan</li>
+        </ul>`;
+    }
+
+    // 6. DEFAULT (Si no encontró ninguna palabra clave)
+    return `
+    <ul class="descripcion-producto">
+        <li>Producto oficial de GeekHouse</li>
+        <li>Excelente calidad garantizada</li>
+        <li>Envios a todo el país</li>
+        <li>Compra protegida y segura</li>
+    </ul>`;
 }

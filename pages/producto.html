@@ -15,6 +15,15 @@
 
     <main class="detalle-container">
         <div id="detalle-producto"></div>
+
+        <aside class = "carrito-flotante">
+                <h2>Tu Carrito</h2>
+                <ul id="lista-carrito">
+                    <li>El carrito esta vacio</li>
+                </ul>
+                <p>Total: $ <span id="total-carrito">0</span> </p>
+                <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form" >Finalizar compra</button>
+            </aside>
     </main>
     
     <script src="../js/productos.js"></script>
