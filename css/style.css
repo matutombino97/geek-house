@@ -94,19 +94,37 @@ h1{
     text-align: center;
 }
 
-/* ================= MENÚ ================= */
+/* ================= MENÚ MAGICO ================= */
 .menu a {
-    text-decoration: none; /* Quita subrayado */
-    color: var(--color-texto); /* Usa variable */
-    padding: 10px 15px; /* Área clickeable */
-    font-weight: bold; /* Texto destacado */
-    border-radius: 5px; /* Bordes suaves */
+    text-decoration: none;
+    color: var(--color-texto);
+    padding: 10px 15px;
+    font-weight: bold;
+    position: relative; /* Necesario para el truco */
 }
 
-/* Hover del menú */
-.menu a:hover {
-    color: #00ffcc; /* Cambio de color al pasar el mouse */
+/* El truco de la línea invisible */
+.menu a::after {
+    content: '';
+    position: absolute;
+    width: 0; /* Empieza invisible (ancho 0) */
+    height: 3px; /* Grosor de la línea */
+    bottom: 5px;
+    left: 50%; /* Arranca desde el centro */
+    background-color: #00ffcc; /* Color Neón */
+    transition: all 0.3s ease-in-out; /* Animación suave */
+    transform: translateX(-50%); /* Centrado perfecto */
 }
+
+/* Cuando pasás el mouse */
+.menu a:hover {
+    color: #fff; /* El texto se pone blanco puro */
+}
+
+.menu a:hover::after {
+    width: 80%; /* La línea crece hasta el 80% del ancho */
+}
+
 
 /* ================= HERO ================= */
 .hero-home{
@@ -312,7 +330,6 @@ footer a{
     box-shadow: 10px 0 0 0 #0e0808;
 }
 
-
 /* Imágenes de producto */
 .productos img {
     max-width: 100%; /* No se desborda */
@@ -337,7 +354,7 @@ footer a{
     border-radius: 5px;
     cursor: pointer; /* Mano al pasar el mouse */
     font-weight: bold;
-    transition: background 1.5s; /* Transición suave */
+    transition: background 0,3s; /* Transición suave */
 }
 
 /* Hover del botón */
@@ -692,6 +709,27 @@ text-align: center;
 }
 
 
+/* Ejemplo de efecto al clickear (Active) */
+button:active, .btn-comprar:active {
+    transform: scale(0.95); /* Se achica un poquito al hacer click (feedback táctil) */
+}
+
+/* Definimos la coreografía */
+@keyframes entradaSuave {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Empiezan más abajo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Terminan en su lugar */
+    }
+}
+
+/* Clase para aplicar la animación */
+.animacion-entrada {
+    animation: entradaSuave 0.6s ease-out forwards;
+}
 /* =========================================
    RESPONSIVE DESIGN (Versión Móvil)
    ========================================= */

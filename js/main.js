@@ -34,11 +34,11 @@ function cargarProductos(listaProductos = productos) {
     // 2. Ajuste para ENLACES 
     // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
-
+    
 
     listaProductos.forEach(producto => {
         lista += `
-        <article> 
+        <article class="producto animacion-entrada"> 
             <a href="${rutaProducto}?prod=${producto.id}">
                 <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
             </a>
