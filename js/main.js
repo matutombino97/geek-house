@@ -269,26 +269,30 @@ if (carritoGuardado) {
    ================================= */
 const inputBusqueda = document.getElementById("input-busqueda");
 
-// PRUEBA 1: ¿Encontró el input?
-console.log("El input existe?", inputBusqueda); 
-
 if(inputBusqueda){
+    
     inputBusqueda.addEventListener("keyup", function(evento){
         const textoUsuario = evento.target.value.toLowerCase();
-        
-        // PRUEBA 2: ¿Detecta lo que escribo?
-        console.log("Usuario escribió:", textoUsuario);
 
         const productosFiltrados = productos.filter(producto => {
-            return producto.nombre.toLowerCase().includes(textoUsuario);
-        });
+            // 1. Buscamos en el nombre
+            const enNombre = producto.nombre.toLowerCase().includes(textoUsuario);
+            
+            // 2. Buscamos en la categoría (agregamos esto)
+            const enCategoria = producto.categoria.toLowerCase().includes(textoUsuario);
 
-        // PRUEBA 3: ¿Cuántos productos quedaron?
-        console.log("Productos encontrados:", productosFiltrados);
+            // 3. Buscamos en la franquicia (agregamos esto por si buscan "Marvel")
+            // Usamos || "" por si algun producto no tiene franquicia
+            const enFranquicia = (producto.franquicia || "").toLowerCase().includes(textoUsuario);
+
+            // RETORNAMOS: Si coincide con ALGUNO de los tres (OR)
+            return enNombre || enCategoria || enFranquicia;
+        });
 
         cargarProductos(productosFiltrados);
     });
 }
+
 
 /* =================================
    7. FILTROS POR CATEGORÍA
@@ -445,7 +449,7 @@ function renderizarFranquicias() {
     });
 }
 
-//10. Añadir descripcion automatica
+//10. AÑADIR DESCRIPCION AUTOMATICAgit commit -m "Final del dia 25: Descripciones dinamicas y logica de detalle terminada"
 
 // Recibe UN producto por parámetro (no recorre todo el array)
 function generarDescripcion(producto) {

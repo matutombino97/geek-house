@@ -9,7 +9,7 @@
 /* ================= FUENTE PERSONALIZADA ================= */
 @import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
 
-html, body {
+html, body{
     height: 100%; /* Ocupa toda la altura de la ventana */
 }
 /* ================= ESTILOS BASE ================= */
@@ -20,18 +20,19 @@ body{
                  'Lucida Grande', 'Lucida Sans Unicode', 
                  Geneva, Verdana, sans-serif; /* Fuente general */
     font-weight: 100; /* Texto fino */
-    background: linear-gradient(90deg, #7b0f0f, #ca2626); /* Fondo degradado */
+    background: var(--color-principal); /* Fondo degradado */
 }
 main{
     flex:1; /* Ocupa todo el espacio disponible y empuja el footer abajo */
+    background-color: var(--color-principal);
 }
 
 /* ================= VARIABLES CSS ================= */
 :root {
-    --color-principal: #910d08; /* Rojo principal */
-    --color-header: #0b4eb3;   
+    --color-principal: linear-gradient(90deg, #7b0f0f, #ca2626); /* Rojo principal */
+    --color-header: hsla(276, 90%, 30%, 0.384);   
     --fuente-principal: 'Roboto', sans-serif; /* Fuente alternativa */
-    --color-texto: white;       /* Color base del texto */
+    --color-texto: rgb(219, 211, 211);       /* Color base del texto */
     --fuente-harry: 'Henny Penny', serif; /* Fuente temática */
 }
 
@@ -452,46 +453,6 @@ footer a{
   font-weight: bold;
 }
 
-/*================ OFERTA ==================*/
-/* Corrección para que la Oferta no tenga fondo rojo */
-.body-oferta {
-    /* O podés usar el mismo gradiente oscuro de tu sección oferta */
-    background: linear-gradient(to left, rgba(130, 130, 0, 0.5), rgba(0, 130, 130, 0.5));
-    
-    /* Aseguramos que ocupe toda la altura por si el contenido es poco */
-    min-height: 100vh; 
-}
-
-.oferta {
-    text-align: center;
-    /* Muy bien el uso de rgba para transparencias */
-    
-    padding: 40px 20px; /* Le agregué padding al contenedor para que no se pegue el texto a los bordes */
-}
-
-.oferta del {
-    color: grey;
-    font-size: 1.2rem; /* Agregado tamaño */
-}
-
-.oferta span {
-    font-size: 2.5rem; /* CORREGIDO: font-size en vez de weight */
-    font-weight: bold;
-    color: rgb(219, 6, 17);
-    display: block; /* Hacemos que baje a otra línea para destacar más */
-    margin: 10px 0;
-}
-
-.oferta p {
-    padding: 10px;
-    margin: auto;
-    color: var(--color-texto);
-    font-family: var(--fuente-harry);
-    font-size: 2rem; /* CORREGIDO */
-    line-height: 1.2;
-    letter-spacing: 2px;
-}
-
 /* BOTÓN DE COMPRA */
 .oferta a {
     display: inline-block; /* Necesario para que el padding y margin funcionen bien */
@@ -572,6 +533,7 @@ footer a{
 .body-contacto{
     background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
     background-size:cover;
+    min-height: 100vh;
 }
 .body-contacto h1{
     color:rgb(161, 157, 157);
@@ -730,61 +692,182 @@ text-align: center;
 }
 
 
-/* ================= RESPONSIVE ================= */
+/* =========================================
+   RESPONSIVE DESIGN (Versión Móvil)
+   ========================================= */
 @media (max-width: 768px) {
 
-    /* Producto destacado en una sola columna */
+    /* === LO QUE YA TENÍAS (HEADER Y DESTACADO) === */
+    
     .producto-one{
-        grid-template-columns: 1fr;
-        gap: 30px;
+        grid-template-columns: 1fr; /* Una sola columna */
+        gap: 20px;
         text-align: center;
+        padding: 15px; /* Un poco de aire para que no pegue con los bordes */
     }
 
     .producto-one h2{
-        font-size: 1.5rem;
+        font-size: 1.8rem; /* Ajustado para que no sea gigante */
     }
 
-    /* Header en columna */
+    /* El Header se apila: Logo arriba, Buscador abajo */
     header {
         flex-direction: column;
         gap: 15px;
+        padding: 15px;
         text-align: center;
     }
 
-    /* Menú más cómodo para touch */
+    /* Menú más fácil de tocar con el dedo */
     .menu a {
-        display: block;
-        margin-bottom: 5px;
+        display: inline-block; /* Para que respeten el padding */
+        margin: 5px;
         font-size: 1.1rem;
+        padding: 8px 15px;
+        background-color: #f5f5f5; /* Un fondito suave para que parezcan botones */
+        border-radius: 20px;
     }
-/* AJUSTE PÁGINA OFERTA */
-    .oferta-relampago {
+
+    /* === LO NUEVO: CATÁLOGO Y DETALLES === */
+
+    /* 1. EL BUSCADOR */
+    /* Que ocupe todo el ancho para que sea fácil escribir */
+    #input-busqueda {
         width: 100%;
-        text-align: center;
-        padding: 20px;
-        overflow: hidden; /* Evita que si algo es muy grande rompa la pantalla */
+        max-width: 300px; /* Que tampoco sea infinito */
+        padding: 12px;
     }
 
-    .oferta-relampago h1 {
-        font-size: 1.8rem; /* Texto más chico */
-        margin-bottom: 20px;
-        color: red; /* O el color que uses */
+    /* 2. GRILLA DE PRODUCTOS (El catálogo) */
+    /* Importante: Fijate si en tu HTML la clase es .productos o .contenedor-productos */
+    .productos {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas (tipo Instagram) */
+        gap: 10px;
+        padding: 10px;
+    }
+    
+    /* Ajuste de tarjeta de producto para que entre bien */
+    .producto {
+        padding: 10px;
+    }
+    
+    .producto img {
+        height: 150px; /* Achicamos un poco la altura de fotos en celu */
     }
 
-    .oferta-relampago img {
-        width: 100%;       /* Que ocupe el ancho disponible */
-        max-width: 300px;  /* Pero que no pase de 300px */
-        height: auto;      /* Mantiene la proporción */
-        display: block;    /* Para que respete los márgenes */
-        margin: 0 auto;    /* Centrado horizontal */
-    }
-  
+    /* 3. PÁGINA DE DETALLE (La más crítica) */
+    /* Cambiamos de fila (lado a lado) a columna (uno arriba del otro) */
     .detalle-flex {
-        flex-direction: column; /* Uno abajo del otro */
-        text-align: center;
+        flex-direction: column;
+        align-items: center; /* Centrado */
+        gap: 20px;
     }
 
-    .detalle-flex img, .detalle-info {
-        width: 100%; /* Ocupan todo el ancho */
+    .detalle-flex img {
+        width: 100%; /* Foto ocupa todo el ancho disponible */
+        max-width: 350px; /* Pero que no explote si es una tablet */
+        height: auto; /* Mantiene proporción */
+    }
+
+    .detalle-info {
+        width: 100%;
+        text-align: center; /* Texto centrado queda mejor en celu */
+    }
+
+    /* Botón de compra gigante (Call to Action) */
+    .btn-comprar {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.2rem;
+        margin-top: 15px;
+    }
+    /* ARREGLO DE BOTONES DE CATEGORÍA */
+    .categorias {
+        display: flex;
+        flex-wrap: wrap; /* MAGIA: Si no entran, bajan */
+        justify-content: center; /* Centrados */
+        gap: 10px; /* Espacio entre ellos */
+        margin-bottom: 20px;
+    }
+
+    .btn-cat {
+        width: auto; /* Que el ancho se ajuste al texto */
+        padding: 10px 20px; /* Más gorditos para tocar con el dedo */
+        font-size: 1rem;
+        flex-grow: 1; /* Esto hace que se estiren para llenar huecos */
+        text-align: center;
+    }
+    /* 4. FILTROS DE FRANQUICIAS */
+    /* Que los botones se centren */
+    #contenedor-franquicias {
+        justify-content: center;
+    }
+    /* ARREGLO DE PÁGINA CONTACTO */
+    
+    /* El contenedor principal del formulario */
+  /* =========================================
+       ARREGLO DE CONTACTO (Específico para tu HTML)
+       ========================================= */
+
+    /* 1. La Sección Principal */
+    .contacto {
+        width: 100%;
+        padding: 20px 10px; /* Un poco de aire a los costados */
+    }
+
+    /* 2. El Formulario en sí */
+    #form-contacto {
+        width: 100%; /* Que use todo el ancho posible */
+        max-width: 100%;
+        /* OPCIONAL: Fondo semitransparente para que se lea mejor sobre la imagen de fondo */
+        background-color: rgba(0, 0, 0, 0.6); 
+        padding: 20px;
+        border-radius: 15px;
+        box-sizing: border-box; /* Para que el padding no lo ensanche de más */
+    }
+
+    /* 3. Los contenedores de cada renglón (div class="campo") */
+    .campo {
+        width: 100%; /* Fundamental: que el contenedor se estire */
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column; /* Pone el Label ARRIBA del Input */
+        align-items: flex-start; /* Alinea todo a la izquierda */
+    }
+
+    /* 4. Los textos (Labels) */
+    .campo label {
+        color: white; /* Aseguramos que se lea */
+        font-size: 1.1rem;
+        margin-bottom: 5px; /* Espacio entre el texto y la cajita */
+    }
+
+    /* 5. Las cajitas para escribir (Inputs y Textarea) */
+    #form-contacto input, 
+    #form-contacto textarea {
+        width: 100%; /* AHORA SÍ: Ocupan todo el ancho del celular */
+        padding: 12px; /* Más gorditos para tocar fácil */
+        font-size: 1rem;
+        border-radius: 8px;
+        border: none;
+        box-sizing: border-box; /* Clave para que no se salgan de la pantalla */
+    }
+
+    /* 6. El Botón de Enviar */
+    .btn-form {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.2rem;
+        margin-top: 10px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+    /* Ajuste del Carrito en Celular */
+    #carrito-container {
+        position: relative; /* O fixed si querés que flote abajo */
+        width: 90%;
+        margin: 20px auto;
+        background: white; /* Para que se lea bien el texto negro */
+        z-index: 100;
     }
 }
