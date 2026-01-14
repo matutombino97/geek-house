@@ -3,7 +3,6 @@
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
 
-
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
@@ -24,17 +23,13 @@ function cargarProductos(listaProductos = productos) {
         `
         return 
     }
-    
     // DETECTAMOS DÓNDE ESTAMOS
     const esSubcarpeta = window.location.pathname.includes("pages");
-    
     // 1. Ajuste para IMÁGENES
     const prefijoImagen = esSubcarpeta ? "../" : "";
-    
     // 2. Ajuste para ENLACES 
     // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
-    
 
     listaProductos.forEach(producto => {
         lista += `
@@ -59,6 +54,8 @@ function actualizarCarritoVisual(){
     const listaHTML = document.getElementById("lista-carrito");
     // 2. Aca tmb creamos una variable y  le pedimos que interactue sobre el elemento total-carrito que es un span donde esta el precio
     const totalHTML = document.getElementById("total-carrito");
+
+    const contadorBurbuja = document.getElementById("contador-burbuja");
       //  EL FRENO DE SEGURIDAD 
     // Si no existe el elemento en esta página, cortamos la función acá.
     if (!totalHTML) return; 
@@ -88,6 +85,18 @@ function actualizarCarritoVisual(){
     // 8. Actualizamos la variable totalHTML dandole el valor de la variable total
     totalHTML.innerText = total;
     listaHTML.innerHTML=lista;
+    if (contadorBurbuja) {
+        // Cuenta cuántos productos tenés en total (sumando cantidades)
+        const totalProductos = carrito.reduce((acc, prod) => acc + prod.cantidad, 0);
+        contadorBurbuja.innerText = totalProductos;
+        
+        // Opcional: Si es 0, ocultamos la burbuja roja
+        if(totalProductos > 0){
+             contadorBurbuja.style.display = "flex";
+        } else {
+             contadorBurbuja.style.display = "none";
+        }
+    }
 }
 
 function mostrarNotificacion(){
@@ -380,9 +389,27 @@ async function cargarBaseDeDatos(){
         const datos = await respuesta.json();
         //4. Guardamos los datos que llegaron en nuestra variable global "productos"(la que dejamos vacia en productos.js)
         productos = datos;
+        // 1. Averiguamos dónde estamos parado
+        const esHome = window.location.pathname.endsWith("index.html") || window.location.pathname === "/" || window.location.pathname.endsWith("geek-house/"); // Ajuste para GitHub Pages
+        const esPaginaProductos = window.location.pathname.includes("productos.html");
 
+        if (esHome) {
+            // A. ESTOY EN HOME: Solo quiero los VIP
+            // Filtramos solo los que en el JSON dicen "destacado": true
+            const soloDestacados = productos.filter(producto => producto.destacado === true);
+            
+            // Le mandamos al albañil SOLO la lista filtrada
+            cargarProductos(soloDestacados);
+            
+            // Truco: Ocultamos los filtros de categoría en el home porque confunden
+            const filtros = document.querySelector(".filtros"); // Asegurate que tu div de filtros tenga esta clase
+            if(filtros) filtros.style.display = "none";
+
+        } else {
+            // B. ESTOY EN PRODUCTOS (u otro lado): Quiero TODO
+            cargarProductos(productos);
+        }
         //5 Ahora si, que ya llegaron los datos dibujamos la web
-        cargarProductos();
         cargarDetalle();
         renderizarFranquicias();
 
@@ -526,4 +553,39 @@ function generarDescripcion(producto) {
         <li>Envios a todo el país</li>
         <li>Compra protegida y segura</li>
     </ul>`;
+}
+
+const imagenesHero = [
+    "./img/banner-star-wars.jpg",
+    "./img/banner-naruto.jpg",
+    "./img/banner-marvel.jpeg"
+];
+
+let indiceActual = 0;
+const imagenElemento = document.getElementById("imagen-hero");
+
+function cambiarImagen() {
+    if (!imagenElemento) return; // Protección por si no estamos en el home
+
+    // 1. Calculamos cuál sigue (si llegamos al final, volvemos a 0)
+    indiceActual = (indiceActual + 1) % imagenesHero.length;
+
+    // 2. Cambiamos la foto
+    // Truco visual: Bajamos opacidad, cambiamos foto, subimos opacidad
+    imagenElemento.style.opacity = 0;
+    
+    setTimeout(() => {
+        imagenElemento.src = imagenesHero[indiceActual];
+        imagenElemento.style.opacity = 1;
+    }, 500); // Esperamos medio segundo para cambiarla
+}
+
+// 3. Activamos el reloj automático (cada 4 segundos)
+setInterval(cambiarImagen, 4000);
+
+/* === LOGICA TOGGLE CARRITO === */
+function toggleCarrito() {
+    const carritoContainer = document.getElementById("carrito-container");
+    // Esto pone y saca la clase .oculto automáticamente
+    carritoContainer.classList.toggle("oculto");
 }

@@ -69,7 +69,8 @@
     "precio": 5500,
     "categoria": "ropa",
     "imagen": "img/medias-harry-2.png",
-    "franquicia": "Harry Potter"
+    "franquicia": "Harry Potter",
+    "destacado": true
   },
   {
     "id": "medias-hedwing-harry-potter",
@@ -333,7 +334,8 @@
     "precio": 4500,
     "categoria": "accesorio",
     "imagen": "img/llavero-gandalf.png",
-    "franquicia": "Señor de los anillos"
+    "franquicia": "Señor de los anillos",
+    "destacado": true
   },
   {
     "id": "llavero-dustin-stranger-things",
@@ -581,7 +583,8 @@
     "precio": 12500,
     "categoria": "Figuras",
     "imagen": "img/funko-madara-uchiha.png",
-    "franquicia": "Naruto"
+    "franquicia": "Naruto",
+    "destacado": true
   },
   {
     "id": "funko-pickett-animales-fantasticos",

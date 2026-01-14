@@ -40,6 +40,27 @@
             </form>
         </section>
     </main>
+    <div id="carrito-icono" class="carrito-icono" 
+            onclick="toggleCarrito()" 
+            role="button" 
+            aria-label="Abrir carrito de compras">
+            🛒
+            <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
+    </div>
+
+        <aside id="carrito-container" class="carrito-flotante oculto">
+            <h2>Tu Carrito</h2>
+            
+            <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
+
+            <ul id="lista-carrito">
+                <li>El carrito esta vacio</li>
+            </ul>
+            
+            <p>Total: $ <span id="total-carrito">0</span> </p>
+            
+            <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
+        </aside>
 
     <footer>
         <p>© 2025 Geek House. Todos los derechos reservados.</p>
