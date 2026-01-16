@@ -1,9 +1,9 @@
 /* ================= RESET GLOBAL ================= */
-/* Eliminamos estilos por defecto del navegador */
+
 *{
-    margin: 0;              /* Quita márgenes automáticos */
-    padding: 0;             /* Quita rellenos automáticos */
-    box-sizing: border-box; /* Incluye padding y borde dentro del width/height */
+    margin: 0;              
+    padding: 0;            
+    box-sizing: border-box; 
 }
 
 /* ================= FUENTE PERSONALIZADA ================= */
@@ -29,10 +29,10 @@ main{
 
 /* ================= VARIABLES CSS ================= */
 :root {
-    --color-principal: linear-gradient(90deg, #7b0f0f, #ca2626); /* Rojo principal */
+    --color-principal: linear-gradient(90deg, #7b0f0f, #ca2626); 
     --color-header: hsla(276, 90%, 30%, 0.384);   
-    --color-texto: rgb(219, 211, 211);       /* Color base del texto */
-    --fuente-harry: 'Henny Penny', serif; /* Fuente temática */
+    --color-texto: rgb(219, 211, 211);      
+    --fuente-harry: 'Henny Penny', serif; 
 }
 
 /* ================= HEADER ================= */
@@ -53,29 +53,29 @@ h1{
     color: var(--color-texto);
     padding: 10px 15px;
     font-weight: bold;
-    position: relative; /* Necesario para el truco */
+    position: relative; 
 }
 
-/* El truco de la línea invisible */
+
 .menu a::after {
     content: '';
     position: absolute;
-    width: 0; /* Empieza invisible (ancho 0) */
-    height: 3px; /* Grosor de la línea */
+    width: 0; 
+    height: 3px; 
     bottom: 5px;
-    left: 50%; /* Arranca desde el centro */
-    background-color: #00ffcc; /* Color Neón */
-    transition: all 0.3s ease-in-out; /* Animación suave */
-    transform: translateX(-50%); /* Centrado perfecto */
+    left: 50%; 
+    background-color: #00ffcc; 
+    transition: all 0.3s ease-in-out; 
+    transform: translateX(-50%); 
 }
 
-/* Cuando pasás el mouse */
+
 .menu a:hover {
-    color: #fff; /* El texto se pone blanco puro */
+    color: #fff; 
 }
 
 .menu a:hover::after {
-    width: 80%; /* La línea crece hasta el 80% del ancho */
+    width: 80%; 
 }
 
 /* ================= HERO ================= */
@@ -83,7 +83,7 @@ h1{
 .hero-content {
     text-align: center;
     color: white;
-    animation: subirYaparecer 1s ease-out; /* Animación de entrada */
+    animation: subirYaparecer 1s ease-out; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,7 +151,7 @@ h1{
     display: inline-block;
     padding: 15px 40px;
     background: transparent;
-    border: 2px solid #00ffcc; /* Tu color turquesa/verde geek */
+    border: 2px solid #00ffcc; /* El color turquesa/verde geek */
     color: #00ffcc;
     font-size: 1.2rem;
     font-weight: bold;
@@ -175,19 +175,17 @@ h1{
     width: 100%;
     max-width: 500px; /* Tamaño máximo para PC */
     height: auto;
-    /* El primer drop-shadow es el brillo blanco pegado */
-    /* El segundo es el resplandor rojo alejado */
     filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)) 
             drop-shadow(0 0 20px rgba(145, 13, 8, 0.8)); 
-    animation: subirYaparecer 1s ease-out; /* Que entre animado */
+    animation: subirYaparecer 1s ease-out; 
     transition: transform 0.3s ease;
 }
 
 .logo-hero:hover {
-    transform: scale(1.05); /* Efecto zoom al pasar mouse */
-    /* Aumentamos el brillo al pasar el mouse */
+    transform: scale(1.05); 
+
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)) 
-            drop-shadow(0 0 30px #00ffcc); /* Cambio a color turquesa al tocar */
+            drop-shadow(0 0 30px #00ffcc); 
 }
 
 /* AJUSTE PARA CELULAR */
@@ -331,6 +329,7 @@ footer a{
 
 
 /* ================= Botones franquicias ================= */
+
 /* El contenedor: Para que los botones no se amontonen */
 #contenedor-franquicias {
     display: flex;
@@ -340,42 +339,44 @@ footer a{
     margin-bottom: 20px;
 }
 
-/* El botón en sí: Dale personalidad Geek */
+/* personalidad Geek :D*/
 .btn-franquicia {
     background-color: transparent;
     border: 2px solid #6c5ce7; /* Un violeta medio geek */
-    color: white; /* O blanco si tu fondo es oscuro */
+    color: white; 
     padding: 8px 16px;
-    border-radius: 20px; /* Bordes redondos tipo "pill" */
+    border-radius: 20px; 
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease; /* Para que la animación sea suave */
-    text-transform: capitalize; /* Pone la primera letra en Mayúscula */
+    text-transform: capitalize; 
 }
 .franquicias-container h3{
     text-align: center;
 
 }
-/* Cuando le pasás el mouse por encima */
+
 .btn-franquicia:hover {
     background-color: #6c5ce7;
     color: white;
-    transform: scale(1.05); /* Se agranda un chiquitín */
-    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5); /* Brillito */
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5); 
 }
+
 /* ================= LISTA DE PRODUCTOS ================= */
 
 .productos {
     display: grid;
-    /* CAMBIO CLAVE: auto-fill en vez de auto-fit */
+
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
     gap: 30px;
     padding: 20px;
     justify-content: center;
-    /* OPCIONAL: Para que no se estire en pantallas ultra-wide */
+    /*Para que no se estire en pantallas ultra-wide */
     max-width: 1200px; 
     margin: 0 auto; /* Esto lo centra en la pantalla */
 }
+
 /* Tarjeta individual */
 .productos article{
     background: linear-gradient(to right, #076956, #2c2235);
@@ -398,8 +399,8 @@ footer a{
 
 /* ================= PRECIO ================= */
 .precio {
-    color: #00ffcc; /* Color llamativo */
-    font-size: 1.2rem; /* Tamaño destacado */
+    color: #00ffcc;
+    font-size: 1.2rem; 
     font-weight: bold;
     margin: 10px 0;
 }
@@ -411,9 +412,9 @@ footer a{
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer; /* Mano al pasar el mouse */
+    cursor: pointer; 
     font-weight: bold;
-    transition: background 0.3s; /* Transición suave */
+    transition: background 0.3s; 
 }
 
 /* Hover del botón */
@@ -534,18 +535,14 @@ footer a{
     display: inline-block; /* Necesario para que el padding y margin funcionen bien */
     border: none;
     background-color: #0e0d0f;
-    
     /* CORRECCIÓN: Botón grande y clickeable */
     padding: 15px 40px; 
     font-size: 1.5rem;
     border-radius: 50px; /* Bordes redondos modernos */
-    
     margin: 25px 0;
     text-decoration: none;
     color: var(--color-texto);
     font-weight: bold;
-    
-    /* CORRECCIÓN: La transición va acá para que sea suave a la ida y a la vuelta */
     transition: all 0.5s ease; 
 }
 
@@ -553,8 +550,8 @@ footer a{
     background: linear-gradient(to left, rgba(0, 130, 130, 0.8), rgba(130, 130, 0, 0.8));
     cursor: pointer;
     color: white;
-    transform: scale(1.05); /* Efecto extra: Crece un poquito */
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); /* Efecto neón */
+    transform: scale(1.05); 
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); 
 }
 .beneficios {
     margin: 0 auto;
@@ -566,12 +563,12 @@ footer a{
 }
 
 .beneficios ul {
-    list-style-type: none; /* elimina viñetas */
-    padding-left: 0;       /* quita sangría */
+    list-style-type: none; 
+    padding-left: 0;    /* quita sangría */
 }
 
 .beneficios li {
-    color: var(--color-texto); /* opcional: color de texto */
+    color: var(--color-texto); 
     margin: 5px 0;             /* espacio entre ítems */
 }
 
@@ -579,22 +576,22 @@ footer a{
 .nosotros{
     max-width: 800px; /* No se estira demasiado */
     margin: 50px auto; /* Centrado horizontal */
-    text-align: center; /* Texto centrado */
-    padding: 20px; /* Espacio interno */
+    text-align: center; 
+    padding: 20px; 
 }
 
 /* Título Secundario */
 .nosotros h2{
-    font-size: 1rem; /* Tamaño mediano */
-    color: var(--color-fondo); /* Color oscuro */
-    text-transform: uppercase; /* Todo en mayúsculas */
+    font-size: 1rem; 
+    color: var(--color-fondo); 
+    text-transform: uppercase; 
     margin: 2px;
 }
 
 .nosotros p{
     line-height: 1.5; /* Mejor legibilidad */
-    color: rgb(161, 157, 157); /* Gris suave */
-    font-family: var(--fuente-harry); /* Fuente temática */
+    color: rgb(161, 157, 157); 
+    font-family: var(--fuente-harry); 
     margin: 10px;
     font-size: 18px;
 }
@@ -655,7 +652,7 @@ footer a{
 }
 
 /* CARRITO FLOTANTE */
-/* 1. El botón redondo flotante */
+
 .carrito-icono {
     position: fixed;
     top: 50px;      /* Ajustá la altura si tapa el header */
@@ -671,12 +668,12 @@ footer a{
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     cursor: pointer;
     z-index: 2000; /* Arriba de todo */
-    border: 2px solid #2c2235; /* Tu color oscuro */
+    border: 2px solid #2c2235; 
     transition: transform 0.3s ease;
 }
 
 .carrito-icono:hover {
-    transform: scale(1.1); /* Efecto rebote */
+    transform: scale(1.1); 
 }
 
 /* 2. El numerito rojo notificador */
@@ -732,7 +729,7 @@ text-align: center;
     pointer-events: none; /* Para no clickearlo sin querer */
 }
 
-/* Estilo para la X de cerrar (opcional) */
+/* Estilo para la X de cerrar */
 .btn-cerrar-carrito {
     background: none;
     border: none;
@@ -757,7 +754,6 @@ text-align: center;
     font-family: var(--fuente-harry);
     box-shadow: 0 4px 10px rgba(0,0,0,0.5);
     z-index: 1000; /*Para que flote encima de todo */
-    /* Animacion de opacidad */
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
@@ -767,12 +763,9 @@ text-align: center;
     pointer-events: none;
 }
 
-
-
 /* =================================
    ESTILOS DE LA PÁGINA DE DETALLE
    ================================= */
-
 /* El contenedor principal */
 .detalle-container {
     max-width: 1000px;
@@ -786,13 +779,13 @@ text-align: center;
 /* La caja flexible que divide Foto | Info */
 .detalle-flex {
     display: flex;
-    gap: 40px; /* Espacio entre foto y texto */
-    align-items: center; /* Centrados verticalmente */
+    gap: 40px; 
+    align-items: center; 
 }
 
 /* Ajustes para la imagen */
 .detalle-flex img {
-    width: 50%; /* La foto ocupa la mitad */
+    width: 50%; 
     max-width: 400px;
     border-radius: 10px;
     object-fit: cover;
@@ -830,13 +823,10 @@ text-align: center;
     margin-bottom: 30px;
 }
 
-
-/* Ejemplo de efecto al clickear (Active) */
 button:active, .btn-comprar:active {
     transform: scale(0.95); /* Se achica un poquito al hacer click (feedback táctil) */
 }
 
-/* Definimos la coreografía */
 @keyframes entradaSuave {
     from {
         opacity: 0;
@@ -852,13 +842,12 @@ button:active, .btn-comprar:active {
 .animacion-entrada {
     animation: entradaSuave 0.6s ease-out forwards;
 }
+
 /* =========================================
    RESPONSIVE DESIGN (Versión Móvil)
    ========================================= */
 @media (max-width: 768px) {
 
-    /* === LO QUE YA TENÍAS (HEADER Y DESTACADO) === */
-    
     .producto-one{
         grid-template-columns: 1fr; /* Una sola columna */
         gap: 20px;
@@ -899,7 +888,6 @@ button:active, .btn-comprar:active {
     }
 
     /* 2. GRILLA DE PRODUCTOS (El catálogo) */
-    /* Importante: Fijate si en tu HTML la clase es .productos o .contenedor-productos */
     .productos {
         grid-template-columns: repeat(2, 1fr); /* 2 columnas (tipo Instagram) */
         gap: 10px;
@@ -962,13 +950,6 @@ button:active, .btn-comprar:active {
     #contenedor-franquicias {
         justify-content: center;
     }
-    /* ARREGLO DE PÁGINA CONTACTO */
-    
-    /* El contenedor principal del formulario */
-  /* =========================================
-       ARREGLO DE CONTACTO (Específico para tu HTML)
-       ========================================= */
-
     /* 1. La Sección Principal */
     .contacto {
         width: 100%;
@@ -979,14 +960,11 @@ button:active, .btn-comprar:active {
     #form-contacto {
         width: 100%; /* Que use todo el ancho posible */
         max-width: 100%;
-        /* OPCIONAL: Fondo semitransparente para que se lea mejor sobre la imagen de fondo */
         background-color: rgba(0, 0, 0, 0.6); 
         padding: 20px;
         border-radius: 15px;
-        box-sizing: border-box; /* Para que el padding no lo ensanche de más */
     }
 
-    /* 3. Los contenedores de cada renglón (div class="campo") */
     .campo {
         width: 100%; /* Fundamental: que el contenedor se estire */
         margin-bottom: 15px;
@@ -1024,10 +1002,10 @@ button:active, .btn-comprar:active {
     }
     /* Ajuste del Carrito en Celular */
     #carrito-container {
-        position: relative; /* O fixed si querés que flote abajo */
+        position: relative; 
         width: 90%;
         margin: 20px auto;
-        background: white; /* Para que se lea bien el texto negro */
+        background: white; 
         z-index: 100;
     }
 }
