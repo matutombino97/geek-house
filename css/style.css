@@ -56,7 +56,6 @@ h1{
     position: relative; 
 }
 
-
 .menu a::after {
     content: '';
     position: absolute;
@@ -68,7 +67,6 @@ h1{
     transition: all 0.3s ease-in-out; 
     transform: translateX(-50%); 
 }
-
 
 .menu a:hover {
     color: #fff; 
@@ -140,13 +138,6 @@ h1{
     to { transform: translateY(0); opacity: 1; }
 }
 
-/* En celular, que sea un poco más chico para no romper todo */
-@media (max-width: 768px) {
-    .titulo-neon {
-        font-size: 2.5rem;
-    }
-}
-
 .btn-hero-glow {
     display: inline-block;
     padding: 15px 40px;
@@ -186,13 +177,6 @@ h1{
 
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)) 
             drop-shadow(0 0 30px #00ffcc); 
-}
-
-/* AJUSTE PARA CELULAR */
-@media (max-width: 768px) {
-    .logo-hero {
-        max-width: 300px; /* Más chico en celu para que no se salga */
-    }
 }
 
 /* Agregamos una "bufanda" abajo del slider para conectar con el fondo */
@@ -293,10 +277,16 @@ footer a{
 }
 .btn-cat{
     border-radius: 5px;
-    width: 5%;
-    height: 30px;
+    height: auto;
     cursor: pointer;
     transition: 0.4s;
+    border: none;
+    display: inline-flex; /*Para que se comporte como un boton pero usa flex dentro */
+    justify-content: center;
+    align-items: center;
+    padding: 10px 25px;
+    font-size: 1rem;
+    line-height: 1;
 }
 
 .btn-cat:hover{
@@ -530,48 +520,6 @@ footer a{
   font-weight: bold;
 }
 
-/* BOTÓN DE COMPRA */
-.oferta a {
-    display: inline-block; /* Necesario para que el padding y margin funcionen bien */
-    border: none;
-    background-color: #0e0d0f;
-    /* CORRECCIÓN: Botón grande y clickeable */
-    padding: 15px 40px; 
-    font-size: 1.5rem;
-    border-radius: 50px; /* Bordes redondos modernos */
-    margin: 25px 0;
-    text-decoration: none;
-    color: var(--color-texto);
-    font-weight: bold;
-    transition: all 0.5s ease; 
-}
-
-.oferta a:hover {
-    background: linear-gradient(to left, rgba(0, 130, 130, 0.8), rgba(130, 130, 0, 0.8));
-    cursor: pointer;
-    color: white;
-    transform: scale(1.05); 
-    box-shadow: 0 0 15px rgba(0, 255, 204, 0.5); 
-}
-.beneficios {
-    margin: 0 auto;
-    text-align: center;
-    font-family: var(--fuente-harry);
-    background: linear-gradient(to left, rgba(130, 130, 0, 0.5), rgba(0, 130, 130, 0.5));
-    padding: 20px;
-    line-height: 1.5;
-}
-
-.beneficios ul {
-    list-style-type: none; 
-    padding-left: 0;    /* quita sangría */
-}
-
-.beneficios li {
-    color: var(--color-texto); 
-    margin: 5px 0;             /* espacio entre ítems */
-}
-
 /* ================= Sobre Nosotros ================= */
 .nosotros{
     max-width: 800px; /* No se estira demasiado */
@@ -612,9 +560,29 @@ footer a{
     color:rgb(161, 157, 157);
     text-transform: uppercase;
 }
+
+    /* ================= ARREGLO FOOTER CONTACTO ================= */
+/* Cuando el footer está dentro de la página con fondo de Harry Potter */
+.body-contacto footer {
+    background-color: var(--color-header); 
+    padding: 20px; 
+    text-align: center; 
+    width: 100%; /* Que ocupe todo el ancho */
+    color: var(--color-texto); 
+    border-top: 2px solid rgba(255,255,255,0.1); /* Una línea sutil arriba para separar */
+}
+
+/* Aseguramos que los párrafos y enlaces dentro también se lean */
+.body-contacto footer p,
+.body-contacto footer a {
+    color: rgb(214, 207, 207) !important; /* Forzamos el color claro */
+    opacity: 1;
+}
+
 .campo{
     text-align: center;
 }
+
 .campo input, textarea{
     width: 100%; /* Que ocupe todo su contenedor padre */
     max-width: 400px; /* Pero que no sea gigante */
@@ -626,6 +594,7 @@ footer a{
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.5);
     color:#0e0d0f;
 }
+
 .campo label{
     display: block;
     font-weight: bold;
@@ -873,11 +842,12 @@ button:active, .btn-comprar:active {
         margin: 5px;
         font-size: 1.1rem;
         padding: 8px 15px;
-        background-color: #f5f5f5; /* Un fondito suave para que parezcan botones */
+        border: 1px solid rgba(255,255,255,0.3);
         border-radius: 20px;
+        color: var(--color-texto);
     }
 
-    /* === LO NUEVO: CATÁLOGO Y DETALLES === */
+    /* ===  CATÁLOGO Y DETALLES === */
 
     /* 1. EL BUSCADOR */
     /* Que ocupe todo el ancho para que sea fácil escribir */
@@ -1008,5 +978,14 @@ button:active, .btn-comprar:active {
         background: white; 
         z-index: 100;
     }
+
+    .titulo-neon {
+            font-size: 2.5rem;
+        }
+    
+    .logo-hero {
+            max-width: 300px; /* Más chico en celu para que no se salga */
+        }
+    
 }
 
