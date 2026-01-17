@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
-    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce">
-    <meta name="author" content="Tu Nombre">
+    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
+    <meta name="author" content="Matias Sosa">
+
+    <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
     <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
-    <meta property="og:image" content="img/logo.png">
+    <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo-sin-fondo-Photoroom.png">
     <meta property="og:type" content="website">
-    <link rel="icon" href="img/ojos-naruto.jpg">
+    <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://matutombino97.github.io/geek-house/img/ojos-naruto.jpg">
+
     <link rel="stylesheet" href="css/style.css">
-    <title>Geek House</title>
+    <title>Geek House | Tu Tienda de Coleccionables</title>
 </head>
+
 <body>
     <header>
-        <nav class = "menu">
+        <nav class="menu">
             <a href="pages/productos.html">Productos</a>
             <a href="pages/contacto.html">Contacto</a>
             <a href="pages/sobre-nosotros.html">Sobre nosotros</a>
@@ -44,9 +51,7 @@
                 <a href="pages/productos.html" class="btn-hero">Ver Catálogo</a>
             </div>
         </section>
-        <section class="filtros">
-            <input type="text" id="input-busqueda" placeholder="🔍 Buscar producto...">
-        </section>
+        
         <section class="categorias-nav">
             <h3>Filtrar por categoria</h3>
             <button class="btn-cat" id="cat-todos">Todos</button>
@@ -55,18 +60,20 @@
             <button class="btn-cat" id="cat-accesorio">Accesorios</button>
             <button class="btn-cat" id="cat-Figuras">Figuras</button>
         </section>
-        <section class = "franquicias-container">
+        
+        <section class="franquicias-container">
             <h3>Filtrar por franquicia</h3>
             <div id="contenedor-franquicias" class="lista-franquicias">
-
-            </div>
+                </div>
         </section>
-     
+
         <section class="destacados">
-                <h2>Lo más vendido de la semana</h2>
-                <div class="productos"></div>
-            </section>
-       <div id="carrito-icono" class="carrito-icono" 
+            <h2>Lo más vendido de la semana</h2>
+            <div class="productos">
+                </div>
+        </section>
+       
+        <div id="carrito-icono" class="carrito-icono" 
             onclick="toggleCarrito()" 
             role="button" 
             aria-label="Abrir carrito de compras">
@@ -76,15 +83,11 @@
 
         <aside id="carrito-container" class="carrito-flotante oculto">
             <h2>Tu Carrito</h2>
-            
             <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
-
             <ul id="lista-carrito">
                 <li>El carrito esta vacio</li>
             </ul>
-            
-            <p>Total: $ <span id="total-carrito">0</span> </p>
-            
+            <p>Total: $ <span id="total-carrito">0</span></p>
             <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
         </aside>
     </main>
@@ -92,10 +95,12 @@
     <div id="mensaje-oculto" class="toast oculto">
         ¡Producto agregado con exito!
     </div>
+    
     <footer>
         <p>© 2025 Geek House. Todos los derechos reservados.</p>
-        <p>Pagina diseñada por <a href="https://www.instagram.com/matutombino/?hl=es">Matias Sosa</a> </p>
+        <p>Pagina diseñada por <a href="https://www.instagram.com/matutombino/?hl=es">Matias Sosa</a></p>
     </footer>
+    
     <script src="js/productos.js"></script>
     <script src="js/main.js"></script>
 </body>

@@ -3,6 +3,8 @@
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
 
+// Hacer funcion para reutilizar el formatear precio con new.
+
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
@@ -37,13 +39,16 @@ function cargarProductos(listaProductos = productos) {
             <a href="${rutaProducto}?prod=${producto.id}">
                 <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
             </a>
-            
-            <h3>${producto.nombre}</h3>
-            <p class="precio">$${producto.precio}</p>
-            
-            <button class="btn-comprar" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
+            <div class ="info-producto">
+                <h3>${producto.nombre}</h3>
+                <p class="precio">${new Intl.NumberFormat('es-AR',{
+                    style: 'currency', currency: 'ARS'}).format(producto.precio)}</p>
+                <p class="envio-info"> Envio a coordinar </p>
+                <button class="btn-comprar" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
+            </div>
         </article>`;
     });
+
 
     contenedor.innerHTML = lista;
 }
@@ -74,7 +79,7 @@ function actualizarCarritoVisual(){
         lista+= `
             <li>
                 <div class='informacion-carrito'>
-                ${producto.nombre} - ${producto.precio}
+                ${producto.nombre} - ${new Intl.NumberFormat('es-AR', {style: 'currency', currency: 'ARS'}).format(producto.precio)}
                 </div>
                 <button class='btn-eliminar' onclick="eliminarDelCarrito('${producto.id}')">X</button>
             </li>
@@ -83,7 +88,7 @@ function actualizarCarritoVisual(){
         total += producto.precio;
     });
     // 8. Actualizamos la variable totalHTML dandole el valor de la variable total
-    totalHTML.innerText = total;
+    totalHTML.innerText = new Intl.NumberFormat('es-AR', {style: 'currency', currency: 'ARS'}).format(total);
     listaHTML.innerHTML=lista;
     if (contadorBurbuja) {
         // Cuenta cuántos productos tenés en total (sumando cantidades)
@@ -171,11 +176,9 @@ cargarBaseDeDatos() //Ahora arranco pidiendo los datos
 recuperarCarrito(); 
 manejarFormulario();
 
-
 /* =================================
    5. LOGICA DE FORMULARIO DE CONTACTO
    ================================= */
-
 
 function manejarFormulario(){
     //1. Agarramos el formulario
@@ -213,10 +216,6 @@ function manejarFormulario(){
     });
 }
 
-//Agrega esta llamada al final del archivo junto a cargarProducto()
-manejarFormulario()
-
-
 function finalizarCompra(){
     //1. Nos fijamos si en el carrito hay elementos
     if(carrito.length ===0){
@@ -233,7 +232,8 @@ function finalizarCompra(){
 
     //4. Recorremos el carrito para agregar producto por producto al texto
     carrito.forEach(producto =>{
-        mensaje += `1x ${producto.nombre} - $${producto.precio}\n`;
+        mensaje += `1x ${producto.nombre} - ${new Intl.NumberFormat('es-AR', {
+            style: 'currency', currency: 'ARS'}).format(producto.precio)}\n`;
         total += parseInt(producto.precio);
     })
 
@@ -355,7 +355,7 @@ function cargarDetalle(){
                     <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
                     <div class="detalle-info">
                         <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
-                        <p class="precio-grande">$${productoEncontrado.precio}</p>
+                        <p class="precio-grande">${new Intl.NumberFormat('es-AR',{style: 'currency', currency: 'ARS'}).format(productoEncontrado.precio)}</p>
                         <div class="descripcion-container"> 
                          ${generarDescripcion(productoEncontrado)}
                         <div>
@@ -476,17 +476,17 @@ function renderizarFranquicias() {
     });
 }
 
-//10. AÑADIR DESCRIPCION AUTOMATICAgit commit -m "Final del dia 25: Descripciones dinamicas y logica de detalle terminada"
+//10. AÑADIR DESCRIPCION AUTOMATICA
 
 // Recibe UN producto por parámetro (no recorre todo el array)
 function generarDescripcion(producto) {
     
-    // Pasamos el nombre a minúsculas una sola vez para no repetir código
-    // Usamos || "" por si algún producto no tiene nombre y evitar error
+    // Paso el nombre a minúsculas una sola vez para no repetir código
+    // Uso || "" por si algún producto no tiene nombre y evitar error
     const nombre = producto.nombre.toLowerCase(); 
 
     // 1. MEDIAS
-    // Usamos .includes() este metodo es igual a un IN en python
+    // Uso .includes() este metodo es igual a un IN en python
     if (nombre.includes("medias")) {
       return `
         <ul class="descripcion-producto">
@@ -565,22 +565,22 @@ let indiceActual = 0;
 const imagenElemento = document.getElementById("imagen-hero");
 
 function cambiarImagen() {
-    if (!imagenElemento) return; // Protección por si no estamos en el home
+    if (!imagenElemento) return; // Protección por si no estoy en el home
 
-    // 1. Calculamos cuál sigue (si llegamos al final, volvemos a 0)
+    // 1. Calculo cuál sigue (si se llega al final, se vuelve a 0)
     indiceActual = (indiceActual + 1) % imagenesHero.length;
 
-    // 2. Cambiamos la foto
-    // Truco visual: Bajamos opacidad, cambiamos foto, subimos opacidad
+    // 2. Cambio la foto
+    // Truco visual: Bajo opacidad, cambio foto, subo opacidad
     imagenElemento.style.opacity = 0;
     
     setTimeout(() => {
         imagenElemento.src = imagenesHero[indiceActual];
         imagenElemento.style.opacity = 1;
-    }, 500); // Esperamos medio segundo para cambiarla
+    }, 500); // Se espera medio segundo para cambiarla
 }
 
-// 3. Activamos el reloj automático (cada 4 segundos)
+// 3. Actio el reloj automático (cada 4 segundos)
 setInterval(cambiarImagen, 4000);
 
 /* === LOGICA TOGGLE CARRITO === */

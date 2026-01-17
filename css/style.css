@@ -1,148 +1,183 @@
 /* ================= RESET GLOBAL ================= */
-
-*{
-    margin: 0;              
-    padding: 0;            
-    box-sizing: border-box; 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 /* ================= FUENTE PERSONALIZADA ================= */
 @import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
 
-html, body{
-    height: 100%; 
+/* ================= VARIABLES CSS ================= */
+:root {
+    --color-principal: linear-gradient(90deg, #cc790dce, #546b64);
+    --color-header: hsla(276, 90%, 30%, 0.384);
+    --color-texto: rgb(219, 211, 211);
+    --color-fondo: #333; /* Añadida para evitar error */
+    --fuente-harry: 'Henny Penny', serif;
 }
+
 /* ================= ESTILOS BASE ================= */
-body{
-    display: flex;
-    flex-direction: column; 
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 
-                 'Lucida Grande', 'Lucida Sans Unicode', 
-                 Geneva, Verdana, sans-serif; 
-    font-weight: 100; 
-    background: var(--color-principal); 
+html, body {
+    height: 100%;
 }
-main{
-    flex:1; /* empuja el footer abajo */
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: 100;
+    background: var(--color-principal);
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
     background-color: var(--color-principal);
 }
 
-/* ================= VARIABLES CSS ================= */
-:root {
-    --color-principal: linear-gradient(90deg, #7b0f0f, #ca2626); 
-    --color-header: hsla(276, 90%, 30%, 0.384);   
-    --color-texto: rgb(219, 211, 211);      
-    --fuente-harry: 'Henny Penny', serif; 
-}
-
-/* ================= HEADER ================= */
-header{
-    padding: 0.5rem; 
-    background: var(--color-header); 
-    display: flex; 
-    justify-content:end;
-    align-items: center; 
-}
-
-h1{
+h1 {
     text-align: center;
 }
-/* ================= MENÚ MAGICO ================= */
+
+/* ================= HEADER Y MENÚ ================= */
+header {
+    padding: 0.5rem;
+    background: var(--color-header);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
 .menu a {
     text-decoration: none;
     color: var(--color-texto);
     padding: 10px 15px;
     font-weight: bold;
-    position: relative; 
+    position: relative;
 }
 
 .menu a::after {
     content: '';
     position: absolute;
-    width: 0; 
-    height: 3px; 
+    width: 0;
+    height: 3px;
     bottom: 5px;
-    left: 50%; 
-    background-color: #00ffcc; 
-    transition: all 0.3s ease-in-out; 
-    transform: translateX(-50%); 
+    left: 50%;
+    background-color: #00ffcc;
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
 }
 
 .menu a:hover {
-    color: #fff; 
+    color: #fff;
 }
 
 .menu a:hover::after {
-    width: 80%; 
+    width: 80%;
 }
 
-/* ================= HERO ================= */
-
-.hero-content {
-    text-align: center;
-    color: white;
-    animation: subirYaparecer 1s ease-out; 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 30px;
-    padding: 20px;
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-
-}
-/* Reseteo el H1 para que solo sirva de contenedor */
-.hero-content h1 {
-    margin: 0;
-    padding: 0;
-}
-.hero-content p {
-    font-size: 1.5rem;
-    font-family: var(--fuente-harry);
-    letter-spacing: 2px;
-    color: rgb(133, 151, 151)
-}
-
+/* ================= HERO SLIDER ================= */
 .hero-slider {
     position: relative;
     width: 100%;
-    height: 500px; /* Un poco más alto para impactar */
+    height: 500px;
     overflow: hidden;
 }
-.hero-slider img{
+
+.hero-slider img {
     width: 100%;
     height: 500px;
     object-fit: cover;
+    transition: opacity 0.5s ease;
 }
 
-/* La capa oscura encima de la foto */
 .hero-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4); 
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
-    justify-content: center; /* Centrado horizontal */
-    align-items: center; /* Centrado vertical */
-    z-index: 2; /* Encima de la foto */
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
 }
 
-/* Animación simple para el texto */
+.hero-slider::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to top, var(--color-principal), transparent);
+    z-index: 3;
+}
+
+/* ================= HERO CONTENT ================= */
+.hero-content {
+    text-align: center;
+    color: white;
+    animation: subirYaparecer 1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    font-family: var(--fuente-harry);
+    letter-spacing: 2px;
+    color: rgb(11, 14, 14);
+}
+
 @keyframes subirYaparecer {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
+/* ================= LOGO HERO ================= */
+.logo-hero {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 20px rgba(145, 13, 8, 0.8));
+    animation: subirYaparecer 1s ease-out;
+    transition: transform 0.3s ease;
+}
+
+.logo-hero:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 30px #00ffcc);
+}
+
+/* ================= BOTONES GENERALES ================= */
 .btn-hero-glow {
     display: inline-block;
     padding: 15px 40px;
     background: transparent;
-    border: 2px solid #00ffcc; /* El color turquesa/verde geek */
+    border: 2px solid #00ffcc;
     color: #00ffcc;
     font-size: 1.2rem;
     font-weight: bold;
@@ -156,496 +191,282 @@ h1{
 
 .btn-hero-glow:hover {
     background: #00ffcc;
-    color: #000; /* Texto negro sobre fondo brillante */
-    box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc; /* Super brillo */
+    color: #000;
+    box-shadow: 0 0 20px #00ffcc, 0 0 40px #00ffcc;
     transform: scale(1.05);
 }
 
-/* ESTILO DEL LOGO DENTRO DEL SLIDER */
-.logo-hero {
-    width: 100%;
-    max-width: 500px; /* Tamaño máximo para PC */
-    height: auto;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)) 
-            drop-shadow(0 0 20px rgba(145, 13, 8, 0.8)); 
-    animation: subirYaparecer 1s ease-out; 
-    transition: transform 0.3s ease;
-}
-
-.logo-hero:hover {
-    transform: scale(1.05); 
-
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1)) 
-            drop-shadow(0 0 30px #00ffcc); 
-}
-
-/* Agregamos una "bufanda" abajo del slider para conectar con el fondo */
-.hero-slider::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 50px;
-    background: linear-gradient(to top, var(--color-principal), transparent); 
-    z-index: 3;
-}
-.btn-hero{
+.btn-hero {
     text-decoration: none;
     background: linear-gradient(to left, #2c2235, #076956);
     border: none;
-    display:block;
+    display: block;
     margin: auto;
     padding: 10px;
     border-radius: 50px;
     font-weight: bold;
     font-style: italic;
-    color:white;
+    color: white;
     cursor: pointer;
     transition: all 0.5s ease;
-
 }
-.btn-hero:hover{
+
+.btn-hero:hover {
     background: linear-gradient(to right, #076956, #2c2235);
     transform: scale(1.05);
     box-shadow: 0 0 10px #076956;
 }
 
-.destacados h2{
+/* ================= SECCIÓN DESTACADOS ================= */
+.destacados h2 {
     text-align: center;
     color: rosybrown;
     text-transform: uppercase;
     padding-bottom: 10px;
+    margin: 20px 0;
 }
 
-
-/*=================== FOOTER =============================*/
-
-footer{
-    background-color: var(--color-header);
-    padding: 20px;
+/* ================= FILTROS Y BÚSQUEDA ================= */
+.filtros {
+    margin: 20px 0;
     text-align: center;
-    margin-top: 50px;
-    color: var(--color-texto)
-
-}
-footer p{
-    color: rgb(214, 207, 207);
-
-}
-footer a{
-    text-decoration: none;
-    color: rgb(17,12,12);
-    font-style: italic;
 }
 
-/* ================= INPUT DE FILTRACION================= */
-.filtros{
-    margin-bottom: 20px;
-    text-align: left;
-
-}
-
-#input-busqueda{
+#input-busqueda {
     margin: 5px;
-    padding: 5px;
+    padding: 12px;
     border-radius: 10px;
     color: rgb(17, 12, 12);
     background-color: #ddd8d8;
-    border: 2px solid black;   
-    transition: 0.5s;
+    border: 2px solid black;
+    width: 90%;
+    max-width: 400px;
+    transition: 0.3s;
 }
 
-#input-busqueda:hover{
-    transform: scale(1.1);
+#input-busqueda:hover,
+#input-busqueda:focus {
+    transform: scale(1.03);
+    outline: none;
 }
 
-/* ================= BOTONES CATEGORIA================= */
-
-.categorias-nav{
+/* ================= CATEGORÍAS ================= */
+.categorias-nav {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    padding: 3px;
-    margin:5px;
-    margin-top: 10px;
-    margin-bottom: 15px;
+    padding: 10px;
+    margin: 10px;
+    justify-content: center;
 }
-.categorias-nav h3{
+
+.categorias-nav h3 {
+    width: 100%;
     text-align: center;
     color: white;
+    margin-bottom: 10px;
 }
-.btn-cat{
+
+.btn-cat {
     border-radius: 5px;
-    height: auto;
-    cursor: pointer;
-    transition: 0.4s;
     border: none;
-    display: inline-flex; /*Para que se comporte como un boton pero usa flex dentro */
-    justify-content: center;
-    align-items: center;
-    padding: 10px 25px;
+    padding: 10px 20px;
     font-size: 1rem;
-    line-height: 1;
-}
-
-.btn-cat:hover{
-    background: linear-gradient(to right, rgba(150,50,100,0.5), rgba(100,50,150,0.5));
-    font-weight: bold;
-    transform: scale(1.09);
-}
-/* ================= BOTON ELIMINAR ================= */
-.btn-eliminar{
-    background-color: transparent;
-    border: none;
     cursor: pointer;
-    border-radius: 3px;
-    font-size: 1.2rem;
-    margin-left: 10px;
-    transition: transform 0.2s;
-}
-.btn-eliminar:hover{
-    transform: scale(1.2);
+    transition: all 0.3s;
+    background-color: #fff;
 }
 
-#lista-carrito li{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding: 5px 0;
-    margin-bottom: 5px;
+.btn-cat:hover {
+    background: linear-gradient(to right, rgba(150, 50, 100, 0.5), rgba(100, 50, 150, 0.5));
+    font-weight: bold;
+    transform: scale(1.05);
+    color: white;
 }
 
+/* ================= FRANQUICIAS ================= */
+.franquicias-container {
+    margin: 20px 0;
+    text-align: center;
+}
 
-/* ================= Botones franquicias ================= */
+.franquicias-container h3 {
+    color: white;
+    margin-bottom: 15px;
+}
 
-/* El contenedor: Para que los botones no se amontonen */
 #contenedor-franquicias {
     display: flex;
-    flex-wrap: wrap; /* Si son muchos, bajan al renglón siguiente */
-    gap: 10px; /* Espacio entre botones */
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
     margin-top: 10px;
-    margin-bottom: 20px;
 }
 
-/* personalidad Geek :D*/
 .btn-franquicia {
     background-color: transparent;
-    border: 2px solid #6c5ce7; /* Un violeta medio geek */
+    border: 2px solid #0d0c1a;
     color: white; 
     padding: 8px 16px;
     border-radius: 20px; 
     cursor: pointer;
     font-weight: bold;
-    transition: all 0.3s ease; /* Para que la animación sea suave */
+    transition: all 0.3s ease; 
     text-transform: capitalize; 
-}
-.franquicias-container h3{
-    text-align: center;
-
+    white-space: nowrap !important; /* Prohibido bajar de renglón */
+    flex: 0 0 auto !important;      /* Prohibido achicarse (flex-shrink: 0) */
+    width: max-content;             /* Ocupá el ancho exacto de tu texto */
+    max-width: none;
 }
 
 .btn-franquicia:hover {
     background-color: #6c5ce7;
     color: white;
     transform: scale(1.05);
-    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5); 
+    box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
 }
 
-/* ================= LISTA DE PRODUCTOS ================= */
+/* ================= LISTA DE PRODUCTOS (REDISEÑO PRO) ================= */
 
 .productos {
     display: grid;
-
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    /* Esto hace que sean responsivas automáticas (minimo 250px) */
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
     gap: 30px;
     padding: 20px;
-    justify-content: center;
-    /*Para que no se estire en pantallas ultra-wide */
     max-width: 1200px; 
-    margin: 0 auto; /* Esto lo centra en la pantalla */
+    margin: 0 auto;
 }
 
-/* Tarjeta individual */
-.productos article{
-    background: linear-gradient(to right, #076956, #2c2235);
+/* LA TARJETA EN SÍ */
+.productos article {
+    background-color: #1a1a1a; /* Fondo oscuro sólido (más elegante que el degradado) */
+    border: 1px solid #333; /* Borde sutil */
+    border-radius: 15px; /* Bordes redondeados modernos */
     padding: 15px;
-    border-radius: 10px;
-    width: 100%; /* Todas iguales */
     text-align: center;
-}
-.productos article:hover{
-    transform: scale(1.09);
-    box-shadow: 10px 0 0 0 #0e0808;
+    position: relative; /* Para poder ubicar cosas flotando si queremos */
+    overflow: hidden; /* Para que la imagen no se salga al hacer zoom */
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Para alinear el botón siempre abajo */
+    justify-content: space-between;
+    height: 100%; /* Que todas tengan la misma altura */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-/* Imágenes de producto */
+/* EFECTO HOVER EN LA TARJETA */
+.productos article:hover {
+    transform: translateY(-5px); /* Se levanta un poquito */
+    border-color: #00ffcc; /* El borde se pone neón */
+    box-shadow: 0 10px 20px rgba(0, 255, 204, 0.1); /* Resplandor suave */
+}
+
+/* CONTENEDOR DE LA IMAGEN (Para controlar el zoom) */
+.productos article a {
+    display: block;
+    overflow: hidden; /* La magia del zoom */
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* LA IMAGEN */
 .productos img {
-    max-width: 100%; /* No se desborda */
-    height: auto; /* Mantiene proporción */
-    border-radius: 5px;
+    width: 100%;
+    height: 250px; /* Altura fija para que todas se vean parejas */
+    object-fit: contain; /* Que se vea la foto entera sin cortarse */
+    transition: transform 0.5s ease;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5)); /* Sombrita a la figura */
 }
 
-/* ================= PRECIO ================= */
-.precio {
-    color: #00ffcc;
-    font-size: 1.2rem; 
+/* EFECTO HOVER EN LA IMAGEN */
+.productos article:hover img {
+    transform: scale(1.1); /* Zoom al pasar el mouse */
+}
+
+/* TITULO DEL PRODUCTO */
+.productos h3 {
+    font-size: 1.1rem;
+    color: #eee;
+    margin-bottom: 5px;
+    font-weight: 600;
+    width: 100%; /* Fuerza al texto a usar todo el ancho de la tarjeta */
+    margin: 0 auto 5px auto; /* Centrado */
+    /* Limitamos a 2 lineas para que no rompa el diseño si es muy largo */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* =================    informacion productos card ================= */
+.info-producto{
+    text-align: left;
+}
+.info-producto h3{
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+.precio{
+    color: #00ffcc; /* Tu color neón */
+    font-size: 1.4rem; 
     font-weight: bold;
     margin: 10px 0;
+    text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
 }
-
-/* ================= BOTONES ================= */
-.productos button {
-    background: linear-gradient(to left, #2c2235, #741b7c);
-    color: var(--color-texto);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer; 
-    font-weight: bold;
-    transition: background 0.3s; 
+.envio-info{
+    font-size: 0.9rem;
+    color: rgb(223, 215, 215);
+    padding-bottom: 5px;
 }
-
-/* Hover del botón */
-.productos button:hover {
-    background: linear-gradient(to left, #741b7c, #2c2235);
-}
-
-/* ================= LINKS ESTILO BOTÓN ================= */
-.productos a{
-    display: block; /* Ocupa todo el ancho */
-    margin: 10px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 10px 15px;
-    text-decoration: none;
-    text-align: center;
-    color: white;
-    text-shadow: 2px 2px 5px #0e0d0f;
-    font-weight: bold;
-    font-style: italic;
-    background-color: #0e0d0f;
-}
-
-/* ================= PRODUCTO DESTACADO (GRID) ================= */
-
-.titulo-producto h1 {
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  color: var(--color-principal);
-  text-align: center;
-  margin-top: 20px;
-}
-
-/* Tarjeta de producto */
-.producto-card {
-  border-radius: 15px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: center;
-  max-width: 1000px;
-  margin: 50px auto;
-  padding: 20px;
-  transition: all 0.5s ease;
-}
-
-.producto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-}
-
-/* Imagen */
-.producto-card img {
-  width: 100%;
-  max-width: 400px;
-  border-radius: 10px;
-  justify-self: center;
-}
-
-/* Precio */
-.precio {
-  color: #00ffcc;
-  font-size: 1.3rem;
-  font-weight: bold;
-  margin: 15px 0;
-}
-
-/* Botón de compra */
+/* BOTÓN COMPRAR */
 .btn-comprar {
-  background: linear-gradient(to right, #910d08, #741b7c);
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
+    background-color: transparent;
+    /* background: linear-gradient(90deg, #910d08 0%, #ca2626 100%); Rojo Geek House */
+    color: white;
+    border: 1px solid rgb(70, 11, 146);
+    padding: 12px;
+    width: 100%; /* Ocupa todo el ancho */
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-comprar:hover {
-  background: linear-gradient(to right, #741b7c, #910d08);
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #00ffcc;
+    background: linear-gradient(90deg, #ca2626 0%, #ff5252 100%);
+    box-shadow: 0 0 15px rgba(202, 38, 38, 0.5); /* Brillo rojo */
+    transform: scale(1.02);
 }
 
-/* Detalles */
-.detalle {
-  margin-top: 20px;
-}
 
-.detalle h2 {
-  color: #201b1b;
-  text-align: center;
-  margin-bottom: 10px;
-}
-
-.detalle ul {
-  list-style: none;
-  padding: 0;
-}
-
-.detalle li {
-  color: whitesmoke;
-  margin: 8px 0;
-  text-align: center;
-  position: relative;
-}
-
-.detalle li::before {
-  content: "✦ ";
-  color: #00ffcc;
-  font-weight: bold;
-}
-
-/* ================= Sobre Nosotros ================= */
-.nosotros{
-    max-width: 800px; /* No se estira demasiado */
-    margin: 50px auto; /* Centrado horizontal */
-    text-align: center; 
-    padding: 20px; 
-}
-
-/* Título Secundario */
-.nosotros h2{
-    font-size: 1rem; 
-    color: var(--color-fondo); 
-    text-transform: uppercase; 
-    margin: 2px;
-}
-
-.nosotros p{
-    line-height: 1.5; /* Mejor legibilidad */
-    color: rgb(161, 157, 157); 
-    font-family: var(--fuente-harry); 
-    margin: 10px;
-    font-size: 18px;
-}
-.imagenes-nosotros{
-  max-width: 50%;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 0 0 3px rgb(20, 11, 11);
-}
-
-/* ================= FORMULARIO ================= */
-.body-contacto{
-    background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
-    background-size:cover;
-    min-height: 100vh;
-}
-.body-contacto h1{
-    color:rgb(161, 157, 157);
-    text-transform: uppercase;
-}
-
-    /* ================= ARREGLO FOOTER CONTACTO ================= */
-/* Cuando el footer está dentro de la página con fondo de Harry Potter */
-.body-contacto footer {
-    background-color: var(--color-header); 
-    padding: 20px; 
-    text-align: center; 
-    width: 100%; /* Que ocupe todo el ancho */
-    color: var(--color-texto); 
-    border-top: 2px solid rgba(255,255,255,0.1); /* Una línea sutil arriba para separar */
-}
-
-/* Aseguramos que los párrafos y enlaces dentro también se lean */
-.body-contacto footer p,
-.body-contacto footer a {
-    color: rgb(214, 207, 207) !important; /* Forzamos el color claro */
-    opacity: 1;
-}
-
-.campo{
-    text-align: center;
-}
-
-.campo input, textarea{
-    width: 100%; /* Que ocupe todo su contenedor padre */
-    max-width: 400px; /* Pero que no sea gigante */
-    min-width: 200px; /* Que nunca sea enano */
-    padding: 10px;
-    padding:10px;
-    margin-bottom:15px;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.5);
-    color:#0e0d0f;
-}
-
-.campo label{
-    display: block;
-    font-weight: bold;
-    color: white;
-}
-
-.btn-form{
-  background: linear-gradient(to right, #910d08, #741b7c);
-  color: white;
-  border: none;
-  display: block;
-  margin:auto;
-  padding: 12px 30px;
-  border-radius: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-form:hover {
-  background: linear-gradient(to right, #741b7c, #910d08);
-  transform: scale(1.05);
-  box-shadow: 0 0 12px #00ffcc;
-}
-
-/* CARRITO FLOTANTE */
-
+/* ================= CARRITO ================= */
 .carrito-icono {
     position: fixed;
-    top: 50px;      /* Ajustá la altura si tapa el header */
-    right: 20px;    /* A la derecha */
+    top: 50px;
+    right: 20px;
     width: 60px;
     height: 60px;
     background-color: white;
-    border-radius: 50%; /* Círculo perfecto */
+    border-radius: 50%;
     display: flex;
-    justify-content: center; /* Centrar el emoji */
+    justify-content: center;
     align-items: center;
     font-size: 30px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    z-index: 2000; /* Arriba de todo */
-    border: 2px solid #2c2235; 
+    z-index: 2000;
+    border: 2px solid #2c2235;
     transition: transform 0.3s ease;
 }
 
 .carrito-icono:hover {
-    transform: scale(1.1); 
+    transform: scale(1.1);
 }
 
-/* 2. El numerito rojo notificador */
 #contador-burbuja {
     position: absolute;
     top: -5px;
@@ -657,14 +478,15 @@ footer a{
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     border: 2px solid white;
 }
-.carrito-flotante{
+
+/* ================= CARRITO FLOTANTE ================= */
+.carrito-flotante {
     position: fixed;
-    margin: 10px;
     top: 90px;
     right: 20px;
     width: 250px;
@@ -673,32 +495,36 @@ footer a{
     border: 3px solid #080202;
     padding: 25px;
     z-index: 1999;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    text-decoration: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, opacity 0.3s ease;
-    transform: translateX(0); /* Estado visible */
-    opacity: 1;
 }
 
-.carrito-flotante h2{
+.carrito-flotante h2 {
     text-align: center;
-    color:rgb(20, 11, 11);
+    color: rgb(20, 11, 11);
     font-weight: bold;
-}
-.carrito-flotante p{
-text-align: center;
+    margin-bottom: 15px;
 }
 
-.carrito-flotante ul{
+.carrito-flotante p {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.carrito-flotante ul {
     padding-left: 10px;
-}
-.carrito-flotante.oculto {
-    transform: translateX(120%); /* Se va de la pantalla */
-    opacity: 0;
-    pointer-events: none; /* Para no clickearlo sin querer */
+    list-style: none;
 }
 
-/* Estilo para la X de cerrar */
+#lista-carrito li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
+
 .btn-cerrar-carrito {
     background: none;
     border: none;
@@ -709,59 +535,172 @@ text-align: center;
     cursor: pointer;
 }
 
-.toast{
+.carrito-flotante.oculto {
+    transform: translateX(120%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ================= BOTÓN ELIMINAR ================= */
+.btn-eliminar {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    transition: transform 0.2s;
+    color: #ff0000;
+}
+
+.btn-eliminar:hover {
+    transform: scale(1.2);
+}
+
+/* ================= TOAST NOTIFICACIÓN ================= */
+.toast {
     position: fixed;
-    top: 20px; /*Arriba de todo*/
-    right: 20px; /* A la derecha */
+    top: 20px;
+    right: 20px;
     background-color: #076956;
     color: aliceblue;
     border: none;
     border-radius: 15px;
     padding: 10px 25px;
-    margin: 10px;
     font-weight: bold;
     font-family: var(--fuente-harry);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-    z-index: 1000; /*Para que flote encima de todo */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
     transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.toast.oculto{
+.toast.oculto {
     opacity: 0;
-    transform: translate(-20px);
+    transform: translateX(20px);
     pointer-events: none;
 }
 
-/* =================================
-   ESTILOS DE LA PÁGINA DE DETALLE
-   ================================= */
-/* El contenedor principal */
+/* ================= FORMULARIO CONTACTO ================= */
+.body-contacto {
+    background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+.body-contacto h1 {
+    color: rgb(161, 157, 157);
+    text-transform: uppercase;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.contacto {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.campo {
+    margin-bottom: 20px;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.campo input,
+.campo textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 12px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+}
+
+.campo textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-form {
+    background: linear-gradient(to right, #910d08, #741b7c);
+    color: white;
+    border: none;
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-form:hover {
+    background: linear-gradient(to right, #741b7c, #910d08);
+    transform: scale(1.05);
+    box-shadow: 0 0 12px #00ffcc;
+}
+
+/* ================= SOBRE NOSOTROS ================= */
+.nosotros {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: center;
+    padding: 20px;
+    color: white;
+}
+
+.nosotros h2 {
+    font-size: 1.8rem;
+    color: var(--color-fondo);
+    text-transform: uppercase;
+    margin: 20px 0;
+}
+
+.nosotros p {
+    line-height: 1.6;
+    color: rgb(214, 207, 207);
+    font-family: var(--fuente-harry);
+    margin: 15px 0;
+    font-size: 18px;
+}
+
+.imagenes-nosotros {
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    margin: 20px 0;
+}
+
+/* ================= PÁGINA DETALLE ================= */
 .detalle-container {
     max-width: 1000px;
-    margin: 40px auto; /* Centrado */
+    margin: 40px auto;
     padding: 20px;
     background-color: rgba(207, 196, 219, 0.308);
     border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
-/* La caja flexible que divide Foto | Info */
 .detalle-flex {
     display: flex;
-    gap: 40px; 
-    align-items: center; 
+    gap: 40px;
+    align-items: center;
 }
 
-/* Ajustes para la imagen */
 .detalle-flex img {
-    width: 50%; 
+    width: 50%;
     max-width: 400px;
     border-radius: 10px;
     object-fit: cover;
-    box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-/* Ajustes para el texto */
 .detalle-info {
     width: 50%;
 }
@@ -770,6 +709,7 @@ text-align: center;
     font-size: 2.5rem;
     margin-bottom: 10px;
     color: #333;
+    text-align: left;
 }
 
 .categoria {
@@ -781,54 +721,89 @@ text-align: center;
 
 .precio-grande {
     font-size: 2rem;
-    color: #0a2917; 
+    color: #0a2917;
     font-weight: bold;
     margin: 20px 0;
 }
 
-.descripcion {
-    line-height: 1.6;
+.descripcion-container {
+    margin: 20px 0;
+}
+
+.descripcion-producto {
+    list-style: none;
+    padding: 0;
+}
+
+.descripcion-producto li {
     color: #0e0b0b;
-    margin-bottom: 30px;
+    margin: 8px 0;
+    position: relative;
+    padding-left: 20px;
 }
 
-button:active, .btn-comprar:active {
-    transform: scale(0.95); /* Se achica un poquito al hacer click (feedback táctil) */
+.descripcion-producto li::before {
+    content: "✦ ";
+    color: #00ffcc;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
 }
 
+/* ================= ANIMACIONES ================= */
 @keyframes entradaSuave {
     from {
         opacity: 0;
-        transform: translateY(20px); /* Empiezan más abajo */
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
-        transform: translateY(0); /* Terminan en su lugar */
+        transform: translateY(0);
     }
 }
 
-/* Clase para aplicar la animación */
 .animacion-entrada {
     animation: entradaSuave 0.6s ease-out forwards;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN (Versión Móvil)
-   ========================================= */
+/* ================= FOOTER ================= */
+footer {
+    background-color: var(--color-header);
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    color: var(--color-texto);
+}
+
+footer p {
+    color: rgb(214, 207, 207);
+    margin: 5px 0;
+}
+
+footer a {
+    text-decoration: none;
+    color: rgb(17, 12, 12);
+    font-style: italic;
+}
+
+/* Ajuste específico para footer en página de contacto */
+.body-contacto footer {
+    background-color: var(--color-header);
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    color: var(--color-texto);
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.body-contacto footer p,
+.body-contacto footer a {
+    color: rgb(214, 207, 207);
+}
+
+/* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-
-    .producto-one{
-        grid-template-columns: 1fr; /* Una sola columna */
-        gap: 20px;
-        text-align: center;
-        padding: 15px; /* Un poco de aire para que no pegue con los bordes */
-    }
-
-    .producto-one h2{
-        font-size: 1.8rem; /* Ajustado para que no sea gigante */
-    }
-
-    /* El Header se apila: Logo arriba, Buscador abajo */
+    /* Header y Menú */
     header {
         flex-direction: column;
         gap: 15px;
@@ -836,156 +811,133 @@ button:active, .btn-comprar:active {
         text-align: center;
     }
 
-    /* Menú más fácil de tocar con el dedo */
     .menu a {
-        display: inline-block; /* Para que respeten el padding */
+        display: inline-block;
         margin: 5px;
         font-size: 1.1rem;
         padding: 8px 15px;
-        border: 1px solid rgba(255,255,255,0.3);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         border-radius: 20px;
-        color: var(--color-texto);
     }
 
-    /* ===  CATÁLOGO Y DETALLES === */
-
-    /* 1. EL BUSCADOR */
-    /* Que ocupe todo el ancho para que sea fácil escribir */
-    #input-busqueda {
-        width: 100%;
-        max-width: 300px; /* Que tampoco sea infinito */
-        padding: 12px;
+    /* Hero */
+    .hero-slider,
+    .hero-slider img {
+        height: 400px;
     }
 
-    /* 2. GRILLA DE PRODUCTOS (El catálogo) */
+    .logo-hero {
+        max-width: 300px;
+    }
+
+    /* Productos */
     .productos {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas (tipo Instagram) */
-        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
         padding: 10px;
-    }
-    
-    /* Ajuste de tarjeta de producto para que entre bien */
-    .producto {
-        padding: 10px;
-    }
-    
-    .producto img {
-        height: 150px; /* Achicamos un poco la altura de fotos en celu */
     }
 
-    /* 3. PÁGINA DE DETALLE (La más crítica) */
-    /* Cambiamos de fila (lado a lado) a columna (uno arriba del otro) */
+    .productos article {
+        padding: 10px;
+    }
+
+    /* Filtros */
+    #input-busqueda {
+        width: 90%;
+    }
+
+    .categorias-nav {
+        justify-content: center;
+    }
+
+    .btn-cat {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    /* Detalle de Producto */
     .detalle-flex {
         flex-direction: column;
-        align-items: center; /* Centrado */
         gap: 20px;
     }
 
     .detalle-flex img {
-        width: 100%; /* Foto ocupa todo el ancho disponible */
-        max-width: 350px; /* Pero que no explote si es una tablet */
-        height: auto; /* Mantiene proporción */
+        width: 100%;
+        max-width: 350px;
     }
 
     .detalle-info {
         width: 100%;
-        text-align: center; /* Texto centrado queda mejor en celu */
-    }
-
-    /* Botón de compra gigante (Call to Action) */
-    .btn-comprar {
-        width: 100%;
-        padding: 15px;
-        font-size: 1.2rem;
-        margin-top: 15px;
-    }
-    /* ARREGLO DE BOTONES DE CATEGORÍA */
-    .categorias {
-        display: flex;
-        flex-wrap: wrap; /* MAGIA: Si no entran, bajan */
-        justify-content: center; /* Centrados */
-        gap: 10px; /* Espacio entre ellos */
-        margin-bottom: 20px;
-    }
-
-    .btn-cat {
-        width: auto; /* Que el ancho se ajuste al texto */
-        padding: 10px 20px; /* Más gorditos para tocar con el dedo */
-        font-size: 1rem;
-        flex-grow: 1; /* Esto hace que se estiren para llenar huecos */
         text-align: center;
     }
-    /* 4. FILTROS DE FRANQUICIAS */
-    /* Que los botones se centren */
-    #contenedor-franquicias {
-        justify-content: center;
-    }
-    /* 1. La Sección Principal */
-    .contacto {
-        width: 100%;
-        padding: 20px 10px; /* Un poco de aire a los costados */
+
+    .detalle-info h1 {
+        text-align: center;
+        font-size: 2rem;
     }
 
-    /* 2. El Formulario en sí */
-    #form-contacto {
-        width: 100%; /* Que use todo el ancho posible */
-        max-width: 100%;
-        background-color: rgba(0, 0, 0, 0.6); 
-        padding: 20px;
-        border-radius: 15px;
-    }
-
-    .campo {
-        width: 100%; /* Fundamental: que el contenedor se estire */
-        margin-bottom: 15px;
-        display: flex;
-        flex-direction: column; /* Pone el Label ARRIBA del Input */
-        align-items: flex-start; /* Alinea todo a la izquierda */
-    }
-
-    /* 4. Los textos (Labels) */
-    .campo label {
-        color: white; /* Aseguramos que se lea */
-        font-size: 1.1rem;
-        margin-bottom: 5px; /* Espacio entre el texto y la cajita */
-    }
-
-    /* 5. Las cajitas para escribir (Inputs y Textarea) */
-    #form-contacto input, 
-    #form-contacto textarea {
-        width: 100%; /* AHORA SÍ: Ocupan todo el ancho del celular */
-        padding: 12px; /* Más gorditos para tocar fácil */
-        font-size: 1rem;
-        border-radius: 8px;
-        border: none;
-        box-sizing: border-box; /* Clave para que no se salgan de la pantalla */
-    }
-
-    /* 6. El Botón de Enviar */
-    .btn-form {
-        width: 100%;
+    .btn-comprar {
         padding: 15px;
         font-size: 1.2rem;
-        margin-top: 10px;
-        border-radius: 10px;
-        cursor: pointer;
-    }
-    /* Ajuste del Carrito en Celular */
-    #carrito-container {
-        position: relative; 
-        width: 90%;
-        margin: 20px auto;
-        background: white; 
-        z-index: 100;
     }
 
-    .titulo-neon {
-            font-size: 2.5rem;
-        }
-    
-    .logo-hero {
-            max-width: 300px; /* Más chico en celu para que no se salga */
-        }
-    
+    /* Formulario Contacto */
+    .contacto {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .campo input,
+    .campo textarea {
+        width: 100%;
+    }
+
+    /* Carrito */
+    .carrito-flotante {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+    }
+
+    /* Sobre Nosotros */
+    .nosotros {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .nosotros h2 {
+        font-size: 1.5rem;
+    }
+
+    .nosotros p {
+        font-size: 16px;
+    }
 }
 
+@media (max-width: 480px) {
+    .productos {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-slider,
+    .hero-slider img {
+        height: 300px;
+    }
+
+    .logo-hero {
+        max-width: 250px;
+    }
+
+    .carrito-icono {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        top: 20px;
+        right: 15px;
+    }
+
+    .btn-hero-glow {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}

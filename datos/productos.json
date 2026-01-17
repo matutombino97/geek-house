@@ -126,7 +126,9 @@
     "precio": 4500,
     "categoria": "ropa",
     "imagen": "img/medias-luna.png",
-    "franquicia": "Harry Potter"
+    "franquicia": "Harry Potter",
+    "destacado": true
+
   },
   {
     "id": "medias-malfoy",
@@ -487,7 +489,8 @@
     "precio": 5000,
     "categoria": "Figuras",
     "imagen": "img/figura-kakashi.png",
-    "franquicia": "Naruto"
+    "franquicia": "Naruto",
+    "destacado": true
   },
   {
     "id": "figura-naruto-jutsu",
@@ -527,7 +530,8 @@
     "precio": 5000,
     "categoria": "Figuras",
     "imagen": "img/figura-sasuke-pelicula.png",
-    "franquicia": "Naruto"
+    "franquicia": "Naruto",
+    "destacado": true
   },
   {
     "id": "funko-bianca-barclay-wednesday",
@@ -551,7 +555,8 @@
     "precio": 12500,
     "categoria": "Figuras",
     "imagen": "img/funko-draco-malfoy.png",
-    "franquicia": "Harry Potter"
+    "franquicia": "Harry Potter",
+    "destacado": true
   },
   {
     "id": "funko-enid-sinclair-wednesday",
@@ -616,7 +621,8 @@
     "precio": 12500,
     "categoria": "Figuras",
     "imagen": "img/funko-salazar-piratas-caribe.png",
-    "franquicia": "Piratas del Caribe"
+    "franquicia": "Piratas del Caribe",
+    "destacado": true
   },
   {
     "id": "funko-sasuke-uchiha",
