@@ -10,7 +10,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
     <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
-    <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo-sin-fondo-Photoroom.png">
+    <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
 
@@ -69,10 +69,19 @@
 
         <section class="destacados">
             <h2>Lo más vendido de la semana</h2>
-            <div class="productos">
+
+            <div class="carousel-container"> 
+
+                <button class="prev-btn">‹</button>
+
+                <div class="carousel-window">
+                    <div class="productos"></div> 
                 </div>
+                
+                <button class="next-btn">›</button>
+            </div>
         </section>
-       
+            
         <div id="carrito-icono" class="carrito-icono" 
             onclick="toggleCarrito()" 
             role="button" 

@@ -206,7 +206,7 @@ function manejarFormulario(){
             return;
         }
         //6.Simulacion de exito
-        //Aca podrias usar tu funcion mostrarNotificacion si la haces generica, 
+        //Aca podriamos usar la funcion mostrarNotificacion.
         // O un simple alert por ahora.
 
         alert(`!Gracias ${nombre}! Hemos recibido tu mensaje.`);
@@ -402,7 +402,7 @@ async function cargarBaseDeDatos(){
             cargarProductos(soloDestacados);
             
             // Truco: Ocultamos los filtros de categoría en el home porque confunden
-            const filtros = document.querySelector(".filtros"); // Asegurate que tu div de filtros tenga esta clase
+            const filtros = document.querySelector(".filtros"); 
             if(filtros) filtros.style.display = "none";
 
         } else {
