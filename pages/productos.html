@@ -44,10 +44,21 @@
             <button class="btn-cat" id="cat-accesorio">Accesorios</button>
             <button class="btn-cat" id="cat-Figuras">Figuras</button>
         </section>
-        <section class = "franquicias-container">
+        <section class="franquicias-container">
             <h3>Filtrar por franquicia</h3>
-            <div id="contenedor-franquicias" class="lista-franquicias">
+            
+            <div class="carousel-container">
+                
+                <button class="flecha-carrusel izq" onclick="moverCarrusel('track-franquicias', 'izquierda')">❮</button>
 
+                <div id="track-franquicias" class="carousel-track">
+                    
+                    <div id="contenedor-franquicias" class="lista-franquicias"></div>
+                
+                </div>
+
+                <button class="flecha-carrusel der" onclick="moverCarrusel('track-franquicias', 'derecha')">❯</button>
+                
             </div>
         </section>
         

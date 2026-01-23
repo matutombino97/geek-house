@@ -234,6 +234,82 @@ header {
     margin: 20px 0;
 }
 
+/* ================= SECCIÓN CARRUSEL DE DESTACADOS ================= */
+
+/* 1. EL MARCO (Wrapper) */
+.carousel-container {
+    max-width: 1200px;
+    width: 100%;
+    /* Opcional: Centrarlo si sobra espacio */
+    margin: 0 auto;
+    padding: 0 20px; 
+    position: relative;
+}
+
+/* 2. LA VENTANA DE SCROLL (Track) */
+.carousel-track {
+    /* La ventana que permite el scroll */
+    overflow-x: auto; 
+    padding: 40px 0; /* Colchón vertical para el zoom */
+    scrollbar-width: none;
+
+}
+
+/* 3. EL TREN (El contenedor .productos) */
+/* Usamos el selector específico para no romper la otra página */
+.carousel-track .productos {
+    display: flex; 
+    gap: 20px;   
+    width: max-content; /* Que el tren sea tan largo como necesite */
+}
+
+/* 4. LOS VAGONES (Las tarjetas individuales) */
+
+.carousel-track .producto {
+    width: 250px;  
+    flex-shrink: 0;    /* Prohibido achicarse */
+}
+
+
+/* Estilo de la Flecha */
+.flecha-carrusel {
+    position: absolute; /* Flotan sobre el contenido */
+    top: 50%; /* Se ubican a la mitad de la altura */
+    transform: translateY(-50%); /* Ajuste fino para centrar verticalmente */
+    
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
+    color: #00ffcc; 
+    border: 2px solid #00ffcc;
+    border-radius: 50%; /* Redondas */
+    
+    width: 45px;
+    height: 45px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 10; /* Para que estén ARRIBA de las fotos */
+    transition: all 0.3s ease;
+    
+    /* Centramos el piquito < > */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flecha-carrusel:hover {
+    background-color: #00ffcc;
+    color: #000;
+    transform: translateY(-50%) scale(1.1); /* Mantiene el centro y agranda */
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+.flecha-carrusel.izq {
+    left: -20px; /* La sacamos un poquito para afuera a la izquierda */
+}
+
+.flecha-carrusel.der {
+    right: -20px; /* La sacamos un poquito para afuera a la derecha */
+}
+
 /* ================= FILTROS Y BÚSQUEDA ================= */
 .filtros {
     margin: 20px 0;
@@ -276,13 +352,13 @@ header {
 }
 
 .btn-cat {
-    border-radius: 5px;
+    border-radius: 50px;
     border: none;
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: all 0.3s;
-    background-color: #fff;
+    background-color: #8a3333;
 }
 
 .btn-cat:hover {
@@ -334,7 +410,45 @@ header {
     box-shadow: 0 0 10px rgba(108, 92, 231, 0.5);
 }
 
-/* ================= LISTA DE PRODUCTOS (REDISEÑO PRO) ================= */
+/* ================= CARRUSEL DE FRANQUICIAS ================= */
+
+/* 1. EL TREN DE TEXTO */
+/* Le decimos a la lista que se ponga en fila india */
+.carousel-track .lista-franquicias {
+    display: flex;
+    gap: 15px;          /* Espacio entre botones */
+    width: max-content; /* Que el tren sea tan largo como necesite */
+    padding: 0 10px;    /* Un poquito de aire a los costados */
+}
+
+/* 2. LOS VAGONES (Botones) */
+.btn-franquicia {
+    /* Tus estilos visuales actuales (borde, color, etc.) se mantienen... */
+    background-color: transparent;
+    border: 2px solid #0d0c1a;
+    color: white; 
+    padding: 8px 20px;
+    border-radius: 50px; /* Más redonditos tipo "Chip" queda mejor */
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease; 
+    text-transform: capitalize; 
+    
+    /* 👇 LA CLAVE PARA QUE NO SE ROMPA EL TEXTO 👇 */
+    white-space: nowrap; /* Prohibido bajar de renglón */
+    flex-shrink: 0;      /* Prohibido achicarse */
+}
+
+/* Efecto Hover para que se note que es clickeable */
+.btn-franquicia:hover {
+    background-color: #00ffcc;
+    color: #0d0c1a;
+    border-color: #00ffcc;
+    transform: translateY(-2px);
+}
+
+
+/* ================= LISTA DE PRODUCTOS ================= */
 
 .productos {
     display: grid;
@@ -445,9 +559,6 @@ header {
     box-shadow: 0 0 15px rgba(202, 38, 38, 0.5); /* Brillo rojo */
     transform: scale(1.02);
 }
-
-/* ================= productos card carrusel ================= */
-
 
 /* ================= CARRITO ================= */
 .carrito-icono {
@@ -653,44 +764,123 @@ header {
 }
 
 /* ================= SOBRE NOSOTROS ================= */
-.nosotros {
-    max-width: 800px;
-    margin: 50px auto;
+/* ================= SOBRE NOSOTROS (DARK MODE) ================= */
+
+/* 1. La Caja Principal (Igual que en productos) */
+.about-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: #1a1a1a; /* Fondo Oscuro */
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    color: #eee;
+}
+
+.about-container h1 {
     text-align: center;
-    padding: 20px;
-    color: white;
-}
-
-.nosotros h2 {
-    font-size: 1.8rem;
-    color: var(--color-fondo);
+    font-size: 3rem;
+    color: #00ffcc; /* Título Neón */
+    margin-bottom: 50px;
     text-transform: uppercase;
-    margin: 20px 0;
+    letter-spacing: 3px;
 }
 
-.nosotros p {
-    line-height: 1.6;
-    color: rgb(214, 207, 207);
-    font-family: var(--fuente-harry);
-    margin: 15px 0;
-    font-size: 18px;
+/* 2. El Bloque Flex (Para poner cosas al costado) */
+.bloque-historia {
+    display: flex; /* Magia: pone los hijos lado a lado */
+    align-items: center; /* Los centra verticalmente */
+    gap: 40px; /* Espacio en el medio */
+    margin-bottom: 60px; /* Espacio entre historias */
 }
 
-.imagenes-nosotros {
-    max-width: 100%;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-    margin: 20px 0;
+/* 3. Las Fotos "Polaroid Gamer" */
+.imagen-marco {
+    flex: 1; /* Ocupa espacio proporcional */
+}
+
+.imagen-marco img {
+    width: 100%; /* Que se adapte al marco */
+    max-width: 400px; /* Que no sea gigante */
+    border-radius: 20px; /* Bordes redondeados */
+    border: 3px solid #741b7c; /* Borde violeta */
+    box-shadow: 10px 10px 0px #00ffcc; /* Sombra sólida retro desplazada */
+    transition: transform 0.3s ease;
+}
+
+.imagen-marco img:hover {
+    transform: rotate(-2deg) scale(1.02); /* Efecto divertido al pasar el mouse */
+}
+
+/* 4. El Texto */
+.texto-historia {
+    flex: 1; /* Ocupa el mismo ancho que la foto */
+}
+
+.texto-historia h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #741b7c; /* Subrayado violeta */
+    display: inline-block; /* El subrayado solo ocupa el ancho del texto */
+}
+
+.texto-historia p {
+    font-size: 1.1rem;
+    line-height: 1.8; /* Más fácil de leer */
+    color: #ccc;
 }
 
 /* ================= PÁGINA DETALLE ================= */
 .detalle-container {
     max-width: 1000px;
     margin: 40px auto;
-    padding: 20px;
-    background-color: rgba(207, 196, 219, 0.308);
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    padding: 40px; /* Un poco más de aire */
+    
+    /* 👇 CAMBIO DE LOOK */
+    background-color: #1a1a1a; /* Fondo oscuro sólido */
+    border: 1px solid #333;    /* Borde sutil */
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Sombra potente para que "flote" */
+    color: #eee; /* Texto claro por defecto */
+}
+.detalle-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #fff; /* Blanco puro */
+    font-family: var(--fuente-harry); /* O tu fuente principal */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+/* Si el botón tiene una clase específica, usala. Si no, apuntamos al botón dentro del detalle */
+.detalle-info button {
+    background: linear-gradient(90deg, #910d08 0%, #741b7c 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px; /* Grande y gordo */
+    width: 100%; /* Que ocupe todo el ancho disponible */
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 20px;
+}
+
+.detalle-info button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(116, 27, 124, 0.6); /* Brillo violeta */
+}
+.categoria {
+    color: #00ffcc; /* Tu verde neón */
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: block; /* Para que ocupe su propio renglón */
 }
 
 .detalle-flex {
@@ -707,29 +897,13 @@ header {
     box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.detalle-info {
-    width: 50%;
-}
-
-.detalle-info h1 {
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    color: #333;
-    text-align: left;
-}
-
-.categoria {
-    color: #110e0e;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-}
 
 .precio-grande {
-    font-size: 2rem;
-    color: #0a2917;
-    font-weight: bold;
+    font-size: 3rem; /* ¡Gigante! */
+    color: #00ffcc;  /* Neón */
+    font-weight: 800;
     margin: 20px 0;
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.3); /* Resplandor */
 }
 
 .descripcion-container {
@@ -742,18 +916,18 @@ header {
 }
 
 .descripcion-producto li {
-    color: #0e0b0b;
-    margin: 8px 0;
-    position: relative;
-    padding-left: 20px;
+    color: #ccc; /* Gris claro */
+    margin: 10px 0;
+    text-align: left; /* Mejor alineado a la izquierda */
+    font-size: 1.1rem;
+    line-height: 1.6;
 }
 
+/* Cambiamos el rombo por un rayo o flecha */
 .descripcion-producto li::before {
-    content: "✦ ";
+    content: "⚡ "; /* O usá "➤" */
     color: #00ffcc;
     font-weight: bold;
-    position: absolute;
-    left: 0;
 }
 
 /* ================= ANIMACIONES ================= */
@@ -830,6 +1004,7 @@ footer a {
     .hero-slider,
     .hero-slider img {
         height: 400px;
+        padding-top: 25px;
     }
 
     .logo-hero {
@@ -897,6 +1072,15 @@ footer a {
     .campo textarea {
         width: 100%;
     }
+    .bloque-historia, .bloque-historia.invertido {
+        flex-direction: column; /* Uno abajo del otro */
+        text-align: center;
+    }
+
+    /* En celu, sacamos la clase 'invertido' visualmente cambiando el orden */
+    .bloque-historia.invertido {
+        flex-direction: column-reverse; /* Foto arriba, texto abajo */
+    }
 
     /* Carrito */
     .carrito-flotante {
@@ -917,6 +1101,13 @@ footer a {
 
     .nosotros p {
         font-size: 16px;
+    }
+    
+    .flecha-carrusel.izq { 
+        left: 0; 
+    }
+    .flecha-carrusel.der { 
+        right: 0; 
     }
 }
 

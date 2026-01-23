@@ -432,32 +432,48 @@ async function cargarBaseDeDatos(){
    ================================= */
 function renderizarFranquicias() {
     const contenedor = document.getElementById("contenedor-franquicias");
+    
+    // Si no existe el contenedor (por ejemplo en otra página), cortamos acá
     if (!contenedor) return;
 
-    // 1. Limpiamos lo que haya
+    // 1. Limpiamos lo que haya antes de dibujar
     contenedor.innerHTML = "";
 
-    // === NUEVO: BOTÓN "BORRAR FILTROS" ===
+    // === BOTÓN "BORRAR FILTROS" (INTELIGENTE) ===
     const btnBorrar = document.createElement("button");
     btnBorrar.innerText = "Borrar Filtros";
-    btnBorrar.classList.add("btn-franquicia"); // Le damos el mismo estilo
+    btnBorrar.classList.add("btn-franquicia"); 
     
-    // Un toquecito visual extra para que se diferencie (opcional)
+    // Estilos visuales para diferenciarlo (Rojo/Negro)
     btnBorrar.style.borderColor = "#ff5252"; 
-    btnBorrar.style.background = "black"
+    btnBorrar.style.background = "black";
     btnBorrar.style.color = "#ff5252";
 
     btnBorrar.addEventListener("click", () => {
-        // Al hacer click, volvemos a cargar LA LISTA COMPLETA original
-        cargarProductos(productos);
+        
+        // A. Limpieza Visual: Sacamos la clase 'activo' de cualquier otro botón
+        document.querySelectorAll(".btn-franquicia.activo").forEach(btn => btn.classList.remove("activo"));
+
+        // B. Lógica de Redibujado según la página
+        const esPaginaProductos = window.location.pathname.includes("pages");
+
+        if (esPaginaProductos) {
+            // CASO 1: Estoy en el Catálogo -> Muestro TODO
+            cargarProductos(productos);
+        } else {
+            // CASO 2: Estoy en el Home -> Muestro SOLO DESTACADOS
+            const soloDestacados = productos.filter(p => p.destacado === true);
+            cargarProductos(soloDestacados);
+        }
     });
 
     // Lo agregamos PRIMERO a la lista
     contenedor.appendChild(btnBorrar);
-    // =====================================
 
-    // 2. botones automáticos
+
+    // === BOTONES DE LAS FRANQUICIAS (AUTOMÁTICOS) ===
     const franquiciasSucias = productos.map(producto => producto.franquicia);
+    // Usamos Set para eliminar duplicados
     const franquiciasUnicas = [...new Set(franquiciasSucias)];
 
     franquiciasUnicas.forEach(franquicia => {
@@ -467,6 +483,11 @@ function renderizarFranquicias() {
             btn.classList.add("btn-franquicia");
             
             btn.addEventListener("click", () => {
+                // Visual: Marcamos este botón como activo y desmarcamos el resto
+                document.querySelectorAll(".btn-franquicia").forEach(b => b.classList.remove("activo"));
+                btn.classList.add("activo");
+
+                // Lógica: Filtramos los productos
                 const productosFiltrados = productos.filter(p => p.franquicia === franquicia);
                 cargarProductos(productosFiltrados);
             });
@@ -588,4 +609,23 @@ function toggleCarrito() {
     const carritoContainer = document.getElementById("carrito-container");
     // Esto pone y saca la clase .oculto automáticamente
     carritoContainer.classList.toggle("oculto");
+}
+
+/* ================= FUNCION PARA MOVER CARRUSEL ================= */
+function moverCarrusel(idContenedor, direccion) {
+    // 1. Buscamos el elemento por su ID
+    const contenedor = document.getElementById(idContenedor);
+    
+    // Si no existe (por ejemplo en otra página), no hacemos nada
+    if (!contenedor) return;
+
+    // 2. Definimos cuánto vamos a mover (aprox el ancho de una tarjeta + espacio)
+    const anchoTarjeta = 270; 
+    
+    // 3. Calculamos la nueva posición
+    if (direccion === 'izquierda') {
+        contenedor.scrollBy({ left: -anchoTarjeta, behavior: 'smooth' });
+    } else {
+        contenedor.scrollBy({ left: anchoTarjeta, behavior: 'smooth' });
+    }
 }
