@@ -240,7 +240,6 @@ header {
 .carousel-container {
     max-width: 1200px;
     width: 100%;
-    /* Opcional: Centrarlo si sobra espacio */
     margin: 0 auto;
     padding: 0 20px; 
     position: relative;
@@ -334,6 +333,19 @@ header {
     outline: none;
 }
 
+.error-busqueda {
+    text-align: center;
+    margin-top: 50px; /* opcional para bajarlo un poco */
+}
+
+.error-busqueda h2,
+.error-busqueda h3 {
+    margin: 10px 0;
+}
+
+
+
+
 /* ================= CATEGORÍAS ================= */
 .categorias-nav {
     display: flex;
@@ -412,29 +424,27 @@ header {
 
 /* ================= CARRUSEL DE FRANQUICIAS ================= */
 
-/* 1. EL TREN DE TEXTO */
 /* Le decimos a la lista que se ponga en fila india */
 .carousel-track .lista-franquicias {
     display: flex;
-    gap: 15px;          /* Espacio entre botones */
-    width: max-content; /* Que el tren sea tan largo como necesite */
-    padding: 0 10px;    /* Un poquito de aire a los costados */
+    gap: 15px;          
+    width: max-content; 
+    padding: 0 10px;   
 }
 
 /* 2. LOS VAGONES (Botones) */
 .btn-franquicia {
-    /* Tus estilos visuales actuales (borde, color, etc.) se mantienen... */
+
     background-color: transparent;
     border: 2px solid #0d0c1a;
     color: white; 
     padding: 8px 20px;
-    border-radius: 50px; /* Más redonditos tipo "Chip" queda mejor */
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
     transition: all 0.3s ease; 
     text-transform: capitalize; 
     
-    /* 👇 LA CLAVE PARA QUE NO SE ROMPA EL TEXTO 👇 */
     white-space: nowrap; /* Prohibido bajar de renglón */
     flex-shrink: 0;      /* Prohibido achicarse */
 }
@@ -607,13 +617,27 @@ header {
     top: 90px;
     right: 20px;
     width: 250px;
-    background-color: white;
+    background-color: rgb(161, 103, 103);
     color: rgb(20, 20, 1);
     border: 3px solid #080202;
     padding: 25px;
     z-index: 1999;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, opacity 0.3s ease;
+    max-height: 80vh;  /* Altura máxima: 80% del alto de la ventana */
+    overflow-y: auto;  /* Si te pasás, poné scroll vertical */
+    padding-bottom: 20px;
+}
+/* Personalizar la barra del carrito */
+#carrito-container::-webkit-scrollbar {
+    width: 8px;
+}
+#carrito-container::-webkit-scrollbar-track {
+    background: #1a1a1a; /* Fondo oscuro */
+}
+#carrito-container::-webkit-scrollbar-thumb {
+    background-color: #00ffcc; 
+    border-radius: 20px;
 }
 
 .carrito-flotante h2 {
@@ -981,6 +1005,72 @@ footer a {
     color: rgb(214, 207, 207);
 }
 
+
+
+/* ================= PANEL ADMIN ================= */
+.admin-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    color: white;
+}
+
+.formulario-admin .campo {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formulario-admin label {
+    margin-bottom: 5px;
+    color: #00ffcc;
+    font-weight: bold;
+}
+
+.formulario-admin input, 
+.formulario-admin select {
+    padding: 10px;
+    background: #333;
+    border: 1px solid #555;
+    color: white;
+    border-radius: 5px;
+}
+
+/* El campo ID lo ponemos gris para que se note que es automático */
+.formulario-admin input[readonly] {
+    background: #222;
+    color: #777;
+    cursor: not-allowed;
+}
+
+.fila-doble {
+    display: flex;
+    gap: 20px;
+}
+.fila-doble .campo {
+    flex: 1; /* Mitad y mitad */
+}
+
+.btn-admin {
+    width: 100%;
+    padding: 15px;
+    background: #00ffcc;
+    color: #1a1a1a;
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-admin:hover {
+    background: #fff;
+    box-shadow: 0 0 15px #00ffcc;
+}
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
     /* Header y Menú */

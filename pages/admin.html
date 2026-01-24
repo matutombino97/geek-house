@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Geek House</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    
+    <header>
+        <div class="logo">🔒 GEEK ADMIN</div>
+        <nav>
+            <a href="../index.html">Ver Tienda</a>
+        </nav>
+    </header>
+
+    <main class="admin-container">
+        <h1>Agregar Nuevo Producto</h1>
+
+        <form id="form-producto" class="formulario-admin">
+            
+            <div class="campo">
+                <label>Nombre del Producto</label>
+                <input type="text" id="nombre" placeholder="Ej: Taza Star Wars" required>
+            </div>
+
+            <div class="campo">
+                <label>ID (Slug para la URL)</label>
+                <input type="text" id="codigo" placeholder="taza-star-wars" readonly required>
+            </div>
+
+            <div class="fila-doble">
+                <div class="campo">
+                    <label>Precio ($)</label>
+                    <input type="number" id="precio" placeholder="Ej: 4500" required>
+                </div>
+                
+                <div class="campo">
+                    <label>Categoría</label>
+                    <select id="categoria">
+                        <option value="Ropa">Ropa</option>
+                        <option value="Bazar">Bazar</option>
+                        <option value="Accesorios">Accesorios</option>
+                        <option value="Figuras">Figuras</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label>Franquicia</label>
+                <input type="text" id="franquicia" placeholder="Ej: Marvel" required>
+            </div>
+
+            <div class="campo">
+                <label>Imagen del Producto</label>
+                <input type="file" id="archivo-imagen" accept="image/*" required>
+                            
+                <p id="mensaje-carga" style="display: none; color: #00ffcc; font-size: 0.9rem;">
+                    ⏳ Subiendo foto a la nube... esperá un toque.
+                </p>
+            </div>
+
+            <div class="campo-checkbox">
+                <input type="checkbox" id="destacado">
+                <label for="destacado">¿Mostrar en Destacados?</label>
+            </div>
+
+            <button type="submit" class="btn-admin">💾 Guardar Producto</button>
+        </form>
+
+        <hr style="margin: 40px 0; border-color: #333;">
+        
+        <h2>📦 Lista de Productos Actuales</h2>
+        
+        <div id="lista-productos-admin" class="lista-admin">
+            </div>
+        </main>
+
+    <script type="module" src="../js/admin.js"></script>
+</body>
+</html>

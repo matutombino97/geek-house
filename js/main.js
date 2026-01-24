@@ -3,11 +3,25 @@
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
 
-// Hacer funcion para reutilizar el formatear precio con new.
+import { db } from './firebase-config.js';
+import { collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 1. Variable global del formateador
+const formateadorARS = new Intl.NumberFormat('es-AR', {
+  style: 'currency',
+  currency: 'ARS'
+});
+
+// 2. Función auxiliar para usar en todos lados
+function formatearPrecio(precio) {
+  return formateadorARS.format(precio);
+}
 
 /* =================================
    2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
    ================================= */
+
+   
 // Acepta la lista que recibo como parametro. Si hay, usamos 'productos'
 function cargarProductos(listaProductos = productos) {
     const contenedor = document.querySelector(".productos");
@@ -15,87 +29,72 @@ function cargarProductos(listaProductos = productos) {
     
     contenedor.innerHTML = ""; 
 
-    let lista = "";
-
     if(listaProductos.length === 0){
         contenedor.innerHTML = `
-            <section class = 'error-busqueda'> <h2> No hay productos encontrados con ese nombre o categoria D: </h2> 
-            <h3> Intenta con otro nombre o categoria </h3>
+            <section class='error-busqueda'> 
+                <h2>No hay productos encontrados con ese nombre o categoria.</h2> 
+                <h3>Intenta con otro nombre o categoria</h3>
             </section>
-        `
-        return 
+        `;
+        return; 
     }
-    // DETECTAMOS DÓNDE ESTAMOS
+
     const esSubcarpeta = window.location.pathname.includes("pages");
-    // 1. Ajuste para IMÁGENES
     const prefijoImagen = esSubcarpeta ? "../" : "";
-    // 2. Ajuste para ENLACES 
-    // Si ya estamos en 'pages', el link es directo. Si no, agregamos 'pages/'
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
-    listaProductos.forEach(producto => {
+    let lista = "";
+
+    // AQUI EL CAMBIO: Destructuring { id, nombre, precio, imagen }
+    listaProductos.forEach(({ id, nombre, precio, imagen }) => {
         lista += `
         <article class="producto animacion-entrada"> 
-            <a href="${rutaProducto}?prod=${producto.id}">
-                <img src="${prefijoImagen + producto.imagen}" alt="${producto.nombre}">
+            <a href="${rutaProducto}?prod=${id}">
+                <img src="${prefijoImagen + imagen}" alt="${nombre}">
             </a>
             <div class ="info-producto">
-                <h3>${producto.nombre}</h3>
-                <p class="precio">${new Intl.NumberFormat('es-AR',{
-                    style: 'currency', currency: 'ARS'}).format(producto.precio)}</p>
+                <h3>${nombre}</h3>
+                <p class="precio">${formatearPrecio(precio)}</p>
                 <p class="envio-info"> Envio a coordinar </p>
-                <button class="btn-comprar" onclick="agregarAlCarrito('${producto.id}')">Comprar</button>
+                <button class="btn-comprar" onclick="agregarAlCarrito('${id}')">Comprar</button>
             </div>
         </article>`;
     });
 
-
     contenedor.innerHTML = lista;
 }
-
 function actualizarCarritoVisual(){
-
-    //1. Aca creamos una variable listaHTML y le asignamos y le pedimos al js que interactue en el elemento lista-carrito que en este caso es una ul
     const listaHTML = document.getElementById("lista-carrito");
-    // 2. Aca tmb creamos una variable y  le pedimos que interactue sobre el elemento total-carrito que es un span donde esta el precio
     const totalHTML = document.getElementById("total-carrito");
-
     const contadorBurbuja = document.getElementById("contador-burbuja");
-      //  EL FRENO DE SEGURIDAD 
-    // Si no existe el elemento en esta página, cortamos la función acá.
+
     if (!totalHTML) return; 
    
-    //3. Creamos una variable let que es flexible y puede cambiar en diferencia de const
-    let total = 0
-    
-    // 4. Limpiamos lo que hay dentro de de lista-carrito con el elemento vacio "" y el inner
-    listaHTML.innerHTML="";
+    let total = 0;
+    listaHTML.innerHTML = "";
+    let lista = "";
 
-    let lista = ""
-    //5. Recorremos el carrito y creamos los <li>
-
-    carrito.forEach(producto =>{
-        //6. En este bucle vamos añadiendo los elementos que creamos en el array de arriba, para agregarlos a la variable listaHTML
-        lista+= `
+    carrito.forEach(({id, nombre, precio, cantidad}) => {
+        lista += `
             <li>
                 <div class='informacion-carrito'>
-                ${producto.nombre} - ${new Intl.NumberFormat('es-AR', {style: 'currency', currency: 'ARS'}).format(producto.precio)}
+                   Cantidad: ${cantidad} | ${nombre} - ${formatearPrecio(precio)}
                 </div>
-                <button class='btn-eliminar' onclick="eliminarDelCarrito('${producto.id}')">X</button>
+                <button class='btn-eliminar' onclick="eliminarDelCarrito('${id}')">X</button>
             </li>
         `;
-        //7. La variable total va aumentando su precio a medida que una iteracion termine
-        total += producto.precio;
+        total += precio * cantidad;
     });
-    // 8. Actualizamos la variable totalHTML dandole el valor de la variable total
-    totalHTML.innerText = new Intl.NumberFormat('es-AR', {style: 'currency', currency: 'ARS'}).format(total);
-    listaHTML.innerHTML=lista;
+
+    totalHTML.innerText = formatearPrecio(total);
+    listaHTML.innerHTML = lista;
+
     if (contadorBurbuja) {
-        // Cuenta cuántos productos tenés en total (sumando cantidades)
+        // Volví a poner el reduce porque ahora que agrupo los items, 
+        // .length dice cuantas FILAS hay, pero reduce dice cuantos PRODUCTOS TOTALES.
         const totalProductos = carrito.reduce((acc, prod) => acc + prod.cantidad, 0);
         contadorBurbuja.innerText = totalProductos;
         
-        // Opcional: Si es 0, ocultamos la burbuja roja
         if(totalProductos > 0){
              contadorBurbuja.style.display = "flex";
         } else {
@@ -118,17 +117,27 @@ function mostrarNotificacion(){
    ================================= */
 
 function agregarAlCarrito(id) {
-    // 1. Buscamos el producto
+    // 1. Buscamos el producto en el CATÁLOGO (Base de datos)
     const productoAgregado = productos.find(producto => producto.id === id);
     
-    // 2. Metemos el producto ADENTRO del carrito
-    carrito.push(productoAgregado);
+    // 2. Buscamos si ya vive en el CARRITO
+    const existeEnCarrito = carrito.find(producto => producto.id === id);
     
-    // 3. Mostramos feedback y guardamos
+    // 3. DECISIÓN
+    if (existeEnCarrito) {
+        // A. Si ya estaba, solo le sumamos uno al contador
+        existeEnCarrito.cantidad++;
+    } else {
+        // B. Si es nuevo, lo creamos con el sello de "cantidad: 1"
+        const nuevo = { ...productoAgregado, cantidad: 1 };
+        carrito.push(nuevo);
+    }
+    
+    // 4. Actualizamos todo
     actualizarCarritoVisual();    
     mostrarNotificacion();
     guardarCarritoEnStorage();
-} // 
+}
 
 function eliminarDelCarrito(id){
     //1. Buscamos en que posicion se encuentra el producto con el id recibido
@@ -217,47 +226,31 @@ function manejarFormulario(){
 }
 
 function finalizarCompra(){
-    //1. Nos fijamos si en el carrito hay elementos
-    if(carrito.length ===0){
-        alert(`Ên tu carrito no hay nada`);
+    if(carrito.length === 0){
+        alert(`En tu carrito no hay nada`);
         return;
     }
 
-    //2 Defino mi numero de telefono
     const telefono = "5492612451593";
-
-    //3. Empiezo a armar el mensaje
     let mensaje = "Hola GeekHouse! Quiero comprar lo siguiente: \n\n";
     let total = 0;
 
-    //4. Recorremos el carrito para agregar producto por producto al texto
-    carrito.forEach(producto =>{
-        mensaje += `1x ${producto.nombre} - ${new Intl.NumberFormat('es-AR', {
-            style: 'currency', currency: 'ARS'}).format(producto.precio)}\n`;
-        total += parseInt(producto.precio);
-    })
+    // AQUI EL CAMBIO: Iteración limpia con totales reales
+    carrito.forEach(({nombre, precio, cantidad}) => {
+        mensaje += `${cantidad} x ${nombre} - ${formatearPrecio(precio)}\n`;
+        total += precio * cantidad;
+    });
 
-    //5. Agregamos el monto final al mensaje
-    mensaje += `\n Total a pagar: $${total}`;
+    mensaje += `\nTotal a pagar: ${formatearPrecio(total)}`;
     mensaje += `\n\n¿Cómo podemos coordinar el pago y envío?`;
 
-    //6. Convertimos el texto a formato URL
-    // encodeURIComponent cambio los espacios por %20, los enters por %0A, etc.
     const mensajeCodificado = encodeURIComponent(mensaje);
-
-    //7.Creamos el link final de Whatsapp API
     const urlWhatsapp = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
 
-    //8. Abrimos WhattsApp en una pestaña nueva
     window.open(urlWhatsapp, "_blank");
 
-    //9. Vaciamos el carrito
-    carrito = []
-
-    //10.Actualizamos la pantalla
-    actualizarCarritoVisual()
-
-    //11. Actualizamos el storage(Ahora se guarda una lista vacia)
+    carrito = [];
+    actualizarCarritoVisual();
     guardarCarritoEnStorage();
 }
 
@@ -374,55 +367,61 @@ function cargarDetalle(){
    9. CARGA DE DATOS (FETCH)
    ================================= */
 
-async function cargarBaseDeDatos(){
-    try{
-        //1. Defino la ruta(GPS): Donde esta el archivo json?
-        //Si estamos en 'pages' salimos una carpeta. Si no, entramos directo.
-        const esSubcarpeta = window.location.pathname.includes("pages");
-        const ruta = esSubcarpeta ? "../datos/productos.json" : "./datos/productos.json";
+async function cargarBaseDeDatos() {
+    try {
+        console.log("⏳ Cargando productos desde Firebase...");
 
-        //2 FETCH: "Hola servidor (o archivo), traeme los datos"
-        //El 'await' le dice al codigo: "Frena aca hasta que responda el archivo"
-        const respuesta = await fetch(ruta);
+        // 1. Apuntamos a la colección "productos" en tu base de datos
+        const productosRef = collection(db, "productos");
 
-        //3 convertimos la respuesta (texto plano) en JSON (objetos reales)
-        const datos = await respuesta.json();
-        //4. Guardamos los datos que llegaron en nuestra variable global "productos"(la que dejamos vacia en productos.js)
+        // 2. Pedimos los documentos (Petición asíncrona a Google)
+        const querySnapshot = await getDocs(productosRef);
+
+        // 3. "Mapeamos" los datos:
+        // Firebase devuelve documentos "crudos". Los convertimos a objetos limpios.
+        const datos = querySnapshot.docs.map(doc => {
+            return {
+                id: doc.id,       // Usamos el ID del documento como ID del producto
+                ...doc.data()     // "...spread operator": copia nombre, precio, imagen, etc.
+            };
+        });
+
+        console.log("✅ Productos recibidos:", datos);
+
+        // 4. Guardamos en nuestra variable global
         productos = datos;
-        // 1. Averiguamos dónde estamos parado
-        const esHome = window.location.pathname.endsWith("index.html") || window.location.pathname === "/" || window.location.pathname.endsWith("geek-house/"); // Ajuste para GitHub Pages
-        const esPaginaProductos = window.location.pathname.includes("productos.html");
 
-        if (esHome) {
-            // A. ESTOY EN HOME: Solo quiero los VIP
-            // Filtramos solo los que en el JSON dicen "destacado": true
-            const soloDestacados = productos.filter(producto => producto.destacado === true);
-            
-            // Le mandamos al albañil SOLO la lista filtrada
+        // ============================================================
+        // A PARTIR DE ACÁ, LA LÓGICA ES IDÉNTICA A LA QUE YA TENÍAS
+        // ============================================================
+        
+        // 5. Detectamos dónde estamos (Home o Catálogo)
+        const esPaginaProductos = window.location.pathname.includes("pages");
+
+        if (esPaginaProductos) {
+            // Estoy en Productos -> Muestro TODO
+            cargarProductos(productos);
+        } else {
+            // Estoy en Home -> Filtro solo DESTACADOS
+            // (Asegurate de que en Firebase el campo 'destacado' sea un booleano true/false)
+            const soloDestacados = productos.filter(p => p.destacado === true);
             cargarProductos(soloDestacados);
             
-            // Truco: Ocultamos los filtros de categoría en el home porque confunden
+            // Ocultar filtros en home
             const filtros = document.querySelector(".filtros"); 
             if(filtros) filtros.style.display = "none";
-
-        } else {
-            // B. ESTOY EN PRODUCTOS (u otro lado): Quiero TODO
-            cargarProductos(productos);
         }
-        //5 Ahora si, que ya llegaron los datos dibujamos la web
+
+        // 6. Funciones finales
         cargarDetalle();
         renderizarFranquicias();
 
-        // Mas pro ah, si hay algo en el carrito actualizamos nombres/precios por si cambiaron
-        //recuperarCarrito() // Lo vemos mas adelante
-    } catch(error){
-        //Esto se eejcuta si el archivo no existe o hay un error de internet
-        console.error("¡Upsss! Error cargando base de datos:", error);
-
-        //Feedback para el usuario si falla todo
+    } catch (error) {
+        console.error("🔥 Error conectando a Firebase:", error);
+        
         const contenedor = document.querySelector(".productos");
         if(contenedor){
-            contenedor.innerHTML = "<h2> Hubo un error cargando los productos. Intenta mas tarde. </h2>"
+            contenedor.innerHTML = "<h2> Hubo un error cargando los productos desde la nube. </h2>";
         }
     }
 }
@@ -629,3 +628,65 @@ function moverCarrusel(idContenedor, direccion) {
         contenedor.scrollBy({ left: anchoTarjeta, behavior: 'smooth' });
     }
 }
+
+
+/* =========================================
+   EXPOSICIÓN GLOBAL (Para que el HTML las vea)
+   ========================================= */
+// 1. Funciones de Compra y Carrito
+window.agregarAlCarrito = agregarAlCarrito; 
+window.eliminarDelCarrito = eliminarDelCarrito; // <--- Faltaba esta para borrar items!
+window.finalizarCompra = finalizarCompra;       // <--- Ahora sí va a llegar a leerse
+window.toggleCarrito = toggleCarrito;           // <--- Faltaba esta para abrir/cerrar
+
+// 2. Funciones de Renderizado y Navegación
+window.moverCarrusel = moverCarrusel;
+window.cargarProductos = cargarProductos;       // <--- CORREGIDO (Antes decía renderizarProductos)
+window.renderizarFranquicias = renderizarFranquicias;
+
+// Nota: guardarCarritoEnStorage o actualizarCarritoVisual NO hace falta exponerlas
+// porque solo lo uso adentro del JS, no desde el HTML.
+
+
+/* =================================================
+   ❌ FUNCIÓN DESCARTABLE: CARGA MASIVA DE DATOS
+   (Solo usar una vez y después borrar o comentar)
+   ================================================= */
+async function subirDatosAFirebase() {
+    // 1. Pedimos confirmación para no hacer macanas
+    const confirmar = confirm("⚠️ ¿Estás seguro de que querés subir TODOS los productos del JSON a Firebase? Esto va a sobrescribir lo que haya.");
+    if (!confirmar) return;
+
+    console.log("🚀 Iniciando carga masiva...");
+
+    try {
+        // 2. Leemos el archivo local (como hacíamos antes)
+        const respuesta = await fetch('./datos/productos.json');
+        const datosLocales = await respuesta.json();
+
+        // 3. Recorremos uno por uno y lo mandamos a la nube
+        for (const producto of datosLocales) {
+                    
+                    // 👇 PASO MAGICO: Limpiamos el ID por si tiene barras prohibidas "/"
+                    // Esto cambia "medias-3/4" por "medias-3-4"
+                    const idLimpio = producto.id.replace(/\//g, "-");
+
+                    // Usamos el ID limpio para la referencia
+                    const referencia = doc(db, "productos", idLimpio);
+                    
+                    // Subimos la info (y nos aseguramos de guardar el ID limpio adentro también)
+                    await setDoc(referencia, { ...producto, id: idLimpio });
+                    
+                    console.log(`✅ Producto subido: ${producto.nombre}`);
+                }
+
+        console.log("✨ ¡TERMINADO! Todos los productos están en la nube.");
+        alert("Carga completa. Ahora recargá la página.");
+
+    } catch (error) {
+        console.error("Error en la migración:", error);
+    }
+}
+
+// Hacemos la función pública para poder llamarla desde la consola
+window.subirDatosAFirebase = subirDatosAFirebase;
