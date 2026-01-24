@@ -1071,6 +1071,46 @@ footer a {
     background: #fff;
     box-shadow: 0 0 15px #00ffcc;
 }
+
+.login-container{
+    max-width: 400px; 
+    margin: 100px auto; 
+    padding: 20px; 
+    background: #1a1a1a; 
+    border-radius: 10px; 
+    text-align: center;
+}
+
+.login-container h2{
+    color: #00ffcc; 
+    margin-bottom: 20px;
+}
+
+#form-login{
+    display: flex; 
+    flex-direction: column; 
+    gap: 15px;
+}
+#form-login input{
+padding: 10px; 
+border-radius: 5px; 
+border: none;
+}
+
+#mensaje-error{
+    color: red; 
+    display: none;
+}
+
+#form-login button{
+    padding: 10px; 
+    background: #00ffcc; 
+    border: none; 
+    font-weight: bold; 
+    cursor: pointer;
+}
+
+
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
     /* Header y Menú */

@@ -1,8 +1,41 @@
-import { db, storage } from './firebase-config.js'; // <--- Importamos 'storage'
+import { db, storage, auth } from './firebase-config.js'; // <--- Importamos 'storage'
 import { collection, doc, setDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // 👇 Importamos las herramientas para manejar archivos
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+/* ==============================================
+   🛡️ LÓGICA DE SEGURIDAD (EL PATOVICA)
+   ============================================== */
+// Esta función se ejecuta sola apenas carga la página
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // Si 'user' existe, es que está logueado.
+        console.log("✅ Acceso permitido. Usuario:", user.email);
+        // Acá podríamos poner el email en el header si quisiéramos
+    } else {
+        // Si 'user' es null, es que NO está logueado.
+        console.warn("⛔ Acceso denegado. Redirigiendo al login...");
+        window.location.href = "login.html"; // ¡AFUERA!
+    }
+});
 
+/* ==============================================
+   BOTÓN DE CERRAR SESIÓN (Logout)
+   ============================================== */
+// Agregaremos este botón en el HTML en un segundo
+const btnLogout = document.getElementById("btn-logout");
+
+if (btnLogout) {
+    btnLogout.addEventListener("click", async () => {
+        try {
+            await signOut(auth);
+            console.log("Sesión cerrada.");
+            // El onAuthStateChanged de arriba va a detectar que saliste y te va a mandar al login solo.
+        } catch (error) {
+            console.error("Error al salir:", error);
+        }
+    });
+}
 /* ==============================================
    1. LÓGICA DE CARGA DE LISTA (Igual que antes)
    ============================================== */
