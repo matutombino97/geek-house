@@ -1,0 +1,131 @@
+/* ===============================================
+   HEADER.CSS - Navegación Principal
+   ===============================================
+   Todo lo relacionado al header: usuario, menú,
+   botones de login/logout
+   =============================================== */
+
+/* ================= HEADER Y MENÚ ================= 
+   Usamos grid en ves de flex, porque con flex hay un problema si hay 3 elementos y los del borde alguno
+   mide diferente, el del centro se va a desalinear. Con Grid no, grid dice que los elementos del borde
+   tienen que medir lo mismo y el del medio se centra solo */
+header {
+    background: var(--color-header);
+    padding: 0.5rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; 
+    align-items: center;
+    top: 0;
+    z-index: 1000;
+}
+
+/* --- ZONA IZQUIERDA (Usuario) --- */
+.zona-usuario {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+#nombre-usuario {
+    color: var(--color-texto);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#btn-logout {
+    background: var(--color-rojo);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: var(--transition-normal);
+}
+
+#btn-logout:hover {
+    border-radius: 5px;
+    border: 2px solid red;
+}
+
+/* --- ZONA CENTRAL (Menú) --- */
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* Links del menú con efecto de subrayado animado */
+.menu a {
+    text-decoration: none;
+    color: var(--color-texto);
+    padding: 10px 15px;
+    font-weight: bold;
+    position: relative;
+    font-family: inherit;
+}
+
+/* Este es un pseudelemento que creamos directamente aca en css
+    con absolute le decimos que es independiente del padre, y puede posicionares
+    donde le indiquemos, le podemos dar el color o estilo que queramos para nuestro diseño*/
+
+.menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: 5px;
+    left: 50%;
+    background-color: var(--color-neon);
+    transition: all var(--transition-normal) ease-in-out;
+    transform: translateX(-50%);
+}
+
+.menu a:hover {
+    color: #fff;
+}
+
+.menu a:hover::after {
+    width: 80%;
+}
+
+/* Botón especial de "Ingresar" */
+.boton-ingresar {
+    text-decoration: none;
+    color: var(--color-neon);
+    font-weight: bold;
+    border: 1px solid var(--color-neon);
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: var(--transition-normal);
+}
+
+.boton-ingresar:hover {
+    background: var(--color-neon);
+    color: #000;
+}
+
+/* ================= ESTADOS DE SESIÓN ================= 
+   Control visual de login/logout según el estado */
+
+/* Estado por defecto: invitado (sin login) */
+#info-usuario {
+    display: none !important;
+}
+
+#btn-login {
+    display: flex !important;
+}
+
+/* Estado logueado (cuando JS agrega la clase al body) 
+    Importan no se suele usar, pero en este caso si ya que es una secuencia logica
+    hecha en js*/
+body.sesion-iniciada #info-usuario {
+    display: flex !important;
+}
+
+body.sesion-iniciada #btn-login {
+    display: none !important;
+}

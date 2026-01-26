@@ -1,0 +1,209 @@
+/* ===============================================
+   PRODUCTS.CSS - Tarjetas de Productos
+   ===============================================
+   Todo lo relacionado a la visualización de
+   productos: grid, tarjetas, imágenes, precios
+   =============================================== */
+
+/* ================= SECCIÓN DESTACADOS ================= */
+.destacados h2 {
+    text-align: center;
+    color: rosybrown;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+    margin: 20px 0;
+}
+
+/* ================= GRID DE PRODUCTOS ================= 
+   Grid responsivo que se adapta automáticamente 
+   en grid template usamos autofill minmax 1fr para decirles
+   que rellenen el contenedor la maximo posible y que el minimo de tamaño sea de 240px, si sobra espacio se comparte 1fr
+   */
+.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    gap: 30px;
+    padding: 20px;
+    max-width: var(--max-width-container); 
+    margin: 0 auto;
+}
+
+/* ================= TARJETA DE PRODUCTO ================= 
+   Uso flexbox para que el botón quede siempre abajo 
+   usamos flex y space betwen para repartir equitativamente las propiedades del html
+   Ya que si tuvieramos un titulo demasiado grande */
+
+.productos article {
+    background-color: var(--color-oscuro);
+    border: 1px solid var(--color-borde); 
+    border-radius: var(--border-radius-card); 
+    padding: 15px;
+    text-align: center;
+    position: relative; 
+    overflow: hidden;
+    transition: all var(--transition-normal) ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Efecto hover: se levanta y brilla */
+.productos article:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-neon);
+    box-shadow: 0 10px 20px rgba(0, 255, 204, 0.1);
+}
+
+/* ================= IMAGEN DEL PRODUCTO ================= 
+   Contenedor con overflow para controlar el zoom */
+.productos article a {
+    display: block;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* Lo que hace contain es decirle al objeto que no se salga del contenedor*/
+.productos img {
+    width: 100%;
+    height: 250px;
+    object-fit: contain;
+    transition: transform var(--transition-lenta) ease;
+    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+}
+
+/* Zoom al pasar el mouse */
+.productos article:hover img {
+    transform: scale(1.1);
+}
+
+/* ================= INFO DEL PRODUCTO ================= */
+.info-producto {
+    text-align: left;
+}
+
+.info-producto h3,
+.productos h3 {
+    font-size: 1.1rem;
+    color: #eee;
+    margin-bottom: 5px;
+    font-weight: 600;
+    width: 100%;
+    margin: 0 auto 5px auto;
+}
+
+.precio {
+    color: var(--color-neon); 
+    font-size: 1.4rem; 
+    font-weight: bold;
+    margin: 10px 0;
+    text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+}
+
+.envio-info {
+    font-size: 0.9rem;
+    color: rgb(223, 215, 215);
+    padding-bottom: 5px;
+}
+
+/* ================= PÁGINA DETALLE DE PRODUCTO ================= */
+.detalle-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--color-oscuro);
+    border: 1px solid var(--color-borde);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    color: #eee;
+}
+
+.detalle-info h2 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #c0adad;
+    font-family: var(--fuente-harry);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Botón grande de comprar en la página de detalle */
+.detalle-info button {
+    background: linear-gradient(90deg, #910d08 0%, var(--color-violeta) 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    width: 100%;
+    border-radius: var(--border-radius-btn);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: transform var(--transition-rapida), box-shadow var(--transition-rapida);
+    margin-top: 20px;
+}
+
+.detalle-info button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(116, 27, 124, 0.6);
+}
+
+.categoria {
+    color: var(--color-neon);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.detalle-flex {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.detalle-flex img {
+    width: 50%;
+    max-width: 400px;
+    border-radius: 10px;
+    object-fit: contain;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.precio-grande {
+    font-size: 3rem;
+    color: var(--color-neon);
+    font-weight: 800;
+    margin: 20px 0;
+    text-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+}
+
+.descripcion-container {
+    margin: 20px 0;
+}
+
+.descripcion-producto {
+    list-style: none;
+    padding: 0;
+}
+
+.descripcion-producto li {
+    color: #ccc;
+    margin: 10px 0;
+    text-align: left;
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* bfeore es un pseudoelemento, en este caso agregamos un
+Ícono de rayo antes de cada característica */
+.descripcion-producto li::before {
+    content: "⚡ ";
+    color: var(--color-neon);
+    font-weight: bold;
+}

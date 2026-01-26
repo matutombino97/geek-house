@@ -1,0 +1,58 @@
+/* ===============================================
+   FILTERS.CSS - Filtros y Búsqueda
+   ===============================================
+   Barra de búsqueda, filtros de categoría,
+   botones de franquicias
+   =============================================== */
+
+/* ================= BARRA DE BÚSQUEDA ================= */
+.filtros {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#input-busqueda {
+    margin: 5px;
+    padding: 12px;
+    border-radius: 10px;
+    color: rgb(17, 12, 12);
+    background-color: #ddd8d8;
+    border: 2px solid black;
+    width: 90%;
+    max-width: 400px;
+    transition: var(--transition-normal);
+}
+
+#input-busqueda:hover,
+#input-busqueda:focus {
+    transform: scale(1.03);
+    outline: none;
+}
+
+/* ================= MENSAJES DE ERROR ================= */
+.error-busqueda {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.error-busqueda h2,
+.error-busqueda h3 {
+    margin: 10px 0;
+}
+
+/* ================= FILTROS DE CATEGORÍA ================= */
+.categorias-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    margin: 10px;
+    justify-content: center;
+}
+
+.categorias-nav h3 {
+    width: 100%;
+    text-align: center;
+    color: white;
+    margin-bottom: 10px;
+}

@@ -1,0 +1,41 @@
+/* ===============================================
+   NOTIFICATIONS.CSS - Notificaciones Toast
+   ===============================================
+   Notificaciones flotantes que aparecen en la
+   esquina superior derecha con animación
+   =============================================== */
+
+/* ================= TOAST NOTIFICACIÓN ================= 
+   Aparece desde la derecha con efecto de slide */
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: var(--color-verde-oscuro); 
+    color: aliceblue;
+    border: none;
+    border-radius: 15px;
+    padding: 15px 25px;
+    font-weight: bold;
+    font-family: var(--fuente-harry); 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    transition: all var(--transition-lenta) ease;
+    
+    /* Estado inicial: invisible y fuera de pantalla */
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+}
+
+/* Estado activo: visible y en posición */
+.toast.activo {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* Modo error: cambia a rojo */
+.toast.error {
+    background-color: var(--color-rojo);
+}

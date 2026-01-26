@@ -1,0 +1,76 @@
+/* ===============================================
+   BASE.CSS - Variables y Reset Global
+   ===============================================
+   Acá defino todas las variables globales y 
+   reseteo los estilos por defecto del navegador
+   =============================================== */
+
+/* ================= FUENTE PERSONALIZADA ================= */
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+
+/* ================= RESET GLOBAL ================= 
+    Elimino margenes y espaciado interno por defecto, igualmente con border-box, con esto
+    hacemos que la caja siempre mida lo que le digamos y no se deforma si le metemos margenes o espaciado a los hijos*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ================= VARIABLES CSS ================= 
+    Aca defino la mayoria de las variables globales que vamos a usar, como los colores gnerales o la tipografia, tambien los tamaños y transisiones.
+    Para usarlos solo llamamos a la propiedad  */
+:root {
+    /* Colores */
+    --color-principal: linear-gradient(90deg, #3c790bce, #184b7a);
+    --color-header: hsla(276, 90%, 30%, 0.384);
+    --color-texto: rgb(219, 211, 211);
+    --color-fondo: #333;
+    --color-neon: #00ffcc;
+    --color-oscuro: #1a1a1a;
+    --color-borde: #333;
+    --color-rojo: #ff4757;
+    --color-violeta: #741b7c;
+    --color-verde-oscuro: #076956;
+    
+    /* Fuentes */
+    --fuente-harry: 'Henny Penny', serif;
+    --fuente-principal: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    
+    /* Tamaños */
+    --max-width-container: 1200px;
+    --border-radius-card: 15px;
+    --border-radius-btn: 50px;
+    
+    /* Transiciones */
+    --transition-rapida: 0.2s;
+    --transition-normal: 0.3s;
+    --transition-lenta: 0.5s;
+}
+
+/* ================= ESTILOS BASE ================= 
+   definimos que el body sea lo maximo de su tamaño posible*/
+html, body {
+    height: 100%;
+}
+
+/*   Aca en el body le damos display flex para que el contenido se pueda dividir. Mas que nada para que el footer quede pegado abajo
+Usamos colum como direccion del flex, con un minimo de contenido de 100vh   */
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--fuente-principal);
+    font-weight: 100;
+    background: var(--color-principal);
+    min-height: 100vh;
+    
+}
+/*  Aca al main con flex:1 Le dice a los demas que va a usar todo el contenido que le queda a disposicion  */ 
+main {
+    flex: 1;
+    background-color: var(--color-principal);
+}
+
+h1 {
+    text-align: center;
+}

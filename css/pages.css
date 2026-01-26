@@ -1,0 +1,156 @@
+/* ===============================================
+   PAGES.CSS - Páginas Especiales
+   ===============================================
+   Estilos para páginas específicas: sobre nosotros,
+   perfil de usuario, historial de pedidos
+   =============================================== */
+
+/* ================= SOBRE NOSOTROS ================= */
+.about-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 40px;
+    background-color: var(--color-oscuro);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    color: #eee;
+}
+
+.about-container h1 {
+    text-align: center;
+    font-size: 3rem;
+    color: var(--color-neon);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+/* Bloque de historia con imagen y texto lado a lado */
+.bloque-historia {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+/* ================= IMÁGENES ESTILO POLAROID ================= */
+.imagen-marco {
+    flex: 1;
+}
+
+.imagen-marco img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 20px;
+    border: 3px solid var(--color-violeta);
+    box-shadow: 10px 10px 0px var(--color-neon);
+    transition: transform var(--transition-normal) ease;
+}
+
+.imagen-marco img:hover {
+    transform: rotate(-2deg) scale(1.02);
+}
+
+/* ================= TEXTO DE HISTORIA ================= */
+.texto-historia {
+    flex: 1;
+}
+
+.texto-historia h2 {
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 15px;
+    border-bottom: 2px solid var(--color-violeta);
+    display: inline-block;
+}
+
+.texto-historia p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #ccc;
+}
+
+/* ================= PERFIL DE USUARIO ================= */
+.contenedor-perfil {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 2rem;
+    min-height: 60vh;
+}
+
+.cabecera-perfil {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cabecera-perfil h1 {
+    font-size: 2.5rem;
+    color: var(--color-principal);
+}
+
+/* ================= HISTORIAL DE PEDIDOS ================= */
+.pedido-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: var(--color-borde);
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.fecha-pedido {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.items-pedido ul {
+    list-style: none;
+    padding: 0;
+}
+
+.items-pedido li {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 0.5rem;
+}
+
+.total-pedido {
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60;
+    margin-top: 1rem;
+}
+
+.estado-pendiente {
+    background: #f1c40f;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+/* ================= FOOTER ESPECIAL PARA CONTACTO ================= */
+.body-contacto footer {
+    background-color: var(--color-header);
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    color: var(--color-texto);
+    border-top: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.body-contacto footer p,
+.body-contacto footer a {
+    color: rgb(214, 207, 207);
+}

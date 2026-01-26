@@ -1,0 +1,116 @@
+/* ===============================================
+   HERO.CSS - Banner Principal
+   ===============================================
+   El slider hero con el logo animado y el
+   degradado en la parte inferior
+   =============================================== */
+
+/* ================= HERO SLIDER ================= 
+   Contenedor del slider con overflow hidden para
+   que las imágenes no se salgan */
+.hero-slider {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.hero-slider img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    transition: opacity var(--transition-lenta) ease;
+}
+
+/* Overlay oscuro sobre la imagen para que el texto se vea mejor */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+/* Degradado en la parte inferior para transición suave */
+.hero-slider::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(to top, var(--color-principal), transparent);
+    z-index: 3;
+}
+
+/* ================= HERO CONTENT ================= 
+   El contenido centrado sobre la imagen */
+.hero-content {
+    text-align: center;
+    color: white;
+    animation: subirYaparecer 1s ease-out;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero-content h1 {
+    margin: 0;
+    padding: 0;
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    font-family: var(--fuente-harry);
+    letter-spacing: 2px;
+    color: rgb(4, 7, 7);
+}
+
+#texto-banner {
+    color: rgb(214, 207, 207);
+    padding: 5px;
+    margin: 5px;
+    border: 1px solid navajowhite;
+    background-color: var(--color-header);
+}
+
+/* Animación de entrada suave desde abajo */
+@keyframes subirYaparecer {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ================= LOGO HERO ================= 
+   Logo principal con efecto de resplandor */
+.logo-hero {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
+            drop-shadow(0 0 20px rgba(145, 13, 8, 0.8));
+    animation: subirYaparecer 1s ease-out;
+    transition: transform var(--transition-normal) ease;
+}
+
+.logo-hero:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1))
+            drop-shadow(0 0 30px var(--color-neon));
+}

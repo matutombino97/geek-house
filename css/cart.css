@@ -1,0 +1,128 @@
+/* ===============================================
+   CART.CSS - Carrito de Compras
+   ===============================================
+   El ícono flotante del carrito y el panel
+   desplegable con los productos agregados
+   =============================================== */
+
+/* ================= ÍCONO FLOTANTE DEL CARRITO ================= 
+   Botón circular fijo en la esquina superior derecha */
+.carrito-icono {
+    position: fixed;
+    top: 50px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 2000;
+    border: 2px solid #2c2235;
+    transition: transform var(--transition-normal) ease;
+}
+
+.carrito-icono:hover {
+    transform: scale(1.1);
+}
+
+/* ================= CONTADOR DE PRODUCTOS ================= 
+   Burbuja roja con el número de items */
+#contador-burbuja {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+}
+
+/* ================= PANEL FLOTANTE DEL CARRITO ================= 
+   Panel que se despliega al hacer click en el ícono */
+.carrito-flotante {
+    position: fixed;
+    top: 90px;
+    right: 20px;
+    width: 250px;
+    background-color: rgb(161, 103, 103);
+    color: rgb(20, 20, 1);
+    border: 3px solid #080202;
+    padding: 25px;
+    z-index: 1999;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: transform var(--transition-normal) ease, opacity var(--transition-normal) ease;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+/* Scrollbar personalizado del carrito */
+#carrito-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+#carrito-container::-webkit-scrollbar-track {
+    background: var(--color-oscuro);
+}
+
+#carrito-container::-webkit-scrollbar-thumb {
+    background-color: var(--color-neon); 
+    border-radius: 20px;
+}
+
+.carrito-flotante h2 {
+    text-align: center;
+    color: rgb(20, 11, 11);
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.carrito-flotante p {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.carrito-flotante ul {
+    padding-left: 10px;
+    list-style: none;
+}
+
+#lista-carrito li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 5px 0;
+    margin-bottom: 5px;
+}
+
+/* ================= BOTÓN CERRAR CARRITO ================= */
+.btn-cerrar-carrito {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+/* ================= ESTADO OCULTO DEL CARRITO ================= 
+   El carrito se desliza hacia la derecha cuando se cierra */
+.carrito-flotante.oculto {
+    transform: translateX(120%);
+    opacity: 0;
+    pointer-events: none;
+}

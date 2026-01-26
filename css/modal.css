@@ -1,0 +1,156 @@
+/* ===============================================
+   MODAL.CSS - Ventanas Modales
+   ===============================================
+   Modal de login/registro con overlay y efectos
+   =============================================== */
+
+/* ================= OVERLAY OSCURO ================= 
+   Fondo semitransparente que cubre toda la pantalla */
+/* ================= MODAL ================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.activo {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+    position: relative;
+    color: #fff;
+    text-align: center;
+}
+
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    color: var(--color-neon);
+    font-size: 1.8rem;
+}
+
+#form-login-cliente, #form-register-cliente {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.modal-content input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #2c2c2c;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.modal-content input:focus {
+    border-color: var(--color-neon);
+    background-color: #333;
+}
+
+.btn-login-submit, #btn-registro {
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-neon);
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-login-submit:hover, #btn-registro:hover {
+    background-color: #00cca3;
+    transform: translateY(-2px);
+}
+
+.btn-cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-cerrar-modal:hover {
+    color: #ff4757;
+    transform: rotate(90deg);
+}
+
+/* ================= INPUTS DEL MODAL ================= */
+.modal-content input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #2c2c2c;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: var(--transition-normal);
+}
+
+.modal-content input:focus {
+    border-color: var(--color-neon);
+    background-color: var(--color-borde);
+}
+
+/* ================= LINKS DEL MODAL ================= */
+.modal-content a {
+    color: var(--color-neon);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
+
+/* ================= BOTÓN CERRAR (X) ================= */
+.btn-cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: var(--transition-normal);
+}
+
+.btn-cerrar-modal:hover {
+    color: var(--color-rojo);
+    transform: rotate(90deg);
+}

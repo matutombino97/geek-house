@@ -1,0 +1,200 @@
+/* ===============================================
+   BUTTONS.CSS - Todos los Botones
+   ===============================================
+   Centralizo todos los estilos de botones acá
+   para reutilizarlos fácilmente
+   =============================================== */
+
+/* ================= BOTÓN HERO CON EFECTO GLOW ================= 
+   Botón principal con borde neón y efecto de resplandor 
+   Aplico un box shadow color neon, con este color en vez de un efecto de sombra
+   damos una ilusion optica de iluminacion
+   */
+
+.btn-hero-glow {
+    display: inline-block;
+    padding: 15px 40px;
+    background: transparent;
+    border: 2px solid var(--color-neon);
+    color: var(--color-neon);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+}
+
+/*  Aca usamos el transform scale para que el boton se agrande un poco y mas arriba 
+pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
+
+.btn-hero-glow:hover {
+    background: var(--color-neon);
+    color: #000;
+    box-shadow: 0 0 20px var(--color-neon), 0 0 40px var(--color-neon);
+    transform: scale(1.05);
+}
+
+/* ================= BOTÓN HERO GRADIENTE ================= 
+   Botón con degradado que invierte dirección al hover */
+.btn-hero {
+    text-decoration: none;
+    background: linear-gradient(to left, #2c2235, var(--color-verde-oscuro));
+    border: none;
+    display: block;
+    margin: auto;
+    padding: 10px;
+    border-radius: var(--border-radius-btn);
+    font-weight: bold;
+    font-style: italic;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-lenta) ease;
+}
+
+.btn-hero:hover {
+    background: linear-gradient(to right, var(--color-verde-oscuro), #2c2235);
+    transform: scale(1.05);
+    box-shadow: 0 0 10px var(--color-verde-oscuro);
+}
+
+/* ================= BOTÓN DE CATEGORÍAS ================= */
+.btn-cat {
+    border-radius: var(--border-radius-btn);
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    background-color: #8a3333;
+}
+
+.btn-cat:hover {
+    background: linear-gradient(to right, rgba(150, 50, 100, 0.5), rgba(100, 50, 150, 0.5));
+    font-weight: bold;
+    transform: scale(1.05);
+    color: white;
+}
+
+/* ================= BOTÓN DE FRANQUICIA ================= */
+.btn-franquicia {
+    background-color: transparent;
+    border: 2px solid #0d0c1a;
+    color: white; 
+    padding: 8px 20px;
+    border-radius: var(--border-radius-btn);
+    cursor: pointer;
+    font-weight: bold;
+    transition: all var(--transition-normal) ease; 
+    text-transform: capitalize; 
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.btn-franquicia:hover {
+    background-color: var(--color-neon);
+    color: #0d0c1a;
+    border-color: var(--color-neon);
+    transform: translateY(-2px);
+}
+
+/* ================= BOTÓN COMPRAR EN TARJETA ================= */
+
+/* A este boton le doy un ancho del 100% del contenedor pq es el boton mas importante de la tarjeta*/
+.btn-comprar {
+    background-color: transparent;
+    color: white;
+    border: 1px solid rgb(70, 11, 146);
+    padding: 12px;
+    width: 100%;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-comprar:hover {
+    background: linear-gradient(90deg, #ca2626 0%, #ff5252 100%);
+    box-shadow: 0 0 15px rgba(202, 38, 38, 0.5);
+    transform: scale(1.02);
+}
+
+/* ================= BOTÓN ELIMINAR ================= */
+.btn-eliminar {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 1.2rem;
+    margin-left: 10px;
+    transition: transform var(--transition-rapida);
+    color: #ff0000;
+}
+
+.btn-eliminar:hover {
+    transform: scale(1.2);
+}
+
+/* ================= BOTÓN FORMULARIO ================= */
+.btn-form {
+    background: linear-gradient(to right, #910d08, var(--color-violeta));
+    color: white;
+    border: none;
+    display: block;
+    margin: 20px auto;
+    padding: 12px 30px;
+    border-radius: var(--border-radius-btn);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-normal) ease;
+}
+
+.btn-form:hover {
+    background: linear-gradient(to right, var(--color-violeta), #910d08);
+    transform: scale(1.05);
+    box-shadow: 0 0 12px var(--color-neon);
+}
+
+/* ================= BOTÓN ADMIN ================= */
+.btn-admin {
+    width: 100%;
+    padding: 15px;
+    background: var(--color-neon);
+    color: var(--color-oscuro);
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.btn-admin:hover {
+    background: #fff;
+    box-shadow: 0 0 15px var(--color-neon);
+}
+
+/* ================= BOTONES DE LOGIN/REGISTRO ================= */
+.btn-login-submit, 
+#btn-registro {
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-neon);
+    color: #000;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition-normal);
+}
+
+.btn-login-submit:hover, 
+#btn-registro:hover {
+    background-color: #00cca3;
+    transform: translateY(-2px);
+}
