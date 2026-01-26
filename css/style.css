@@ -942,10 +942,10 @@ header {
     box-shadow: 0 0 50px rgba(0,0,0,0.5); /* Sombra potente para que "flote" */
     color: #eee; /* Texto claro por defecto */
 }
-.detalle-info h1 {
-    font-size: 2.5rem;
+.detalle-info h2{
+    font-size: 2cqw;
     margin-bottom: 10px;
-    color: #fff; /* Blanco puro */
+    color: #c0adad; /* Blanco puro */
     font-family: var(--fuente-harry); /* O tu fuente principal */
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -1404,25 +1404,7 @@ body.sesion-iniciada #btn-login {
     display: none !important; /* Desaparece el botón de ingresar */
 }
 
-/* --- ESTILOS DE PERFIL (Mensaje Visitante) --- */
-.mensaje-error-perfil {
-    text-align: center;
-    margin-top: 50px;
-    padding: 2rem;
-    background-color: rgba(255, 255, 255, 0.05); /* Un fondo sutil */
-    border-radius: 10px;
-}
 
-.mensaje-error-perfil h3 {
-    color: #ff4757; /* Rojo alerta */
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
-
-.mensaje-error-perfil p {
-    color: #ccc;
-    margin-bottom: 1.5rem;
-}
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
@@ -1503,31 +1485,6 @@ body.sesion-iniciada #btn-login {
         font-size: 0.9rem;
     }
 
-    /* Detalle de Producto */
-    .detalle-flex {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .detalle-flex img {
-        width: 100%;
-        max-width: 350px;
-    }
-
-    .detalle-info {
-        width: 100%;
-        text-align: center;
-    }
-
-    .detalle-info h1 {
-        text-align: center;
-        font-size: 2rem;
-    }
-
-    .btn-comprar {
-        padding: 15px;
-        font-size: 1.2rem;
-    }
 
     /* Formulario Contacto */
     .contacto {

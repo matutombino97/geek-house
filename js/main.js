@@ -6,7 +6,7 @@ let usuarioLogueado = null; //
 
 // ----------------------imports--------------------------------
 import { db, auth } from './firebase-config.js'; 
-import { collection, getDocs, doc, setDoc, addDoc, serverTimestamp, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, getDocs, getDoc, doc, setDoc, addDoc, serverTimestamp, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 // Agregamos las funciones de autenticación de Firebase
 import { onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
@@ -392,39 +392,65 @@ botonesCategorias.forEach(boton =>{
    8. LÓGICA DE PÁGINA DE DETALLE
    ================================= */
 
-// 1. Preguntamos: ¿Estamos en la página de detalle?
-// Buscamos si existe el div con id "detalle-producto"
-function cargarDetalle(){
+
+/* =================================
+   13. CARGAR DETALLE DE PRODUCTO (FIREBASE)
+   ================================= */
+async function cargarDetalleProducto() {
     const contenedorDetalle = document.getElementById("detalle-producto");
+    if (!contenedorDetalle) return; 
 
-    if (contenedorDetalle) {
-        // 2. Leemos "el papelito" de la URL
-        const params = new URLSearchParams(window.location.search);
-        const idProducto = params.get("prod"); // "prod" es el nombre que pusimos en el enlace
-        // 3. Buscamos el producto en nuestro array (igual que en el carrito)
-        const productoEncontrado = productos.find(p => p.id === idProducto);
+    const params = new URLSearchParams(window.location.search);
+    const idProducto = params.get("prod");
 
-        // 4. Si existe, lo dibujamos en GRANDE
-        if (productoEncontrado) {
+    if (!idProducto) return;
+
+    contenedorDetalle.innerHTML = "<h3 class='cargando-texto'>Buscando en la bóveda... ⏳</h3>";
+
+    try {
+        const docRef = doc(db, "productos", idProducto);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const producto = docSnap.data();
+            
+            // 👇 CORRECCIÓN DE IMAGEN AQUÍ
+            let rutaImagen = producto.imagen;
+            
+            // Si NO es una url de internet (http), le agregamos "../" para salir de la carpeta pages
+            if (!rutaImagen.startsWith("http")) {
+                rutaImagen = "../" + rutaImagen;
+            }
+
+            // 👇 USAMOS ${rutaImagen} EN VEZ DE ${producto.imagen}
             contenedorDetalle.innerHTML = `
-             <h1>${productoEncontrado.nombre}</h1>
                 <div class="detalle-flex">
-                    <img src="../${productoEncontrado.imagen}" alt="${productoEncontrado.nombre}">
+                        <img src="${rutaImagen}" alt="${producto.nombre}">
                     <div class="detalle-info">
-                        <p class="categoria">Categoría: ${productoEncontrado.categoria}</p>
-                        <p class="precio-grande">${new Intl.NumberFormat('es-AR',{style: 'currency', currency: 'ARS'}).format(productoEncontrado.precio)}</p>
-                        <div class="descripcion-container"> 
-                         ${generarDescripcion(productoEncontrado)}
-                        <div>
+                        <h2>${producto.nombre}</h2>
+                        <p class="precio-detalle">$ ${producto.precio}</p>
+                        <p class="descripcion">${producto.descripcion || "Sin descripción disponible."}</p>
+                        <p class="categoria">Categoría: <span>${producto.categoria}</span></p>
+                        
+                        <button class="btn-comprar-detalle" onclick="agregarAlCarrito('${docSnap.id}')">
+                            Agregar al Carrito 🛒
+                        </button>
                     </div>
                 </div>
-                <button class="btn-comprar" onclick="agregarAlCarrito('${productoEncontrado.id}')">Comprar Ahora</button>
             `;
         } else {
-            contenedorDetalle.innerHTML = "<h2>Producto no encontrado 😢</h2>";
+            contenedorDetalle.innerHTML = "<h3>❌ El producto no existe.</h3>";
         }
+
+    } catch (error) {
+        console.error("Error:", error);
+        contenedorDetalle.innerHTML = "<h3>🔥 Error cargando producto.</h3>";
     }
 }
+cargarDetalleProducto();
+
+
+
 function verificarUsuario() {
     const btnLogout = document.getElementById("btn-logout"); 
     const nombreUsuario = document.getElementById("nombre-usuario");
@@ -643,7 +669,7 @@ async function cargarBaseDeDatos() {
         }
 
         // 6. Funciones finales
-        cargarDetalle();
+        cargarDetalleProducto();
         renderizarFranquicias();
 
     } catch (error) {
