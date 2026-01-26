@@ -1,5 +1,6 @@
 import { db, storage, auth } from './firebase-config.js'; // <--- Importamos 'storage'
 import { collection, doc, setDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 // 👇 Importamos las herramientas para manejar archivos
 import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";

@@ -21,11 +21,30 @@
 </head>
 <body>
     <header>
+        <div class="zona-usuario">
+            
+            <a href="#modal-ingreso" id="btn-login" class="boton-ingresar">
+                👤 Ingresar
+            </a>
+
+            <div id="info-usuario">
+                <span id="nombre-usuario">Hola, Cliente</span>
+                <button id="btn-logout">Salir</button>
+            </div>
+
+        </div>
+
         <nav class="menu">
-            <a href="../index.html">Volver al Inicio</a>
-            <a href="../pages/productos.html"> Volver al Catálogo</a>
+            <a href="../index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="sobre-nosotros.html">Sobre nosotros</a>
+            <a href="perfil.html">Historial de compras</a>
         </nav>
-    </header>
+
+        <div class="zona-derecha">
+            </div>
+</header>
     <h1>GEEK HOUSE</h1>
     <main class="detalle-container">
         <div id="detalle-producto"></div>
@@ -50,16 +69,37 @@
             
             <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
         </aside>
-        <div id="mensaje-oculto" class="toast oculto">
-            ¡Producto agregado con exito!
-        </div>
+
     </main>
     
     <footer>
         <p>© 2025 Geek House. Todos los derechos reservados.</p>    
         <p>Pagina diseñada por <a href="https://www.instagram.com/matutombino/?hl=es">Matias Sosa</a> </p>
     </footer>
-     <script src="../js/productos.js"></script>
+        <div id="modal-ingreso" class ="modal-overlay">
+        <div class = "modal-content">
+            <button id = "btn-cerrar" class ="btn-cerrar-modal"> X </button>
+            <form id="form-login-cliente">
+                <h2>Iniciar Sesión</h2>
+                <label for="email">Tu correo</label>
+                <input type="email" name="email" id="email" required>
+                <label for="contraseña">Contraseña</label>
+                <input type="password" name="password" id="password" required>
+                <button type="submit" class="btn-login-submit">Entrar</button>
+                <p>¿No tenés cuenta? <a href="#form-register-cliente" id="link-ir-registro">Registrate</a></p>
+            </form>
+            <form id="form-register-cliente" style="display: none">
+                <h2>Crear Cuenta</h2>
+                <label for="email">Tu correo</label>
+                <input type="email" name="email" id="email-reg" required>
+                <label for="contraseña">Contraseña</label>
+                <input type="password" name="password" id="password-reg" required>
+                <button id="btn-registro">Registrarme</button>
+                <p>Ya tenés cuenta?</p><a href="#btn-volver-login" id="link-volver-login">Iniciar Sesion</a>
+            </form>
+        </div>
+    </div>
+    <script src="../js/productos.js"></script>
     <script type="module" src="../js/main.js"></script>
 </body>
 </html>

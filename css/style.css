@@ -41,20 +41,69 @@ h1 {
 }
 
 /* ================= HEADER Y MENÚ ================= */
+/* HEADER: Usamos Grid para dividir en 3 partes iguales */
 header {
-    padding: 0.5rem;
-    background: var(--color-header);
-    display: flex;
-    justify-content: end;
+    background: var(--color-header); /* Tu color original */
+    padding: 0.5rem 2rem;
+    
+    display: grid;
+    /* Columna 1 (Izq), Columna 2 (Centro autoajustable), Columna 3 (Der) */
+    grid-template-columns: 1fr auto 1fr; 
     align-items: center;
+    
+    top: 0;
+    z-index: 1000;
 }
 
+/* 1. ZONA IZQUIERDA (Usuario) */
+.zona-usuario {
+    display: flex;
+    justify-content: flex-start; /* Alineado a la izquierda */
+    align-items: center;
+    gap: 20px;
+}
+
+/* Estilos para el texto de bienvenida y botón salir */
+#nombre-usuario {
+    color: var(--color-texto);
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+#btn-logout {
+    background: #ff4757;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin-left: 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: 0.3s;
+}
+
+#btn-logout:hover{
+    background-color: darkblue;
+    border-radius: 5px solid red;
+    transform: scale(1.3);
+
+}
+
+/* 2. ZONA CENTRAL (Tu Menú Clásico) */
+.menu {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+/* --- TUS ESTILOS ORIGINALES (Intactos) --- */
 .menu a {
     text-decoration: none;
-    color: var(--color-texto);
+    color: var(--color-texto); /* Asegurate de tener esta variable definida, o usa #fff */
     padding: 10px 15px;
     font-weight: bold;
     position: relative;
+    font-family: inherit; /* Para que herede tu fuente */
 }
 
 .menu a::after {
@@ -64,7 +113,7 @@ header {
     height: 3px;
     bottom: 5px;
     left: 50%;
-    background-color: #00ffcc;
+    background-color: #00ffcc; /* Tu color neón */
     transition: all 0.3s ease-in-out;
     transform: translateX(-50%);
 }
@@ -77,6 +126,21 @@ header {
     width: 80%;
 }
 
+
+.boton-ingresar {
+    text-decoration: none;
+    color: #00ffcc; /* Color distinto para diferenciarlo */
+    font-weight: bold;
+    border: 1px solid #00ffcc;
+    padding: 5px 15px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.boton-ingresar:hover {
+    background: #00ffcc;
+    color: #000;
+}
 /* ================= HERO SLIDER ================= */
 .hero-slider {
     position: relative;
@@ -698,29 +762,40 @@ header {
     transform: scale(1.2);
 }
 
-/* ================= TOAST NOTIFICACIÓN ================= */
+
+/* ================= TOAST NOTIFICACIÓN  ================= */
 .toast {
     position: fixed;
     top: 20px;
     right: 20px;
-    background-color: #076956;
+    background-color: #076956; 
     color: aliceblue;
     border: none;
     border-radius: 15px;
-    padding: 10px 25px;
+    padding: 15px 25px; /* Un poquito más de aire */
     font-weight: bold;
-    font-family: var(--fuente-harry);
+    font-family: var(--fuente-harry); 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.toast.oculto {
+    z-index: 3000; /* Bien arriba de todo */
+    transition: all 0.5s ease;
+    
+    /* Para que empiece invisible */
     opacity: 0;
-    transform: translateX(20px);
+    transform: translateX(100%); /* Se esconde a la derecha */
     pointer-events: none;
 }
 
+/* Cuando le sacamos la clase "oculto", se muestra */
+.toast.activo {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+/* MODO ERROR (Rojo) */
+.toast.error {
+    background-color: #ff4757; /* Un rojo lindo */
+}
 /* ================= FORMULARIO CONTACTO ================= */
 .body-contacto {
     background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
@@ -788,7 +863,6 @@ header {
 }
 
 /* ================= SOBRE NOSOTROS ================= */
-/* ================= SOBRE NOSOTROS (DARK MODE) ================= */
 
 /* 1. La Caja Principal (Igual que en productos) */
 .about-container {
@@ -970,6 +1044,8 @@ header {
     animation: entradaSuave 0.6s ease-out forwards;
 }
 
+
+
 /* ================= FOOTER ================= */
 footer {
     background-color: var(--color-header);
@@ -1109,25 +1185,286 @@ border: none;
     font-weight: bold; 
     cursor: pointer;
 }
+/* --- ESTILOS DEL MODAL (LOGIN / REGISTRO) --- */
 
+/* El fondo oscuro que tapa la web */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Más oscuro para enfocar */
+    backdrop-filter: blur(5px); /* Un desenfoque lindo estilo iPhone */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.activo {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* La tarjeta del formulario */
+.modal-content {
+    background-color: #1e1e1e; /* Gris muy oscuro, casi negro */
+    padding: 2rem;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); /* Sombra potente */
+    border: 1px solid #333; /* Borde sutil */
+    position: relative; /* Para ubicar el botón de cerrar */
+    color: #fff;
+    text-align: center;
+}
+
+/* El título "Iniciar Sesión" */
+.modal-content h2 {
+    margin-bottom: 1.5rem;
+    color: #00ffcc; /* Tu verde neón */
+    font-size: 1.8rem;
+}
+
+/* Los Formularios */
+#form-login-cliente, #form-register-cliente {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Espacio entre inputs */
+}
+
+/* Etiquetas (Labels) */
+label {
+    text-align: left;
+    font-size: 0.9rem;
+    color: #bbb;
+    margin-bottom: -5px; /* Para pegarlo un poco al input */
+}
+
+/* Los Inputs (Donde escribís) */
+.modal-content input {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #2c2c2c;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: 0.3s;
+}
+
+.modal-content input:focus {
+    border-color: #00ffcc; /* Se ilumina al escribir */
+    background-color: #333;
+}
+
+/* Botones de Acción (Entrar / Registrarme) */
+.btn-login-submit, #btn-registro {
+    padding: 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #00ffcc;
+    color: #000; /* Texto negro para contraste */
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-login-submit:hover, #btn-registro:hover {
+    background-color: #00cca3; /* Un poco más oscuro al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+/* El enlace de "No tenés cuenta?" */
+.modal-content a {
+    color: #00ffcc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.modal-content a:hover {
+    text-decoration: underline;
+}
+
+/* Botón de Cerrar (La X) */
+.btn-cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: #666;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-cerrar-modal:hover {
+    color: #ff4757; /* Rojo al pasar el mouse */
+    transform: rotate(90deg); /* Giradita canchera */
+}
+
+/*======================= HISTORIAL================== */
+/* --- ESTILOS DE PERFIL --- */
+.contenedor-perfil {
+    max-width: 800px;
+    margin: 100px auto; /* Margen arriba para que no lo tape el navbar */
+    padding: 2rem;
+    min-height: 60vh;
+}
+
+.cabecera-perfil {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.cabecera-perfil h1 {
+    font-size: 2.5rem;
+    color: var(--color-principal); /* O el color que uses */
+}
+
+/* TARJETA DE PEDIDO INDIVIDUAL */
+.pedido-card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: #333;
+}
+
+.pedido-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.fecha-pedido {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.items-pedido ul {
+    list-style: none;
+    padding: 0;
+}
+
+.items-pedido li {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 0.5rem;
+}
+
+.total-pedido {
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #27ae60; /* Verde dinero */
+    margin-top: 1rem;
+}
+
+.estado-pendiente {
+    background: #f1c40f;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+
+
+/* --- ESTADOS DE SESIÓN (Manejo visual limpio) --- */
+
+/* 1. ESTADO POR DEFECTO (Invitado / Nadie Logueado) */
+#info-usuario {
+    display: none !important; /* El usuario está oculto */
+}
+#btn-login {
+    display: flex !important; /* El botón ingresar está visible */
+}
+
+/* 2. ESTADO LOGUEADO (Cuando Javascript le pone la etiqueta al body) */
+body.sesion-iniciada #info-usuario {
+    display: flex !important; /* Aparece el usuario */
+}
+
+body.sesion-iniciada #btn-login {
+    display: none !important; /* Desaparece el botón de ingresar */
+}
+
+/* --- ESTILOS DE PERFIL (Mensaje Visitante) --- */
+.mensaje-error-perfil {
+    text-align: center;
+    margin-top: 50px;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.05); /* Un fondo sutil */
+    border-radius: 10px;
+}
+
+.mensaje-error-perfil h3 {
+    color: #ff4757; /* Rojo alerta */
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.mensaje-error-perfil p {
+    color: #ccc;
+    margin-bottom: 1.5rem;
+}
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
     /* Header y Menú */
+/* 1. Rompemos la estructura rígida del Grid */
     header {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px;
-        text-align: center;
+        display: flex;
+        flex-direction: column; /* Apilar todo verticalmente */
+        height: auto; /* Que crezca lo que necesite */
+        padding: 1rem;
+        gap: 1rem; /* Espacio entre el usuario y el menú */
+    }
+
+    /* 2. Acomodamos las zonas */
+    .zona-usuario, .menu, .zona-derecha {
+        width: 100%;
+        justify-content: center; /* Todo centrado */
+    }
+
+    /* 3. El Menú: Permitimos que los botones bajen si no entran */
+    .menu {
+        flex-wrap: wrap; 
+        gap: 5px;
     }
 
     .menu a {
-        display: inline-block;
-        margin: 5px;
-        font-size: 1.1rem;
-        padding: 8px 15px;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 20px;
+        font-size: 0.9rem; /* Letra un poco más chica */
+        padding: 8px;
+        width: 100%; /* Botones anchos para tocar fácil con el dedo */
+        text-align: center;
+        border-bottom: 1px solid rgba(255,255,255,0.1); /* Linea divisoria sutil */
+    }
+    
+    .menu a::after {
+        display: none; /* Sacamos la animación de la rayita en celular */
+    }
+
+    /* 4. Ajuste del Modal en celular (para que no se salga de pantalla) */
+    .modal-content {
+        width: 95%;
+        padding: 1rem;
+        margin: 10px;
     }
 
     /* Hero */

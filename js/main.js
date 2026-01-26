@@ -2,9 +2,13 @@
 
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
+let usuarioLogueado = null; //
 
-import { db } from './firebase-config.js';
-import { collection, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// ----------------------imports--------------------------------
+import { db, auth } from './firebase-config.js'; 
+import { collection, getDocs, doc, setDoc, addDoc, serverTimestamp, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Agregamos las funciones de autenticación de Firebase
+import { onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 // 1. Variable global del formateador
 const formateadorARS = new Intl.NumberFormat('es-AR', {
@@ -38,19 +42,28 @@ function cargarProductos(listaProductos = productos) {
         `;
         return; 
     }
-
     const esSubcarpeta = window.location.pathname.includes("pages");
     const prefijoImagen = esSubcarpeta ? "../" : "";
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
     let lista = "";
 
-    // AQUI EL CAMBIO: Destructuring { id, nombre, precio, imagen }
+    // Destructuring { id, nombre, precio, imagen }
     listaProductos.forEach(({ id, nombre, precio, imagen }) => {
+            // 👇 LÓGICA INTELIGENTE PARA LA IMAGEN
+        let rutaImagen = "";
+        
+        if (imagen.startsWith("http")) {
+            // A. Si es una URL de la nube (Firebase), la dejamos tal cual
+            rutaImagen = imagen; 
+        } else {
+            // B. Si es local, le ponemos el prefijo (../ o nada)
+            rutaImagen = prefijoImagen + imagen;
+        }
         lista += `
         <article class="producto animacion-entrada"> 
             <a href="${rutaProducto}?prod=${id}">
-                <img src="${prefijoImagen + imagen}" alt="${nombre}">
+                <img src="${rutaImagen}" alt="${nombre}">
             </a>
             <div class ="info-producto">
                 <h3>${nombre}</h3>
@@ -63,6 +76,7 @@ function cargarProductos(listaProductos = productos) {
 
     contenedor.innerHTML = lista;
 }
+
 function actualizarCarritoVisual(){
     const listaHTML = document.getElementById("lista-carrito");
     const totalHTML = document.getElementById("total-carrito");
@@ -103,13 +117,41 @@ function actualizarCarritoVisual(){
     }
 }
 
-function mostrarNotificacion(){
-    let noti = document.getElementById("mensaje-oculto")
-    noti.classList.remove("oculto")
+/* =================================
+   SISTEMA DE NOTIFICACIONES (TOAST)
+   ================================= */
+function mostrarNotificacion(mensaje, tipo = "exito") {
+    
+    // 1. Buscamos si ya existe el cartel
+    let noti = document.getElementById("mensaje-oculto");
+
+    // 2. Si NO existe, lo creamos (Fábrica de elementos)
+    if (!noti) {
+        noti = document.createElement("div");
+        noti.id = "mensaje-oculto";
+        noti.className = "toast";
+        document.body.appendChild(noti);
+    }
+
+    // 3. Le ponemos el mensaje que vos quieras (Dinámico)
+    noti.innerText = mensaje;
+
+    // 4. Manejamos los colores
+    if (tipo === "error") {
+        noti.classList.add("error"); // Se pone rojo
+    } else {
+        noti.classList.remove("error"); // Se asegura de ser verde
+    }
+
+    // 5. Lo mostramos (Esperamos 10ms para que la animación se vea bien)
     setTimeout(() => {
-    // Lo que pasa cuando suena la alarma
-    noti.classList.add("oculto");
-}, 3000); 
+        noti.classList.add("activo");
+    }, 10);
+
+    // 6. Lo ocultamos a los 3 segundos
+    setTimeout(() => {
+        noti.classList.remove("activo");
+    }, 3000);
 }
 
 /* =================================
@@ -135,7 +177,7 @@ function agregarAlCarrito(id) {
     
     // 4. Actualizamos todo
     actualizarCarritoVisual();    
-    mostrarNotificacion();
+    mostrarNotificacion("¡Producto agregado con éxito!")
     guardarCarritoEnStorage();
 }
 
@@ -211,23 +253,20 @@ function manejarFormulario(){
         //5. Validacion simple (aunque el HTML 'required' ya ayuda)
 
         if (nombre === "" || email ==="" || mensaje ===""){
-            alert("Por favor, completá todos los campos");
+            mostrarNotificacion("Por favor, completá todos los campos")
             return;
         }
-        //6.Simulacion de exito
-        //Aca podriamos usar la funcion mostrarNotificacion.
-        // O un simple alert por ahora.
 
-        alert(`!Gracias ${nombre}! Hemos recibido tu mensaje.`);
+        mostrarNotificacion(`!Gracias ${nombre}! Hemos recibido tu mensaje`);
 
         // 7. Limpiamos el formulario
         formulario.reset();
     });
 }
 
-function finalizarCompra(){
+async function finalizarCompra(){
     if(carrito.length === 0){
-        alert(`En tu carrito no hay nada`);
+        mostrarNotificacion(`En tu carrito no hay nada`);
         return;
     }
 
@@ -235,23 +274,48 @@ function finalizarCompra(){
     let mensaje = "Hola GeekHouse! Quiero comprar lo siguiente: \n\n";
     let total = 0;
 
-    // AQUI EL CAMBIO: Iteración limpia con totales reales
+    // 2-Validacion : Usuario logeado
+    //Si no hay usuario en auth, lo echamos.
+
+    if(!usuarioLogueado){
+        mostrarNotificacion("Para finalizar la compra necesitas iniciar sesion o registrarte")
+        document.getElementById("modal-ingreso").classList.add("activo")
+    }
+
     carrito.forEach(({nombre, precio, cantidad}) => {
         mensaje += `${cantidad} x ${nombre} - ${formatearPrecio(precio)}\n`;
         total += precio * cantidad;
     });
 
-    mensaje += `\nTotal a pagar: ${formatearPrecio(total)}`;
-    mensaje += `\n\n¿Cómo podemos coordinar el pago y envío?`;
+    //Guardado en la nube
 
-    const mensajeCodificado = encodeURIComponent(mensaje);
-    const urlWhatsapp = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
+    try{
+        const pedido = {
+            cliente: usuarioLogueado, //el mail del comprador
+            items: carrito, //Lo que compro
+            total: total, 
+            fecha: serverTimestamp(), //La hora oficial de google
+            estado: "pendiente", //Para que yo sepa que falta pagar
+        }
+     
+    // Guardamos en la coleccion "pedidos"
+        const pedidoGuardado = await addDoc(collection(db, "pedidos"), pedido);
+        mensaje += `\n🆔 ID de Pedido: ${pedidoGuardado.id}`;
+        mensaje += `\nTotal a pagar: ${formatearPrecio(total)}`;
+        mensaje += `\n¿Cómo podemos coordinar el pago y envío?`;
 
-    window.open(urlWhatsapp, "_blank");
+        const mensajeCodificado = encodeURIComponent(mensaje);
+        const urlWhatsapp = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
 
-    carrito = [];
-    actualizarCarritoVisual();
-    guardarCarritoEnStorage();
+        window.open(urlWhatsapp, "_blank");
+            
+        carrito = [];
+        actualizarCarritoVisual();
+        guardarCarritoEnStorage();
+    } catch(error){
+        console.error("Error al guardar pedido", error);
+        mostrarNotificacion("Hubo un error al procesar tu pedido. Intenta de nuevo")
+    }
 }
 
 
@@ -361,7 +425,170 @@ function cargarDetalle(){
         }
     }
 }
+function verificarUsuario() {
+    const btnLogout = document.getElementById("btn-logout"); 
+    const nombreUsuario = document.getElementById("nombre-usuario");
 
+    // 1. CONFIGURACIÓN DEL LOGOUT
+    if (btnLogout) {
+        btnLogout.addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+                mostrarNotificacion("Has cerrado sesión 👋");
+                setTimeout(() => window.location.reload(), 1500);
+            } catch (error) {
+                console.error("Error al salir:", error);
+            }
+        });
+    }
+
+    // 2. EL PATOVICA (Monitor de Estado)
+    onAuthStateChanged(auth, (usuario) => {
+        
+        // Elementos del DOM que vamos a manipular
+        const contenedorPerfil = document.getElementById("lista-pedidos");
+        const mensajeVisitante = document.getElementById("mensaje-visitante");
+        const tituloPerfil = document.getElementById("email-perfil");
+
+        if (usuario) {
+            // --- CASO: USUARIO LOGUEADO ---
+            console.log("Usuario activo:", usuario.email);
+            usuarioLogueado = usuario.email;
+            
+            // A. Cambiamos el ESTADO VISUAL (CSS se encarga del navbar)
+            document.body.classList.add("sesion-iniciada");
+
+            // B. Actualizamos datos
+            if(nombreUsuario) nombreUsuario.innerText = `Hola, ${usuario.email}`;
+            
+            // 👇 CORRECCIÓN AQUÍ: NOS ASEGURAMOS DE MOSTRAR EL PERFIL Y OCULTAR EL ERROR
+            if (contenedorPerfil && mensajeVisitante) {
+                contenedorPerfil.style.display = "block"; // Mostrar pedidos
+                mensajeVisitante.style.display = "none";  // Ocultar error
+            }
+
+            mostrarPedidos(usuario.email); // Carga los datos
+
+        } else {
+            // --- CASO: INVITADO ---
+            console.log("Nadie logueado");
+            usuarioLogueado = null;
+            document.body.classList.remove("sesion-iniciada");
+
+            // LÓGICA DE PERFIL (Solo switch visual)
+            if (contenedorPerfil && mensajeVisitante) {
+                if(tituloPerfil) tituloPerfil.innerText = "Visitante";
+                
+                // OCULTAMOS la lista
+                contenedorPerfil.style.display = "none";
+                
+                // MOSTRAMOS el cartel de error
+                mensajeVisitante.style.display = "block";
+            }
+        }
+    });
+}
+
+
+
+function configurarModal(){
+    const btnLogin = document.getElementById("btn-login");
+    const btnCerrar = document.getElementById("btn-cerrar"); 
+    const fondoOscuro = document.getElementById("modal-ingreso");
+
+    // SOLUCIÓN: Solo escuchamos si el botón existe
+    if (btnLogin) {
+        btnLogin.addEventListener("click", () => {
+            if(fondoOscuro) fondoOscuro.classList.add("activo");
+        });
+    }
+
+    // Lo mismo para el botón de cerrar
+    if (btnCerrar) {
+        btnCerrar.addEventListener("click", () => {
+            if(fondoOscuro) fondoOscuro.classList.remove("activo");
+        });
+    }
+}
+configurarModal();
+
+function logicaLogin(){
+    const form = document.getElementById("form-login-cliente");
+    
+    // SOLUCIÓN: Agregamos este IF gigante que envuelve todo
+    if (form) {
+        form.addEventListener("submit", async function(evento){
+            evento.preventDefault();
+            const mail = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            
+            try {
+                const credenciales = await signInWithEmailAndPassword(auth, mail, password);
+                
+                // Usamos getElementById directo o verificamos si existe antes
+                const modal = document.getElementById("modal-ingreso");
+                if(modal) modal.classList.remove("activo");
+                
+                mostrarNotificacion("¡Hola " + credenciales.user.email + ", ingresaste con éxito!");            
+                form.reset();
+                
+            } catch (error) {
+                mostrarNotificacion("Error: " + error.message);
+            }
+        });
+    }
+}
+logicaLogin();
+
+logicaLogin()
+
+function alternarFormularios(){
+    const formLogin = document.getElementById("form-login-cliente");
+    const formRegister = document.getElementById("form-register-cliente");
+    const linkRegistro = document.getElementById("link-ir-registro");
+    const linkLogin = document.getElementById("link-volver-login");
+
+    if (linkRegistro) {
+        linkRegistro.addEventListener("click", () => {
+            if(formLogin) formLogin.style.display = "none";
+            if(formRegister) formRegister.style.display ="flex";
+        });
+    }
+
+    if (linkLogin) {
+        linkLogin.addEventListener("click", () => {
+            if(formLogin) formLogin.style.display = "flex";
+            if(formRegister) formRegister.style.display ="none";
+        });
+    }
+}
+alternarFormularios()
+
+function logicaRegistro(){
+    const formRegistrar = document.getElementById("form-register-cliente");
+    
+    // SOLUCIÓN: El IF protector
+    if (formRegistrar) {
+        formRegistrar.addEventListener("submit", async function(e){
+            e.preventDefault();
+            const mail = document.getElementById("email-reg").value;
+            const password = document.getElementById("password-reg").value;
+            
+            try {
+                const autenticacion = await createUserWithEmailAndPassword(auth, mail, password);
+                mostrarNotificacion("¡Cuenta creada! Bienvenido/a" + autenticacion.user.email)
+                
+                const modal = document.getElementById("modal-ingreso");
+                if(modal) modal.classList.remove("activo");
+                
+                formRegistrar.reset();
+            } catch (error) {
+                mostrarNotificacion("Hubo un error:" +error.message)
+            }
+        });
+    }
+}
+logicaRegistro();
 
 /* =================================
    9. CARGA DE DATOS (FETCH)
@@ -369,7 +596,10 @@ function cargarDetalle(){
 
 async function cargarBaseDeDatos() {
     try {
-        console.log("⏳ Cargando productos desde Firebase...");
+        const contenedor = document.querySelector(".productos");
+    
+        //
+        if (!contenedor) return;
 
         // 1. Apuntamos a la colección "productos" en tu base de datos
         const productosRef = collection(db, "productos");
@@ -641,16 +871,14 @@ window.toggleCarrito = toggleCarrito;           // <--- Faltaba esta para abrir/
 
 // 2. Funciones de Renderizado y Navegación
 window.moverCarrusel = moverCarrusel;
-window.cargarProductos = cargarProductos;       // <--- CORREGIDO (Antes decía renderizarProductos)
+window.cargarProductos = cargarProductos;       // 
 window.renderizarFranquicias = renderizarFranquicias;
 
-// Nota: guardarCarritoEnStorage o actualizarCarritoVisual NO hace falta exponerlas
-// porque solo lo uso adentro del JS, no desde el HTML.
+
 
 
 /* =================================================
    ❌ FUNCIÓN DESCARTABLE: CARGA MASIVA DE DATOS
-   (Solo usar una vez y después borrar o comentar)
    ================================================= */
 async function subirDatosAFirebase() {
     // 1. Pedimos confirmación para no hacer macanas
@@ -690,3 +918,92 @@ async function subirDatosAFirebase() {
 
 // Hacemos la función pública para poder llamarla desde la consola
 window.subirDatosAFirebase = subirDatosAFirebase;
+
+/* =================================
+   11. PERFIL DE USUARIO
+   ================================= */
+
+async function cargarHistorial() {
+    const contenedor = document.getElementById("lista-pedidos");
+    if (!contenedor) return; // Si no estoy en perfil.html, me voy.
+
+    // 1. Esperamos a que Firebase nos diga quién es el usuario
+    // (Usamos un pequeño truco: esperamos 1 segundo o verificamos la variable global)
+    // Pero lo mejor es usar el onAuthStateChanged que ya tenés.
+    
+    // Vamos a hacer que esta función se llame DESDE verificarUsuario
+    // para estar seguros de que ya tenemos el email.
+}
+
+// ESTA ES LA FUNCIÓN QUE HACE EL TRABAJO
+async function mostrarPedidos(emailUsuario) {
+    const contenedor = document.getElementById("lista-pedidos");
+    const emailPerfil = document.getElementById("email-perfil");
+    
+    if (!contenedor) return;
+
+    // Actualizamos el título con el email
+    if(emailPerfil) emailPerfil.innerText = emailUsuario;
+    
+
+    try {
+        contenedor.innerHTML = "<p>Cargando pedidos...</p>";
+
+        // 1. Armamos la consulta (Query)
+        // "Dame los pedidos donde cliente == emailUsuario"
+        const pedidosRef = collection(db, "pedidos");
+        
+        const q = query(
+            pedidosRef, 
+            where("cliente", "==", emailUsuario),
+            orderBy("fecha", "desc") // Ordenar por fecha (más nuevo arriba)
+        );
+
+        // 2. Ejecutamos la consulta
+        const querySnapshot = await getDocs(q);
+
+        // 3. Si no hay nada
+        if (querySnapshot.empty) {
+            contenedor.innerHTML = "<h3>Todavía no hiciste compras. ¡Andá al catálogo! 🛍️</h3>";
+            return;
+        }
+
+        // 4. Dibujamos los pedidos
+        let html = "";
+        
+        querySnapshot.forEach((doc) => {
+            const pedido = doc.data();
+            const fecha = pedido.fecha ? pedido.fecha.toDate().toLocaleDateString() : "Fecha desconocida";
+            
+            // Armamos la lista de items de este pedido
+            let itemsHtml = "";
+            pedido.items.forEach(item => {
+                itemsHtml += `<li>${item.cantidad} x ${item.nombre} (${formatearPrecio(item.precio)})</li>`;
+            });
+
+            html += `
+            <div class="pedido-card">
+                <div class="pedido-header">
+                    <span>Pedido #${doc.id.slice(0, 6)}...</span> <span class="fecha-pedido">${fecha}</span>
+                </div>
+                <div class="items-pedido">
+                    <ul>${itemsHtml}</ul>
+                </div>
+                <div class="total-pedido">
+                    Total: ${formatearPrecio(pedido.total)}
+                    <span class="estado-pendiente">${pedido.estado.toUpperCase()}</span>
+                </div>
+            </div>
+            `;
+        });
+
+        contenedor.innerHTML = html;
+
+    } catch (error) {
+        console.error("Error trayendo pedidos:", error);
+        // A veces falla el orderBy si no creaste el índice en Firebase (te explico si pasa)
+        contenedor.innerHTML = "<p>Hubo un error cargando el historial.</p>";
+    }
+}
+
+verificarUsuario()

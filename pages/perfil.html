@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<!DOCTYPE html>
-<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +10,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
     <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
-    <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo-sin-fondo-Photoroom.png">
+    <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
 
@@ -22,6 +20,7 @@
     <link rel="stylesheet" href="../css/style.css">
     <title>Geek House | Tu Tienda de Coleccionables</title>
 </head>
+
 <body>
     <header>
         <div class="zona-usuario">
@@ -39,76 +38,54 @@
 
         <nav class="menu">
             <a href="../index.html">Inicio</a>
+            <a href="productos.html">Productos</a>
             <a href="contacto.html">Contacto</a>
             <a href="sobre-nosotros.html">Sobre nosotros</a>
-            <a href="perfil.html">Historial de compras</a>
         </nav>
 
         <div class="zona-derecha">
             </div>
     </header>
-     <main>
-        <h1>Nuestro catálogo de productos</h1>
-
-         <section class="filtros">
-            <input type="text" id="input-busqueda" placeholder="🔍 Buscar producto...">
-        </section>
-        <section class="categorias-nav">
-            <h3>Filtrar por categoria</h3>
-            <button class="btn-cat" id="cat-todos">Todos</button>
-            <button class="btn-cat" id="cat-ropa">Ropa</button>
-            <button class="btn-cat" id="cat-Bazar">Bazar</button>
-            <button class="btn-cat" id="cat-accesorio">Accesorios</button>
-            <button class="btn-cat" id="cat-Figuras">Figuras</button>
-        </section>
-        <section class="franquicias-container">
-            <h3>Filtrar por franquicia</h3>
-            
-            <div class="carousel-container">
-                
-                <button class="flecha-carrusel izq" onclick="moverCarrusel('track-franquicias', 'izquierda')">❮</button>
-
-                <div id="track-franquicias" class="carousel-track">
-                    
-                    <div id="contenedor-franquicias" class="lista-franquicias"></div>
-                
-                </div>
-
-                <button class="flecha-carrusel der" onclick="moverCarrusel('track-franquicias', 'derecha')">❯</button>
-                
+   <h1>GEEK HOUSE </h1>
+    <main>
+        <section class= "contenedor-perfil">
+            <div class="cabecera-perfil">
+                <h1>Mis Compras 📦</h1>
+                <p id="email-perfil">Cargando usuario...</p>
             </div>
+
+            <section id="lista-pedidos" class="lista-pedidos">
+                <p class="cargando">Cargando tu historial...</p>
+            </section>
+            <div id="mensaje-visitante" class="mensaje-error-perfil" style="display: none;">
+                <h3> Acceso Restringido</h3>
+                <p>Necesitás iniciar sesión para ver tu historial.</p>
+                <button class="btn-comprar" onclick="document.getElementById('modal-ingreso').classList.add('activo')">
+                    Iniciar Sesión Ahora
+                </button>
+            </div>
+            <div id="carrito-icono" class="carrito-icono" 
+                onclick="toggleCarrito()" 
+                role="button" 
+                aria-label="Abrir carrito de compras">
+                🛒
+                <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
+            </div>
+
+            <aside id="carrito-container" class="carrito-flotante oculto">
+                <h2>Tu Carrito</h2>
+                <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
+                <ul id="lista-carrito">
+                    <li>El carrito esta vacio</li>
+                </ul>
+                <p>Total: $ <span id="total-carrito">0</span></p>
+                <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
+            </aside>
         </section>
-        
-        <section class="productos">
-
-        </section>
-           <div id="carrito-icono" class="carrito-icono" 
-            onclick="toggleCarrito()" 
-            role="button" 
-            aria-label="Abrir carrito de compras">
-            🛒
-            <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
-        </div>
-
-        <aside id="carrito-container" class="carrito-flotante oculto">
-            <h2>Tu Carrito</h2>
-            
-            <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
-
-            <ul id="lista-carrito">
-                <li>El carrito esta vacio</li>
-            </ul>
-            
-            <p>Total: $ <span id="total-carrito">0</span> </p>
-            
-            <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
-        </aside>
     </main>
-    
     <footer>
         <p>© 2025 Geek House. Todos los derechos reservados.</p>
-        <p>Pagina diseñada por <a href="https://www.instagram.com/matutombino/?hl=es">Matias Sosa</a> </p>
-
+        <p>Pagina diseñada por <a href="https://www.instagram.com/matutombino/?hl=es">Matias Sosa</a></p>
     </footer>
         <div id="modal-ingreso" class ="modal-overlay">
         <div class = "modal-content">
@@ -122,7 +99,6 @@
                 <button type="submit" class="btn-login-submit">Entrar</button>
                 <p>¿No tenés cuenta? <a href="#form-register-cliente" id="link-ir-registro">Registrate</a></p>
             </form>
-
             <form id="form-register-cliente" style="display: none">
                 <h2>Crear Cuenta</h2>
                 <label for="email">Tu correo</label>
@@ -136,6 +112,5 @@
     </div>
     <script src="../js/productos.js"></script>
     <script type="module" src="../js/main.js"></script>
-    
 </body>
 </html>
