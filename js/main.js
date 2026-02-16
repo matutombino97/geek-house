@@ -1,5 +1,3 @@
-// const { act } = require("react");
-
 //----------VARIABLES GLOBALES----------
 let carrito = []; // Tu canasta vacía
 let usuarioLogueado = null; //
@@ -21,18 +19,21 @@ function formatearPrecio(precio) {
   return formateadorARS.format(precio);
 }
 
-/* =================================
-   2. FUNCIONES DE RENDERIZADO (MOSTRAR COSAS)
-   ================================= */
+// =================================
+// 2. FUNCIONES DE RENDERIZADO (EL MOZO)
+// =================================
 
-   
-// Acepta la lista que recibo como parametro. Si hay, usamos 'productos'
+// Recibe una lista de datos. Si no recibe nada, usa la lista global 'productos'.
 function cargarProductos(listaProductos = productos) {
     const contenedor = document.querySelector(".productos");
-    if (!contenedor) return;
     
+    // Clausula de Guardia: Si no existe el contenedor (ej: estamos en el carrito), cortamos acá.
+    if (!contenedor) return; 
+    
+    // 1. EL BORRADOR: Limpiamos el HTML previo para no duplicar cartas al filtrar.
     contenedor.innerHTML = ""; 
 
+    // 2. ESTADO VACÍO: Si el filtro no devolvió nada, avisamos al usuario.
     if(listaProductos.length === 0){
         contenedor.innerHTML = `
             <section class='error-busqueda'> 
@@ -42,24 +43,23 @@ function cargarProductos(listaProductos = productos) {
         `;
         return; 
     }
+
+    // 3. DETECCIÓN DE ENTORNO:
+    // Averiguamos si estamos en la raíz (index) o en una subcarpeta (pages)
+    // para arreglar las rutas de las imágenes y los links.
     const esSubcarpeta = window.location.pathname.includes("pages");
     const prefijoImagen = esSubcarpeta ? "../" : "";
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
     let lista = "";
 
-    // Destructuring { id, nombre, precio, imagen }
+    // 4. BUCLE DE RENDERIZADO:
+    // Creamos todo el HTML en una variable de texto (es más rápido que tocar el DOM muchas veces)
     listaProductos.forEach(({ id, nombre, precio, imagen }) => {
-            // 👇 LÓGICA INTELIGENTE PARA LA IMAGEN
-        let rutaImagen = "";
         
-        if (imagen.startsWith("http")) {
-            // A. Si es una URL de la nube (Firebase), la dejamos tal cual
-            rutaImagen = imagen; 
-        } else {
-            // B. Si es local, le ponemos el prefijo (../ o nada)
-            rutaImagen = prefijoImagen + imagen;
-        }
+        // Lógica Híbrida: ¿Es imagen de internet (http) o local?
+        let rutaImagen = imagen.startsWith("http") ? imagen : prefijoImagen + imagen;
+        
         lista += `
         <article class="producto animacion-entrada"> 
             <a href="${rutaProducto}?prod=${id}">
@@ -74,6 +74,7 @@ function cargarProductos(listaProductos = productos) {
         </article>`;
     });
 
+    // 5. PINTURA FINAL: Inyectamos todo el HTML de una sola vez.
     contenedor.innerHTML = lista;
 }
 
@@ -108,6 +109,7 @@ function actualizarCarritoVisual(){
         // .length dice cuantas FILAS hay, pero reduce dice cuantos PRODUCTOS TOTALES.
         const totalProductos = carrito.reduce((acc, prod) => acc + prod.cantidad, 0);
         contadorBurbuja.innerText = totalProductos;
+        
         
         if(totalProductos > 0){
              contadorBurbuja.style.display = "flex";
@@ -157,45 +159,33 @@ function mostrarNotificacion(mensaje, tipo = "exito") {
 /* =================================
    3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
    ================================= */
-
 function agregarAlCarrito(id) {
-    // 1. Buscamos el producto en el CATÁLOGO (Base de datos)
+    // 1. BÚSQUEDA EN BASE DE DATOS (Array global 'productos')
     const productoAgregado = productos.find(producto => producto.id === id);
     
-    // 2. Buscamos si ya vive en el CARRITO
+    // 2. BÚSQUEDA EN CARRITO (¿Ya lo compró antes?)
+    // .find devuelve el objeto si existe, o undefined si no está.
     const existeEnCarrito = carrito.find(producto => producto.id === id);
     
-    // 3. DECISIÓN
+    // 3. LÓGICA DE NEGOCIO
     if (existeEnCarrito) {
-        // A. Si ya estaba, solo le sumamos uno al contador
+        // A. CASO INCREMENTAL:
+        // Si ya existe, no agregamos un objeto nuevo. Solo modificamos la propiedad cantidad.
+        // Como los objetos se pasan por referencia, esto actualiza el carrito automáticamente.
         existeEnCarrito.cantidad++;
     } else {
-        // B. Si es nuevo, lo creamos con el sello de "cantidad: 1"
+        // B. CASO NUEVO (SPREAD OPERATOR):
+        // Usamos los tres puntos (...) para "clonar" todas las propiedades del producto original (nombre, precio, img)
+        // y le agregamos la propiedad nueva 'cantidad: 1'.
         const nuevo = { ...productoAgregado, cantidad: 1 };
         carrito.push(nuevo);
     }
     
-    // 4. Actualizamos todo
+    // 4. PERSISTENCIA Y UI
     actualizarCarritoVisual();    
-    mostrarNotificacion("¡Producto agregado con éxito!")
-    guardarCarritoEnStorage();
-}
-
-function eliminarDelCarrito(id){
-    //1. Buscamos en que posicion se encuentra el producto con el id recibido
-    //findex devuelve el numero de asiento (0,1,2...) o -1 si no esta.
-    const indice = carrito.findIndex(producto => producto.id === id);
-
-    //2. Si lo encontro(Osea si el indice no es -1)
-
-    if(indice !==-1){
-        //3 Usamos la tijera (splice) je
-        //(posicion, cantidad_a_borrar) -> borramos un solo elemento
-        carrito.splice(indice,1);
-    }
-
-    //4. Actualizamos todo(Vista y memoria)
-    actualizarCarritoVisual();
+    mostrarNotificacion("¡Producto agregado con éxito!");
+    
+    // Guardamos en LocalStorage para que los datos sobrevivan si el usuario cierra la pestaña (F5).
     guardarCarritoEnStorage();
 }
 /* =================================
@@ -429,7 +419,7 @@ async function cargarDetalleProducto() {
                     <div class="detalle-info">
                         <h2>${producto.nombre}</h2>
                         <p class="precio-detalle">$ ${producto.precio}</p>
-                        <p class="descripcion">${producto.descripcion || "Sin descripción disponible."}</p>
+                        <p class="descripcion">${producto.descripcion || generarDescripcion(producto)}</p>
                         <p class="categoria">Categoría: <span>${producto.categoria}</span></p>
                         
                         <button class="btn-comprar-detalle" onclick="agregarAlCarrito('${docSnap.id}')">
@@ -759,7 +749,7 @@ function generarDescripcion(producto) {
     
     // Paso el nombre a minúsculas una sola vez para no repetir código
     // Uso || "" por si algún producto no tiene nombre y evitar error
-    const nombre = producto.nombre.toLowerCase(); 
+    const nombre = (producto.nombre || "").toLowerCase();
 
     // 1. MEDIAS
     // Uso .includes() este metodo es igual a un IN en python
@@ -830,6 +820,7 @@ function generarDescripcion(producto) {
         <li>Compra protegida y segura</li>
     </ul>`;
 }
+
 
 const imagenesHero = [
     "./img/banner-star-wars.jpg",
