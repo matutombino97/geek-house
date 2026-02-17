@@ -188,6 +188,20 @@ function agregarAlCarrito(id) {
     // Guardamos en LocalStorage para que los datos sobrevivan si el usuario cierra la pestaña (F5).
     guardarCarritoEnStorage();
 }
+
+/* =================================
+   FUNCIÓN FALTANTE: ELIMINAR
+   ================================= */
+function eliminarDelCarrito(id) {
+    // Filtramos: Nos quedamos con todos los productos MENOS el que queremos borrar
+    carrito = carrito.filter(producto => producto.id !== id);
+
+    // Actualizamos la pantalla y el guardado
+    actualizarCarritoVisual();
+    guardarCarritoEnStorage();
+    
+    mostrarNotificacion("Producto eliminado 🗑️", "error");
+}
 /* =================================
    5. PERSISTENCIA (LOCAL STORAGE)
    ================================= */
@@ -882,13 +896,13 @@ function moverCarrusel(idContenedor, direccion) {
    ========================================= */
 // 1. Funciones de Compra y Carrito
 window.agregarAlCarrito = agregarAlCarrito; 
-window.eliminarDelCarrito = eliminarDelCarrito; // <--- Faltaba esta para borrar items!
-window.finalizarCompra = finalizarCompra;       // <--- Ahora sí va a llegar a leerse
-window.toggleCarrito = toggleCarrito;           // <--- Faltaba esta para abrir/cerrar
+window.eliminarDelCarrito = eliminarDelCarrito; 
+window.finalizarCompra = finalizarCompra;       
+window.toggleCarrito = toggleCarrito;           
 
 // 2. Funciones de Renderizado y Navegación
 window.moverCarrusel = moverCarrusel;
-window.cargarProductos = cargarProductos;       // 
+window.cargarProductos = cargarProductos;       
 window.renderizarFranquicias = renderizarFranquicias;
 
 
