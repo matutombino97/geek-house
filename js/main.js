@@ -1038,3 +1038,5 @@ async function mostrarPedidos(emailUsuario) {
 }
 
 verificarUsuario()
+
+// Actualizacion forzada del carrito
