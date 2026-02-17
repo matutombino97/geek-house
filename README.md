@@ -20,7 +20,7 @@ El objetivo principal de este proyecto fue consolidar conocimientos de Frontend 
 * **Consumo de Datos:** Carga dinámica de productos (simulación de API/Fetch).
 
 ## Capturas de Pantalla
-<img width="1920" height="914" alt="Geek House" src="<img src="https://matutombino97.github.io/geek-house/img/geekhouse2.png" alt="Geek House 2" width="100%" />
+<img width="1920" height="914" alt="Geek House" src="<img src="https://matutombino97.github.io/geek-house/img/geekhouse2.png" alt="Geek House" width="100%" />
 
 ---
 **Autor:** Matías Facundo Sosa Guerraz
