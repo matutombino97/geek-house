@@ -8,9 +8,10 @@
 footer {
     background-color: #0d0d0d; /* Fondo bien oscuro */
     color: var(--color-texto);
-    padding-top: 3rem;
+    padding-top: 1.5rem;
     border-top: 3px solid var(--color-neon); /* Línea neón arriba */
     margin-top: auto; /* Truco del footer pegajoso (backup) */
+    
 }
 
 /* --- GRILLA RESPONSIVA AUTOMÁTICA --- 
@@ -67,8 +68,8 @@ footer {
 /* Copyright (Abajo de todo) */
 .copyright {
     text-align: center;
-    padding: 20px;
-    margin-top: 3rem;
+    padding: 15px;
+    margin-top: 1.5rem;
     border-top: 1px solid #333;
     font-size: 0.8rem;
     color: #666;

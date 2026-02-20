@@ -140,10 +140,9 @@ function mostrarNotificacion(mensaje, tipo = "exito") {
 
     // 4. Manejamos los colores
     if (tipo === "error") {
-        noti.classList.add("error"); // Se pone rojo
+        noti.classList.add("error"); 
     } else {
-        noti.classList.remove("error"); // Se asegura de ser verde
-    }
+        noti.classList.remove("error"); 
 
     // 5. Lo mostramos (Esperamos 10ms para que la animación se vea bien)
     setTimeout(() => {
@@ -155,6 +154,7 @@ function mostrarNotificacion(mensaje, tipo = "exito") {
         noti.classList.remove("activo");
     }, 3000);
 }
+}
 
 /* =================================
    3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
@@ -162,21 +162,15 @@ function mostrarNotificacion(mensaje, tipo = "exito") {
 function agregarAlCarrito(id) {
     // 1. BÚSQUEDA EN BASE DE DATOS (Array global 'productos')
     const productoAgregado = productos.find(producto => producto.id === id);
-    
-    // 2. BÚSQUEDA EN CARRITO (¿Ya lo compró antes?)
-    // .find devuelve el objeto si existe, o undefined si no está.
+
     const existeEnCarrito = carrito.find(producto => producto.id === id);
     
     // 3. LÓGICA DE NEGOCIO
     if (existeEnCarrito) {
-        // A. CASO INCREMENTAL:
-        // Si ya existe, no agregamos un objeto nuevo. Solo modificamos la propiedad cantidad.
-        // Como los objetos se pasan por referencia, esto actualiza el carrito automáticamente.
+
         existeEnCarrito.cantidad++;
     } else {
-        // B. CASO NUEVO (SPREAD OPERATOR):
-        // Usamos los tres puntos (...) para "clonar" todas las propiedades del producto original (nombre, precio, img)
-        // y le agregamos la propiedad nueva 'cantidad: 1'.
+
         const nuevo = { ...productoAgregado, cantidad: 1 };
         carrito.push(nuevo);
     }
@@ -202,6 +196,7 @@ function eliminarDelCarrito(id) {
     
     mostrarNotificacion("Producto eliminado 🗑️", "error");
 }
+
 /* =================================
    5. PERSISTENCIA (LOCAL STORAGE)
    ================================= */
@@ -226,8 +221,7 @@ function recuperarCarrito(){
 /* =================================
    4. INICIALIZACIÓN (ARRANQUE)
    ================================= */
-// cargarProductos(); Ya no se usa, asique la comento de recuerdo
-cargarBaseDeDatos() //Ahora arranco pidiendo los datos
+cargarBaseDeDatos() 
 recuperarCarrito(); 
 manejarFormulario();
 
@@ -239,22 +233,15 @@ function manejarFormulario(){
     //1. Agarramos el formulario
     const formulario = document.getElementById("form-contacto");
 
-    // Si no existe el formulario(Estamos en el home), frenamos.
     if (!formulario) return;
 
-    //2. Escuchamos al evento "submit"(Cuando tocan enviar o Enter)
     formulario.addEventListener("submit", function(evento){
 
-        //3. ¡STOP! Evitamos que la pagina se recargue
         evento.preventDefault();
-
-        //4. Agarramos los datos de los inputs
 
         const nombre = document.getElementById("nombre").value;
         const email  =document.getElementById("email").value;
         const mensaje = document.getElementById("mensaje").value;
-
-        //5. Validacion simple (aunque el HTML 'required' ya ayuda)
 
         if (nombre === "" || email ==="" || mensaje ===""){
             mostrarNotificacion("Por favor, completá todos los campos")
@@ -263,7 +250,7 @@ function manejarFormulario(){
 
         mostrarNotificacion(`!Gracias ${nombre}! Hemos recibido tu mensaje`);
 
-        // 7. Limpiamos el formulario
+     
         formulario.reset();
     });
 }
@@ -376,13 +363,10 @@ botonesCategorias.forEach(boton =>{
         //1. Averiguamos que boton se tocó (cat-ropa, cat-hogar, etc)
         const idBoton = e.currentTarget.id;
 
-        //2. Si tocó "Todos" mostramos todo
         if(idBoton ==="cat-todos"){
             cargarProductos(productos) // PAsamos la lista completa
         }else{
-            //3 Si toco otro, filtramos
-            // El ID del boton es "cat-ropa" pero la categoria es "ropa"
-            //Usamos .slice(4) para borrar los primeros 4 caracteres
+
             const categoriaSeleccionada = idBoton.slice(4);
 
             const productosFiltrados = productos.filter(producto => producto.categoria === categoriaSeleccionada);
@@ -390,12 +374,6 @@ botonesCategorias.forEach(boton =>{
         }
     })
 })
-
-
-/* =================================
-   8. LÓGICA DE PÁGINA DE DETALLE
-   ================================= */
-
 
 /* =================================
    13. CARGAR DETALLE DE PRODUCTO (FIREBASE)
@@ -418,7 +396,7 @@ async function cargarDetalleProducto() {
         if (docSnap.exists()) {
             const producto = docSnap.data();
             
-            // 👇 CORRECCIÓN DE IMAGEN AQUÍ
+            // CORRECCIÓN DE IMAGEN 
             let rutaImagen = producto.imagen;
             
             // Si NO es una url de internet (http), le agregamos "../" para salir de la carpeta pages
@@ -474,30 +452,26 @@ function verificarUsuario() {
 
     // 2. EL PATOVICA (Monitor de Estado)
     onAuthStateChanged(auth, (usuario) => {
-        
-        // Elementos del DOM que vamos a manipular
+
         const contenedorPerfil = document.getElementById("lista-pedidos");
         const mensajeVisitante = document.getElementById("mensaje-visitante");
         const tituloPerfil = document.getElementById("email-perfil");
 
         if (usuario) {
-            // --- CASO: USUARIO LOGUEADO ---
+         
             console.log("Usuario activo:", usuario.email);
             usuarioLogueado = usuario.email;
             
-            // A. Cambiamos el ESTADO VISUAL (CSS se encarga del navbar)
             document.body.classList.add("sesion-iniciada");
 
-            // B. Actualizamos datos
             if(nombreUsuario) nombreUsuario.innerText = `Hola, ${usuario.email}`;
             
-            // 👇 CORRECCIÓN AQUÍ: NOS ASEGURAMOS DE MOSTRAR EL PERFIL Y OCULTAR EL ERROR
             if (contenedorPerfil && mensajeVisitante) {
-                contenedorPerfil.style.display = "block"; // Mostrar pedidos
-                mensajeVisitante.style.display = "none";  // Ocultar error
+                contenedorPerfil.style.display = "block"; 
+                mensajeVisitante.style.display = "none";  
             }
 
-            mostrarPedidos(usuario.email); // Carga los datos
+            mostrarPedidos(usuario.email); 
 
         } else {
             // --- CASO: INVITADO ---
@@ -526,14 +500,12 @@ function configurarModal(){
     const btnCerrar = document.getElementById("btn-cerrar"); 
     const fondoOscuro = document.getElementById("modal-ingreso");
 
-    // SOLUCIÓN: Solo escuchamos si el botón existe
     if (btnLogin) {
         btnLogin.addEventListener("click", () => {
             if(fondoOscuro) fondoOscuro.classList.add("activo");
         });
     }
 
-    // Lo mismo para el botón de cerrar
     if (btnCerrar) {
         btnCerrar.addEventListener("click", () => {
             if(fondoOscuro) fondoOscuro.classList.remove("activo");
@@ -545,7 +517,6 @@ configurarModal();
 function logicaLogin(){
     const form = document.getElementById("form-login-cliente");
     
-    // SOLUCIÓN: Agregamos este IF gigante que envuelve todo
     if (form) {
         form.addEventListener("submit", async function(evento){
             evento.preventDefault();
@@ -555,7 +526,6 @@ function logicaLogin(){
             try {
                 const credenciales = await signInWithEmailAndPassword(auth, mail, password);
                 
-                // Usamos getElementById directo o verificamos si existe antes
                 const modal = document.getElementById("modal-ingreso");
                 if(modal) modal.classList.remove("activo");
                 
@@ -597,7 +567,6 @@ alternarFormularios()
 function logicaRegistro(){
     const formRegistrar = document.getElementById("form-register-cliente");
     
-    // SOLUCIÓN: El IF protector
     if (formRegistrar) {
         formRegistrar.addEventListener("submit", async function(e){
             e.preventDefault();
@@ -627,52 +596,40 @@ logicaRegistro();
 async function cargarBaseDeDatos() {
     try {
         const contenedor = document.querySelector(".productos");
-    
-        //
-        if (!contenedor) return;
 
-        // 1. Apuntamos a la colección "productos" en tu base de datos
         const productosRef = collection(db, "productos");
 
-        // 2. Pedimos los documentos (Petición asíncrona a Google)
+
         const querySnapshot = await getDocs(productosRef);
 
-        // 3. "Mapeamos" los datos:
-        // Firebase devuelve documentos "crudos". Los convertimos a objetos limpios.
+ 
         const datos = querySnapshot.docs.map(doc => {
             return {
-                id: doc.id,       // Usamos el ID del documento como ID del producto
-                ...doc.data()     // "...spread operator": copia nombre, precio, imagen, etc.
+                id: doc.id,       
+                ...doc.data()     
             };
         });
 
         console.log("✅ Productos recibidos:", datos);
 
-        // 4. Guardamos en nuestra variable global
         productos = datos;
 
-        // ============================================================
-        // A PARTIR DE ACÁ, LA LÓGICA ES IDÉNTICA A LA QUE YA TENÍAS
-        // ============================================================
-        
-        // 5. Detectamos dónde estamos (Home o Catálogo)
+
         const esPaginaProductos = window.location.pathname.includes("pages");
 
-        if (esPaginaProductos) {
-            // Estoy en Productos -> Muestro TODO
-            cargarProductos(productos);
-        } else {
-            // Estoy en Home -> Filtro solo DESTACADOS
-            // (Asegurate de que en Firebase el campo 'destacado' sea un booleano true/false)
-            const soloDestacados = productos.filter(p => p.destacado === true);
-            cargarProductos(soloDestacados);
-            
-            // Ocultar filtros en home
-            const filtros = document.querySelector(".filtros"); 
-            if(filtros) filtros.style.display = "none";
-        }
+        if (contenedor) {
+                const esPaginaProductos = window.location.pathname.includes("pages");
 
-        // 6. Funciones finales
+                if (esPaginaProductos) {
+                    cargarProductos(productos);
+                } else {
+                    const soloDestacados = productos.filter(p => p.destacado === true);
+                    cargarProductos(soloDestacados);
+                
+                    const filtros = document.querySelector(".filtros"); 
+                    if(filtros) filtros.style.display = "none";
+                }
+        }
         cargarDetalleProducto();
         renderizarFranquicias();
 
@@ -909,7 +866,7 @@ window.renderizarFranquicias = renderizarFranquicias;
 
 
 /* =================================================
-   ❌ FUNCIÓN DESCARTABLE: CARGA MASIVA DE DATOS
+   10.5 FUNCIÓN DESCARTABLE: CARGA MASIVA DE DATOS
    ================================================= */
 async function subirDatosAFirebase() {
     // 1. Pedimos confirmación para no hacer macanas
@@ -958,12 +915,6 @@ async function cargarHistorial() {
     const contenedor = document.getElementById("lista-pedidos");
     if (!contenedor) return; // Si no estoy en perfil.html, me voy.
 
-    // 1. Esperamos a que Firebase nos diga quién es el usuario
-    // (Usamos un pequeño truco: esperamos 1 segundo o verificamos la variable global)
-    // Pero lo mejor es usar el onAuthStateChanged que ya tenés.
-    
-    // Vamos a hacer que esta función se llame DESDE verificarUsuario
-    // para estar seguros de que ya tenemos el email.
 }
 
 // ESTA ES LA FUNCIÓN QUE HACE EL TRABAJO
@@ -980,8 +931,6 @@ async function mostrarPedidos(emailUsuario) {
     try {
         contenedor.innerHTML = "<p>Cargando pedidos...</p>";
 
-        // 1. Armamos la consulta (Query)
-        // "Dame los pedidos donde cliente == emailUsuario"
         const pedidosRef = collection(db, "pedidos");
         
         const q = query(
@@ -1032,7 +981,7 @@ async function mostrarPedidos(emailUsuario) {
 
     } catch (error) {
         console.error("Error trayendo pedidos:", error);
-        // A veces falla el orderBy si no creaste el índice en Firebase (te explico si pasa)
+        // A veces falla el orderBy si no cree el índice en Firebase 
         contenedor.innerHTML = "<p>Hubo un error cargando el historial.</p>";
     }
 }
