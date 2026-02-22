@@ -2,16 +2,20 @@
 <html lang="es">
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
-    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
+    <meta name="description"
+        content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
+    <meta name="keywords"
+        content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
     <meta name="author" content="Matias Sosa">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
-    <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
+    <meta property="og:description"
+        content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
     <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo-sin-fondo-Photoroom.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
@@ -22,10 +26,11 @@
     <link rel="stylesheet" href="../css/style.css">
     <title>Geek House | Tu Tienda de Coleccionables</title>
 </head>
-<body class ="body-contacto">
+
+<body class="body-contacto">
     <header>
         <div class="zona-usuario">
-            
+
             <a href="#modal-ingreso" id="btn-login" class="boton-ingresar">
                 👤 Ingresar
             </a>
@@ -38,19 +43,30 @@
         </div>
 
         <nav class="menu">
-             <a href="../index.html">Inicio</a>
+            <a href="../index.html">Inicio</a>
             <a href="productos.html">Productos</a>
             <a href="sobre-nosotros.html">Sobre nosotros</a>
             <a href="perfil.html">Historial de compras</a>
         </nav>
 
         <div class="zona-derecha">
-            </div>
+        </div>
     </header>
     <main>
         <section class="contacto">
             <h1>Contactate con nosotros</h1>
-            <form id ="form-contacto">
+            <!-- 💡 FORM-SUBMIT: Agregamos el action a la URL de su servicio con tu correo oficial y el método POST -->
+            <form id="form-contacto" action="https://formsubmit.co/notanmuggles@gmail.com" method="POST">
+
+                <!-- 🛡️ INPUT OCULTO SEGURO 1: Desactiva el feo reCAPTCHA de las calles de FormSubmit -->
+                <input type="hidden" name="_captcha" value="false">
+
+                <!-- 🛡️ INPUT OCULTO SEGURO 2: Le dice a FormSubmit a dónde viajar cuando se envíe (vuelve al inicio) -->
+                <input type="hidden" name="_next" value="http://127.0.0.1:5500/index.html">
+
+                <!-- 🛡️ INPUT OCULTO SEGURO 3: Modifica el asunto (subject) con el que te va a llegar tu mail -->
+                <input type="hidden" name="_subject" value="¡Nuevo Mensaje de GeekHouse Contacto!">
+
                 <div class="campo">
                     <label for="nombre">Nombre:</label>
                     <input type="text" name="nombre" id="nombre" placeholder="Tu nombre geek" required>
@@ -63,38 +79,38 @@
 
                 <div class="campo">
                     <label for="mensaje">Mensaje:</label>
-                    <textarea id="mensaje" name="mensaje" placeholder="Contanos, ¿qué buscás?" rows="4" required></textarea>
+                    <textarea id="mensaje" name="mensaje" placeholder="Contanos, ¿qué buscás?" rows="4"
+                        required></textarea>
                 </div>
 
+                <!-- 💡 BTON: El type='submit' es fundamental, porque le dice al "form" que ejecute la acción principal -->
                 <button class="btn-form" type="submit">Enviar Mensaje</button>
             </form>
         </section>
     </main>
-    <div id="carrito-icono" class="carrito-icono" 
-            onclick="toggleCarrito()" 
-            role="button" 
-            aria-label="Abrir carrito de compras">
-            🛒
-            <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
+    <div id="carrito-icono" class="carrito-icono" onclick="toggleCarrito()" role="button"
+        aria-label="Abrir carrito de compras">
+        🛒
+        <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
     </div>
 
-        <aside id="carrito-container" class="carrito-flotante oculto">
-            <h2>Tu Carrito</h2>
-            
-            <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
+    <aside id="carrito-container" class="carrito-flotante oculto">
+        <h2>Tu Carrito</h2>
 
-            <ul id="lista-carrito">
-                <li>El carrito esta vacio</li>
-            </ul>
-            
-            <p>Total: $ <span id="total-carrito">0</span> </p>
-            
-            <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
-        </aside>
+        <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
+
+        <ul id="lista-carrito">
+            <li>El carrito esta vacio</li>
+        </ul>
+
+        <p>Total: <span id="total-carrito">0</span> </p>
+
+        <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
+    </aside>
 
     <footer>
         <div class="footer-container">
-            
+
             <div class="footer-col">
                 <h3>👾 GEEK HOUSE</h3>
                 <p>Tu tienda de coleccionables favorita. Llevamos la pasión geek a tu estantería.</p>
@@ -115,17 +131,19 @@
                 <p>📧 notanmuggles@gmail.com</p>
                 <p>📍 Mendoza, Argentina</p>
                 <div class="redes-sociales">
-                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram</a> | <a href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
+                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram</a> | <a
+                        href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
                 </div>
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
+            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a
+                    href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
         </div>
     </footer>
-        <div id="modal-ingreso" class ="modal-overlay">
-        <div class = "modal-content">
-            <button id = "btn-cerrar" class ="btn-cerrar-modal"> X </button>
+    <div id="modal-ingreso" class="modal-overlay">
+        <div class="modal-content">
+            <button id="btn-cerrar" class="btn-cerrar-modal"> X </button>
             <form id="form-login-cliente">
                 <h2>Iniciar Sesión</h2>
                 <label for="email">Tu correo</label>
@@ -148,4 +166,5 @@
     </div>
     <script type="module" src="../js/main.js"></script>
 </body>
+
 </html>

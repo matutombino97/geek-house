@@ -22,11 +22,27 @@
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centra título y formulario horizontalmente */
+}
+
+#form-contacto {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Centra los campos y el botón al medio exacto */
 }
 
 /* ================= CAMPOS DE FORMULARIO ================= */
+/* ================= CAMPOS DE FORMULARIO ================= */
 .campo {
     margin-bottom: 20px;
+    width: 100%;
+    max-width: 400px;
+    /* Obligamos a que el campo mida 400px igual que los inputs */
 }
 
 .campo label {
@@ -60,7 +76,7 @@
     background-color: var(--color-oscuro);
     border: 1px solid var(--color-borde);
     border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     color: white;
 }
 
@@ -76,7 +92,7 @@
     font-weight: bold;
 }
 
-.formulario-admin input, 
+.formulario-admin input,
 .formulario-admin select {
     padding: 10px;
     background: var(--color-borde);
@@ -103,40 +119,40 @@
 
 /* ================= LOGIN CONTAINER ================= */
 .login-container {
-    max-width: 400px; 
-    margin: 100px auto; 
-    padding: 20px; 
-    background: var(--color-oscuro); 
-    border-radius: 10px; 
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    background: var(--color-oscuro);
+    border-radius: 10px;
     text-align: center;
 }
 
 .login-container h2 {
-    color: var(--color-neon); 
+    color: var(--color-neon);
     margin-bottom: 20px;
 }
 
 #form-login {
-    display: flex; 
-    flex-direction: column; 
+    display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
 #form-login input {
-    padding: 10px; 
-    border-radius: 5px; 
+    padding: 10px;
+    border-radius: 5px;
     border: none;
 }
 
 #mensaje-error {
-    color: red; 
+    color: red;
     display: none;
 }
 
 #form-login button {
-    padding: 10px; 
-    background: var(--color-neon); 
-    border: none; 
-    font-weight: bold; 
+    padding: 10px;
+    background: var(--color-neon);
+    border: none;
+    font-weight: bold;
     cursor: pointer;
 }

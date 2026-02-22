@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
-    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
+    <meta name="description"
+        content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
+    <meta name="keywords"
+        content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
     <meta name="author" content="Matias Sosa">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
-    <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
+    <meta property="og:description"
+        content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
     <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
@@ -18,13 +22,14 @@
     <link rel="icon" href="https://matutombino97.github.io/geek-house/img/ojos-naruto.jpg">
 
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/perfil.css">
     <title>Geek House | Tu Tienda de Coleccionables</title>
 </head>
 
 <body>
     <header>
         <div class="zona-usuario">
-            
+
             <a href="#modal-ingreso" id="btn-login" class="boton-ingresar">
                 👤 Ingresar
             </a>
@@ -44,32 +49,75 @@
         </nav>
 
         <div class="zona-derecha">
-            </div>
+        </div>
     </header>
-   <h1>GEEK HOUSE </h1>
-    <main>
-        <section class= "contenedor-perfil">
-            <div class="cabecera-perfil">
-                <h1>Mis Compras 📦</h1>
-                <p id="email-perfil">Cargando usuario...</p>
+    <main class="main-dashboard">
+        <!-- BARRA LATERAL DEL PANEL -->
+        <aside class="sidebar-dashboard">
+            <div class="perfil-foto">
+                <div class="avatar-placeholder">👤</div>
+                <h3 id="email-perfil">Cargando...</h3>
+                <p class="rango-usuario">Cliente VIP ⭐</p>
             </div>
 
-            <section id="lista-pedidos" class="lista-pedidos">
-                <p class="cargando">Cargando tu historial...</p>
-            </section>
+            <nav class="nav-dashboard">
+                <button class="tab-btn activo" data-target="tab-pedidos">📦 Mis Pedidos</button>
+                <button class="tab-btn" data-target="tab-favoritos">❤️ Mis Favoritos</button>
+                <button class="tab-btn" data-target="tab-ajustes">⚙️ Ajustes</button>
+                <button class="tab-btn btn-peligro" id="btn-logout-dash">🚪 Cerrar Sesión</button>
+            </nav>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL DEL PANEL -->
+        <section class="contenido-dashboard">
+
             <div id="mensaje-visitante" class="mensaje-error-perfil" style="display: none;">
-                <h3> Acceso Restringido</h3>
-                <p>Necesitás iniciar sesión para ver tu historial.</p>
+                <h3>🔒 Acceso Restringido</h3>
+                <p>Necesitás iniciar sesión para acceder a tu Panel de Control.</p>
                 <button class="btn-comprar" onclick="document.getElementById('modal-ingreso').classList.add('activo')">
                     Iniciar Sesión Ahora
                 </button>
             </div>
-            <div id="carrito-icono" class="carrito-icono" 
-                onclick="toggleCarrito()" 
-                role="button" 
-                aria-label="Abrir carrito de compras">
+
+            <!-- PESTAÑA 1: PEDIDOS -->
+            <div id="tab-pedidos" class="tab-content activo">
+                <div class="cabecera-tab">
+                    <h2>Historial de Compras</h2>
+                    <p>Revisa el estado de tus órdenes anteriores.</p>
+                </div>
+                <div id="lista-pedidos" class="lista-pedidos">
+                    <p class="cargando">Cargando tu historial...</p>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 2: FAVORITOS -->
+            <div id="tab-favoritos" class="tab-content">
+                <div class="cabecera-tab">
+                    <h2>Mi Wishlist ❤️</h2>
+                    <p>Los productos que te robaron el corazón.</p>
+                </div>
+                <div id="grilla-favoritos" class="productos">
+                    <!-- JS inyectará las tarjetitas guardadas -->
+                    <p class="cargando">No tienes favoritos aún. ¡Ve al catálogo y enamórate de algo!</p>
+                </div>
+            </div>
+
+            <!-- PESTAÑA 3: AJUSTES -->
+            <div id="tab-ajustes" class="tab-content">
+                <div class="cabecera-tab">
+                    <h2>Seguridad y Datos</h2>
+                    <p>Gestión de tu cuenta (Próximamente).</p>
+                </div>
+                <div class="ajustes-placeholder">
+                    <p>En el futuro podrás cambiar tu contraseña y foto de perfil desde aquí.</p>
+                </div>
+            </div>
+
+            <!-- ELEMENTOS DEL CARRITO (Ocultos/Flotantes) -->
+            <div id="carrito-icono" class="carrito-icono" onclick="toggleCarrito()" role="button"
+                aria-label="Abrir carrito">
                 🛒
-                <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
+                <span id="contador-burbuja" aria-label="Cantidad">0</span>
             </div>
 
             <aside id="carrito-container" class="carrito-flotante oculto">
@@ -78,14 +126,15 @@
                 <ul id="lista-carrito">
                     <li>El carrito esta vacio</li>
                 </ul>
-                <p>Total: $ <span id="total-carrito">0</span></p>
+                <p>Total: <span id="total-carrito">0</span></p>
                 <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
             </aside>
+
         </section>
     </main>
     <footer>
         <div class="footer-container">
-            
+
             <div class="footer-col">
                 <h3>👾 GEEK HOUSE</h3>
                 <p>Tu tienda de coleccionables favorita. Llevamos la pasión geek a tu estantería.</p>
@@ -106,17 +155,19 @@
                 <p>📧 notanmuggles@gmail.com</p>
                 <p>📍 Mendoza, Argentina</p>
                 <div class="redes-sociales">
-                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram</a> | <a href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
+                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram</a> | <a
+                        href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
                 </div>
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
+            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a
+                    href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
         </div>
     </footer>
-        <div id="modal-ingreso" class ="modal-overlay">
-        <div class = "modal-content">
-            <button id = "btn-cerrar" class ="btn-cerrar-modal"> X </button>
+    <div id="modal-ingreso" class="modal-overlay">
+        <div class="modal-content">
+            <button id="btn-cerrar" class="btn-cerrar-modal"> X </button>
             <form id="form-login-cliente">
                 <h2>Iniciar Sesión</h2>
                 <label for="email">Tu correo</label>
@@ -140,4 +191,5 @@
     <script src="../js/productos.js"></script>
     <script type="module" src="../js/main.js"></script>
 </body>
+
 </html>

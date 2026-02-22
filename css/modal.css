@@ -30,35 +30,40 @@
 }
 
 .modal-content {
-    background-color: #1e1e1e;
-    padding: 2rem;
-    border-radius: 15px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 2.5rem;
+    border-radius: 20px;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    border: 1px solid #333;
+    max-width: 420px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--glass-border);
     position: relative;
-    color: #fff;
+    color: var(--color-texto);
     text-align: center;
 }
 
 .modal-content h2 {
     margin-bottom: 1.5rem;
-    color: var(--color-neon);
+    color: var(--color-texto);
     font-size: 1.8rem;
+    font-weight: 800;
 }
 
-#form-login-cliente, #form-register-cliente {
+#form-login-cliente,
+#form-register-cliente {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
+/* ELiminamos inputs duplicados y dejamos una sola clase bien estilo clean form */
 .modal-content input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #2c2c2c;
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: rgba(0, 0, 0, 0.4);
     color: white;
     font-size: 1rem;
     outline: none;
@@ -67,25 +72,31 @@
 
 .modal-content input:focus {
     border-color: var(--color-neon);
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.6);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
 }
 
-.btn-login-submit, #btn-registro {
-    padding: 12px;
-    margin-top: 10px;
+.btn-login-submit,
+#btn-registro {
+    padding: 14px;
+    margin-top: 15px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
     background-color: var(--color-neon);
     color: #000;
-    font-weight: bold;
+    font-weight: 800;
     font-size: 1rem;
     cursor: pointer;
-    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
 }
 
-.btn-login-submit:hover, #btn-registro:hover {
-    background-color: #00cca3;
+.btn-login-submit:hover,
+#btn-registro:hover {
+    background-color: #00e6b8;
     transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(0, 255, 204, 0.4);
 }
 
 .btn-cerrar-modal {
@@ -106,22 +117,7 @@
     transform: rotate(90deg);
 }
 
-/* ================= INPUTS DEL MODAL ================= */
-.modal-content input {
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #2c2c2c;
-    color: white;
-    font-size: 1rem;
-    outline: none;
-    transition: var(--transition-normal);
-}
 
-.modal-content input:focus {
-    border-color: var(--color-neon);
-    background-color: var(--color-borde);
-}
 
 /* ================= LINKS DEL MODAL ================= */
 .modal-content a {

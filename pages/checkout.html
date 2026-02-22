@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | Geek House</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/checkout.css">
+    <link rel="icon" href="https://matutombino97.github.io/geek-house/img/ojos-naruto.jpg">
+</head>
+
+<body class="body-checkout">
+
+    <!-- Navbar simple para Checkout -->
+    <header class="header-checkout">
+        <div class="logo-checkout">
+            <h2>👾 GEEK HOUSE CHECKOUT</h2>
+        </div>
+        <a href="../index.html" class="btn-volver-cat">⬅ Volver al Catálogo</a>
+    </header>
+
+    <main class="contenedor-checkout">
+
+
+
+        <!-- Columna Derecha: Resumen de Compra -->
+        <section class="checkout-resumen">
+            <h2>🛒 Resumen de Compra</h2>
+            <div id="lista-checkout">
+                <!-- Los productos se inyectan acá desde el JS -->
+                <p>Cargando tu carrito...</p>
+            </div>
+
+            <div class="checkout-totales">
+                <div class="fila-total">
+                    <span>Subtotal:</span>
+                    <span id="checkout-subtotal">$0</span>
+                </div>
+                <div class="fila-total">
+                    <span>Envío a coordinar:</span>
+                    <span>$ -</span>
+                </div>
+                <div class="fila-total total-final">
+                    <span>Total a Pagar:</span>
+                    <span id="checkout-total">$0</span>
+                </div>
+            </div>
+
+            <!-- Botón Mágico a WhatsApp -->
+            <button id="btn-enviar-whatsapp" class="btn-whatsapp">
+                Enviar Orden por WhatsApp 🟢
+            </button>
+            <p class="nota-pago">Al enviar, coordinaremos el método de pago por chat (Transferencia o Efectivo).</p>
+        </section>
+
+    </main>
+
+    <script type="module" src="../js/checkout.js"></script>
+</body>
+
+</html>

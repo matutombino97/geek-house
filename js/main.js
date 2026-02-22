@@ -1,69 +1,72 @@
-//----------VARIABLES GLOBALES----------
-let carrito = []; // Tu canasta vacía
-let usuarioLogueado = null; //
+import { db } from './firebase-config.js';
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { recuperarCarrito, toggleCarrito, agregarAlCarrito, eliminarDelCarrito, finalizarCompra, actualizarCarritoVisual } from './carrito.js';
+import { inicializarAuth } from './auth.js';
+import { cargarBaseDeDatos } from './api.js';
+import { formatearPrecio, generarDescripcion, moverCarrusel } from './ui.js';
+import { obtenerFavoritos } from './favoritos.js';
+import { cargarUIReviews } from './reviews.js';
 
-// ----------------------imports--------------------------------
-import { db, auth } from './firebase-config.js'; 
-import { collection, getDocs, getDoc, doc, setDoc, addDoc, serverTimestamp, query, where, orderBy  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-// Agregamos las funciones de autenticación de Firebase
-import { onAuthStateChanged, signOut, signInWithEmailAndPassword, createUserWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+// Convertir productos a exportable y mutable
+export const productos = [];
 
-// 1. Variable global del formateador
-const formateadorARS = new Intl.NumberFormat('es-AR', {
-  style: 'currency',
-  currency: 'ARS'
-});
-
-// 2. Función auxiliar para usar en todos lados
-function formatearPrecio(precio) {
-  return formateadorARS.format(precio);
-}
+// Variables Globales Paginación
+let paginaActual = 1;
+const productosPorPagina = 12; // Cantidad visible por página
+let productosFiltradosActuales = [];
 
 // =================================
-// 2. FUNCIONES DE RENDERIZADO (EL MOZO)
+// FUNCIONES DE RENDERIZADO (EL MOZO)
 // =================================
-
-// Recibe una lista de datos. Si no recibe nada, usa la lista global 'productos'.
-function cargarProductos(listaProductos = productos) {
+export function cargarProductos(listaProductos = productos, pagina = 1) {
     const contenedor = document.querySelector(".productos");
-    
-    // Clausula de Guardia: Si no existe el contenedor (ej: estamos en el carrito), cortamos acá.
-    if (!contenedor) return; 
-    
-    // 1. EL BORRADOR: Limpiamos el HTML previo para no duplicar cartas al filtrar.
-    contenedor.innerHTML = ""; 
+    if (!contenedor) return;
 
-    // 2. ESTADO VACÍO: Si el filtro no devolvió nada, avisamos al usuario.
-    if(listaProductos.length === 0){
+    contenedor.innerHTML = "";
+
+    // Guardar referencia actual de la lista y la pagina
+    productosFiltradosActuales = listaProductos;
+    paginaActual = pagina;
+
+    if (listaProductos.length === 0) {
         contenedor.innerHTML = `
             <section class='error-busqueda'> 
                 <h2>No hay productos encontrados con ese nombre o categoria.</h2> 
                 <h3>Intenta con otro nombre o categoria</h3>
             </section>
         `;
-        return; 
+        const pagContenedor = document.getElementById("paginacion");
+        if (pagContenedor) pagContenedor.innerHTML = "";
+        return;
     }
 
-    // 3. DETECCIÓN DE ENTORNO:
-    // Averiguamos si estamos en la raíz (index) o en una subcarpeta (pages)
-    // para arreglar las rutas de las imágenes y los links.
     const esSubcarpeta = window.location.pathname.includes("pages");
     const prefijoImagen = esSubcarpeta ? "../" : "";
     const rutaProducto = esSubcarpeta ? "producto.html" : "pages/producto.html";
 
     let lista = "";
 
-    // 4. BUCLE DE RENDERIZADO:
-    // Creamos todo el HTML en una variable de texto (es más rápido que tocar el DOM muchas veces)
-    listaProductos.forEach(({ id, nombre, precio, imagen }) => {
-        
-        // Lógica Híbrida: ¿Es imagen de internet (http) o local?
+    // Paginación lógica: Cortar el gran array
+    const inicioOffset = (paginaActual - 1) * productosPorPagina;
+    const finalOffset = inicioOffset + productosPorPagina;
+    const productosPagina = productosFiltradosActuales.slice(inicioOffset, finalOffset);
+
+    // Revisar qué arrastra en favoritos
+    const favsGuardados = obtenerFavoritos();
+
+    // Iteramos solo los productos correspondientes a esta página
+    productosPagina.forEach(({ id, nombre, precio, imagen }) => {
         let rutaImagen = imagen.startsWith("http") ? imagen : prefijoImagen + imagen;
-        
+
+        let iconoCorazon = favsGuardados.includes(id) ? "❤️" : "🤍";
+        let claseCorazon = favsGuardados.includes(id) ? "activo" : "";
+
+        // --- 2. AÑADIMOS lazy loading a las imagenes ---
         lista += `
         <article class="producto animacion-entrada"> 
+            <button class="btn-favorito ${claseCorazon}" onclick="toggleFavoritoClick('${id}', this)" title="Añadir a favoritos">${iconoCorazon}</button>
             <a href="${rutaProducto}?prod=${id}">
-                <img src="${rutaImagen}" alt="${nombre}">
+                <img src="${rutaImagen}" alt="${nombre}" loading="lazy">
             </a>
             <div class ="info-producto">
                 <h3>${nombre}</h3>
@@ -74,313 +77,106 @@ function cargarProductos(listaProductos = productos) {
         </article>`;
     });
 
-    // 5. PINTURA FINAL: Inyectamos todo el HTML de una sola vez.
     contenedor.innerHTML = lista;
-}
 
-function actualizarCarritoVisual(){
-    const listaHTML = document.getElementById("lista-carrito");
-    const totalHTML = document.getElementById("total-carrito");
-    const contadorBurbuja = document.getElementById("contador-burbuja");
-
-    if (!totalHTML) return; 
-   
-    let total = 0;
-    listaHTML.innerHTML = "";
-    let lista = "";
-
-    carrito.forEach(({id, nombre, precio, cantidad}) => {
-        lista += `
-            <li>
-                <div class='informacion-carrito'>
-                   Cantidad: ${cantidad} | ${nombre} - ${formatearPrecio(precio)}
-                </div>
-                <button class='btn-eliminar' onclick="eliminarDelCarrito('${id}')">X</button>
-            </li>
-        `;
-        total += precio * cantidad;
-    });
-
-    totalHTML.innerText = formatearPrecio(total);
-    listaHTML.innerHTML = lista;
-
-    if (contadorBurbuja) {
-        // Volví a poner el reduce porque ahora que agrupo los items, 
-        // .length dice cuantas FILAS hay, pero reduce dice cuantos PRODUCTOS TOTALES.
-        const totalProductos = carrito.reduce((acc, prod) => acc + prod.cantidad, 0);
-        contadorBurbuja.innerText = totalProductos;
-        
-        
-        if(totalProductos > 0){
-             contadorBurbuja.style.display = "flex";
-        } else {
-             contadorBurbuja.style.display = "none";
-        }
+    // Solo renderizar botones de páginas si estamos en el catálogo
+    if (esSubcarpeta) {
+        renderizarPaginacion(productosFiltradosActuales.length);
     }
 }
 
-/* =================================
-   SISTEMA DE NOTIFICACIONES (TOAST)
-   ================================= */
-function mostrarNotificacion(mensaje, tipo = "exito") {
-    
-    // 1. Buscamos si ya existe el cartel
-    let noti = document.getElementById("mensaje-oculto");
+// =================================
+// FUNCIÓN: RENDERIZAR PAGINACIÓN
+// =================================
+function renderizarPaginacion(totalProductos) {
+    const contenedorPaginacion = document.getElementById("paginacion");
+    if (!contenedorPaginacion) return;
 
-    // 2. Si NO existe, lo creamos (Fábrica de elementos)
-    if (!noti) {
-        noti = document.createElement("div");
-        noti.id = "mensaje-oculto";
-        noti.className = "toast";
-        document.body.appendChild(noti);
-    }
+    contenedorPaginacion.innerHTML = "";
 
-    // 3. Le ponemos el mensaje que vos quieras (Dinámico)
-    noti.innerText = mensaje;
+    // Calcular numero total de paginas
+    const totalPaginas = Math.ceil(totalProductos / productosPorPagina);
+    if (totalPaginas <= 1) return; // Si todo entra en 1 página, esconder numeración
 
-    // 4. Manejamos los colores
-    if (tipo === "error") {
-        noti.classList.add("error"); 
-    } else {
-        noti.classList.remove("error"); 
+    for (let i = 1; i <= totalPaginas; i++) {
+        const btn = document.createElement("button");
+        btn.innerText = i;
+        btn.classList.add("btn-paginacion");
+        if (i === paginaActual) btn.classList.add("activo");
 
-    // 5. Lo mostramos (Esperamos 10ms para que la animación se vea bien)
-    setTimeout(() => {
-        noti.classList.add("activo");
-    }, 10);
-
-    // 6. Lo ocultamos a los 3 segundos
-    setTimeout(() => {
-        noti.classList.remove("activo");
-    }, 3000);
-}
-}
-
-/* =================================
-   3. LÓGICA DEL NEGOCIO (CALCULOS Y ACCIONES)
-   ================================= */
-function agregarAlCarrito(id) {
-    // 1. BÚSQUEDA EN BASE DE DATOS (Array global 'productos')
-    const productoAgregado = productos.find(producto => producto.id === id);
-
-    const existeEnCarrito = carrito.find(producto => producto.id === id);
-    
-    // 3. LÓGICA DE NEGOCIO
-    if (existeEnCarrito) {
-
-        existeEnCarrito.cantidad++;
-    } else {
-
-        const nuevo = { ...productoAgregado, cantidad: 1 };
-        carrito.push(nuevo);
-    }
-    
-    // 4. PERSISTENCIA Y UI
-    actualizarCarritoVisual();    
-    mostrarNotificacion("¡Producto agregado con éxito!");
-    
-    // Guardamos en LocalStorage para que los datos sobrevivan si el usuario cierra la pestaña (F5).
-    guardarCarritoEnStorage();
-}
-
-/* =================================
-   FUNCIÓN FALTANTE: ELIMINAR
-   ================================= */
-function eliminarDelCarrito(id) {
-    // Filtramos: Nos quedamos con todos los productos MENOS el que queremos borrar
-    carrito = carrito.filter(producto => producto.id !== id);
-
-    // Actualizamos la pantalla y el guardado
-    actualizarCarritoVisual();
-    guardarCarritoEnStorage();
-    
-    mostrarNotificacion("Producto eliminado 🗑️", "error");
-}
-
-/* =================================
-   5. PERSISTENCIA (LOCAL STORAGE)
-   ================================= */
-
-
-function guardarCarritoEnStorage(){
-    const carritoGuardado = JSON.stringify(carrito);
-    localStorage.setItem("carritoGeek", carritoGuardado);
-}
-
-
-function recuperarCarrito(){
-    const memoria = localStorage.getItem("carritoGeek");
-    
-    if(memoria){
-        carrito = JSON.parse(memoria);
-        actualizarCarritoVisual();
-    }
-}
-
-
-/* =================================
-   4. INICIALIZACIÓN (ARRANQUE)
-   ================================= */
-cargarBaseDeDatos() 
-recuperarCarrito(); 
-manejarFormulario();
-
-/* =================================
-   5. LOGICA DE FORMULARIO DE CONTACTO
-   ================================= */
-
-function manejarFormulario(){
-    //1. Agarramos el formulario
-    const formulario = document.getElementById("form-contacto");
-
-    if (!formulario) return;
-
-    formulario.addEventListener("submit", function(evento){
-
-        evento.preventDefault();
-
-        const nombre = document.getElementById("nombre").value;
-        const email  =document.getElementById("email").value;
-        const mensaje = document.getElementById("mensaje").value;
-
-        if (nombre === "" || email ==="" || mensaje ===""){
-            mostrarNotificacion("Por favor, completá todos los campos")
-            return;
-        }
-
-        mostrarNotificacion(`!Gracias ${nombre}! Hemos recibido tu mensaje`);
-
-     
-        formulario.reset();
-    });
-}
-
-async function finalizarCompra(){
-    if(carrito.length === 0){
-        mostrarNotificacion(`En tu carrito no hay nada`);
-        return;
-    }
-
-    const telefono = "5492612451593";
-    let mensaje = "Hola GeekHouse! Quiero comprar lo siguiente: \n\n";
-    let total = 0;
-
-    // 2-Validacion : Usuario logeado
-    //Si no hay usuario en auth, lo echamos.
-
-    if(!usuarioLogueado){
-        mostrarNotificacion("Para finalizar la compra necesitas iniciar sesion o registrarte")
-        document.getElementById("modal-ingreso").classList.add("activo")
-    }
-
-    carrito.forEach(({nombre, precio, cantidad}) => {
-        mensaje += `${cantidad} x ${nombre} - ${formatearPrecio(precio)}\n`;
-        total += precio * cantidad;
-    });
-
-    //Guardado en la nube
-
-    try{
-        const pedido = {
-            cliente: usuarioLogueado, //el mail del comprador
-            items: carrito, //Lo que compro
-            total: total, 
-            fecha: serverTimestamp(), //La hora oficial de google
-            estado: "pendiente", //Para que yo sepa que falta pagar
-        }
-     
-    // Guardamos en la coleccion "pedidos"
-        const pedidoGuardado = await addDoc(collection(db, "pedidos"), pedido);
-        mensaje += `\n🆔 ID de Pedido: ${pedidoGuardado.id}`;
-        mensaje += `\nTotal a pagar: ${formatearPrecio(total)}`;
-        mensaje += `\n¿Cómo podemos coordinar el pago y envío?`;
-
-        const mensajeCodificado = encodeURIComponent(mensaje);
-        const urlWhatsapp = `https://wa.me/${telefono}?text=${mensajeCodificado}`;
-
-        window.open(urlWhatsapp, "_blank");
-            
-        carrito = [];
-        actualizarCarritoVisual();
-        guardarCarritoEnStorage();
-    } catch(error){
-        console.error("Error al guardar pedido", error);
-        mostrarNotificacion("Hubo un error al procesar tu pedido. Intenta de nuevo")
-    }
-}
-
-
-// Al agregar producto
-localStorage.setItem("carrito", JSON.stringify(carrito));
-
-// Al cargar la página
-const carritoGuardado = localStorage.getItem("carrito");
-if (carritoGuardado) {
-  carrito = JSON.parse(carritoGuardado);
-  actualizarCarritoVisual();
-}
-
-
-/* =================================
-   6. FILTROS DE BÚSQUEDA
-   ================================= */
-const inputBusqueda = document.getElementById("input-busqueda");
-
-if(inputBusqueda){
-    
-    inputBusqueda.addEventListener("keyup", function(evento){
-        const textoUsuario = evento.target.value.toLowerCase();
-
-        const productosFiltrados = productos.filter(producto => {
-            // 1. Buscamos en el nombre
-            const enNombre = producto.nombre.toLowerCase().includes(textoUsuario);
-            
-            // 2. Buscamos en la categoría (agregamos esto)
-            const enCategoria = producto.categoria.toLowerCase().includes(textoUsuario);
-
-            // 3. Buscamos en la franquicia (agregamos esto por si buscan "Marvel")
-            // Usamos || "" por si algun producto no tiene franquicia
-            const enFranquicia = (producto.franquicia || "").toLowerCase().includes(textoUsuario);
-
-            // RETORNAMOS: Si coincide con ALGUNO de los tres (OR)
-            return enNombre || enCategoria || enFranquicia;
+        btn.addEventListener("click", () => {
+            // Recargar productos pasandoles la nueva pagina
+            cargarProductos(productosFiltradosActuales, i);
+            window.scrollTo({ top: 0, behavior: "smooth" });
         });
 
-        cargarProductos(productosFiltrados);
+        contenedorPaginacion.appendChild(btn);
+    }
+}
+
+export function renderizarFranquicias() {
+    const contenedor = document.getElementById("contenedor-franquicias");
+    if (!contenedor) return;
+
+    contenedor.innerHTML = "";
+
+    const btnBorrar = document.createElement("button");
+    btnBorrar.innerText = "Borrar Filtros";
+    btnBorrar.classList.add("btn-franquicia");
+
+    btnBorrar.style.borderColor = "#ff5252";
+    btnBorrar.style.background = "black";
+    btnBorrar.style.color = "#ff5252";
+
+    btnBorrar.addEventListener("click", () => {
+        document.querySelectorAll(".btn-franquicia.activo").forEach(btn => btn.classList.remove("activo"));
+
+        const esPaginaProductos = window.location.pathname.includes("pages");
+
+        if (esPaginaProductos) {
+            cargarProductos(productos);
+        } else {
+            const soloDestacados = productos.filter(p => p.destacado === true);
+            cargarProductos(soloDestacados);
+        }
+    });
+
+    contenedor.appendChild(btnBorrar);
+
+    const franquiciasSucias = productos.map(producto => producto.franquicia);
+    const franquiciasUnicas = [...new Set(franquiciasSucias)];
+
+    franquiciasUnicas.forEach(franquicia => {
+        if (franquicia) {
+            const btn = document.createElement("button");
+            btn.innerText = franquicia;
+            btn.classList.add("btn-franquicia");
+
+            btn.addEventListener("click", () => {
+                document.querySelectorAll(".btn-franquicia").forEach(b => b.classList.remove("activo"));
+                btn.classList.add("activo");
+
+                // Limpiamos la URL para no arrastrar el parametro viejo
+                window.history.pushState({}, document.title, window.location.pathname);
+
+                const productosFiltrados = productos.filter(p => p.franquicia === franquicia);
+                cargarProductos(productosFiltrados);
+            });
+
+            // Si venimos de la Home con el parámetro en la URL, pintar este botón
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('franquicia') === franquicia) {
+                btn.classList.add("activo");
+            }
+
+            contenedor.appendChild(btn);
+        }
     });
 }
 
-
-/* =================================
-   7. FILTROS POR CATEGORÍA
-   ================================= */
-//Seleccionamos todos los botones que tengan la clase .btn-cat
-const botonesCategorias = document.querySelectorAll(".btn-cat");
-
-// Les damos vida a cada uno
-botonesCategorias.forEach(boton =>{
-    boton.addEventListener("click", (e)=> {
-        //1. Averiguamos que boton se tocó (cat-ropa, cat-hogar, etc)
-        const idBoton = e.currentTarget.id;
-
-        if(idBoton ==="cat-todos"){
-            cargarProductos(productos) // PAsamos la lista completa
-        }else{
-
-            const categoriaSeleccionada = idBoton.slice(4);
-
-            const productosFiltrados = productos.filter(producto => producto.categoria === categoriaSeleccionada);
-            cargarProductos(productosFiltrados)
-        }
-    })
-})
-
-/* =================================
-   13. CARGAR DETALLE DE PRODUCTO (FIREBASE)
-   ================================= */
-async function cargarDetalleProducto() {
+export async function cargarDetalleProducto() {
     const contenedorDetalle = document.getElementById("detalle-producto");
-    if (!contenedorDetalle) return; 
+    if (!contenedorDetalle) return;
 
     const params = new URLSearchParams(window.location.search);
     const idProducto = params.get("prod");
@@ -395,21 +191,24 @@ async function cargarDetalleProducto() {
 
         if (docSnap.exists()) {
             const producto = docSnap.data();
-            
-            // CORRECCIÓN DE IMAGEN 
+
             let rutaImagen = producto.imagen;
-            
-            // Si NO es una url de internet (http), le agregamos "../" para salir de la carpeta pages
+
             if (!rutaImagen.startsWith("http")) {
                 rutaImagen = "../" + rutaImagen;
             }
 
-            // 👇 USAMOS ${rutaImagen} EN VEZ DE ${producto.imagen}
+            const favsGuardados = obtenerFavoritos();
+            const iconoCorazon = favsGuardados.includes(docSnap.id) ? "❤️" : "🤍";
+
             contenedorDetalle.innerHTML = `
                 <div class="detalle-flex">
                         <img src="${rutaImagen}" alt="${producto.nombre}">
                     <div class="detalle-info">
-                        <h2>${producto.nombre}</h2>
+                        <h2>
+                            ${producto.nombre} 
+                            <button class="btn-favorito-detalle" onclick="toggleFavoritoClick('${docSnap.id}', this)" title="Añadir a favoritos">${iconoCorazon}</button>
+                        </h2>
                         <p class="precio-detalle">$ ${producto.precio}</p>
                         <p class="descripcion">${producto.descripcion || generarDescripcion(producto)}</p>
                         <p class="categoria">Categoría: <span>${producto.categoria}</span></p>
@@ -420,6 +219,13 @@ async function cargarDetalleProducto() {
                     </div>
                 </div>
             `;
+
+            // 4. Llamamos a la función de Similares
+            cargarProductosSimilares(producto);
+
+            // 5. Instanciar sistema de Opiniones
+            cargarUIReviews(docSnap.id);
+
         } else {
             contenedorDetalle.innerHTML = "<h3>❌ El producto no existe.</h3>";
         }
@@ -429,369 +235,212 @@ async function cargarDetalleProducto() {
         contenedorDetalle.innerHTML = "<h3>🔥 Error cargando producto.</h3>";
     }
 }
-cargarDetalleProducto();
 
+// ===================================
+// FUNCION: CARGAR PRODUCTOS SIMILARES
+// ===================================
+export function cargarProductosSimilares(productoActivo) {
+    const contenedorSimilares = document.getElementById("contenedor-similares");
+    const seccionSimilares = document.getElementById("seccion-similares");
 
+    if (!contenedorSimilares || !seccionSimilares) return;
 
-function verificarUsuario() {
-    const btnLogout = document.getElementById("btn-logout"); 
-    const nombreUsuario = document.getElementById("nombre-usuario");
+    seccionSimilares.style.display = "block"; // Lo hacemos visible ahora que hay data
 
-    // 1. CONFIGURACIÓN DEL LOGOUT
-    if (btnLogout) {
-        btnLogout.addEventListener("click", async () => {
-            try {
-                await signOut(auth);
-                mostrarNotificacion("Has cerrado sesión 👋");
-                setTimeout(() => window.location.reload(), 1500);
-            } catch (error) {
-                console.error("Error al salir:", error);
-            }
-        });
+    // Filtramos productos de la misma categoria o franquicia, omitiendo el producto actual
+    let similares = productos.filter(p =>
+        (p.categoria === productoActivo.categoria || p.franquicia === productoActivo.franquicia)
+        && p.nombre !== productoActivo.nombre // evitamos q sea el mismo prod
+    );
+
+    // Si no hay similares de esa categoría, tiramos unos random para que no quede vacío
+    if (similares.length === 0) {
+        similares = productos.filter(p => p.nombre !== productoActivo.nombre).slice(0, 4);
+    } else {
+        similares = similares.slice(0, 4); // Limitamos a un Max de 4 para no inflar la web
     }
 
-    // 2. EL PATOVICA (Monitor de Estado)
-    onAuthStateChanged(auth, (usuario) => {
+    const prefijoImagen = window.location.pathname.includes("pages") ? "../" : "";
+    const rutaProducto = window.location.pathname.includes("pages") ? "producto.html" : "pages/producto.html";
 
-        const contenedorPerfil = document.getElementById("lista-pedidos");
-        const mensajeVisitante = document.getElementById("mensaje-visitante");
-        const tituloPerfil = document.getElementById("email-perfil");
+    let listaHTML = "";
 
-        if (usuario) {
-         
-            console.log("Usuario activo:", usuario.email);
-            usuarioLogueado = usuario.email;
-            
-            document.body.classList.add("sesion-iniciada");
+    similares.forEach(({ id, nombre, precio, imagen }) => {
+        let rutaImagen = imagen.startsWith("http") ? imagen : prefijoImagen + imagen;
+        import('./ui.js').then(m => {
+            const favsGuardados = obtenerFavoritos();
+            const iconoCorazon = favsGuardados.includes(id) ? "❤️" : "🤍";
+            const claseCorazon = favsGuardados.includes(id) ? "activo" : "";
 
-            if(nombreUsuario) nombreUsuario.innerText = `Hola, ${usuario.email}`;
-            
-            if (contenedorPerfil && mensajeVisitante) {
-                contenedorPerfil.style.display = "block"; 
-                mensajeVisitante.style.display = "none";  
-            }
+            listaHTML += `
+            <article class="producto animacion-entrada" style="animation-duration: 1.2s;"> 
+                <button class="btn-favorito ${claseCorazon}" onclick="toggleFavoritoClick('${id}', this)" title="Añadir a favoritos">${iconoCorazon}</button>
+                <a href="${rutaProducto}?prod=${id}">
+                    <img src="${rutaImagen}" alt="${nombre}" loading="lazy">
+                </a>
+                <div class ="info-producto">
+                    <h3>${nombre}</h3>
+                    <p class="precio">${m.formatearPrecio(precio)}</p>
+                    <p class="envio-info"> Envio a coordinar </p>
+                    <button class="btn-comprar" onclick="agregarAlCarrito('${id}')">Comprar</button>
+                </div>
+            </article>`;
+            contenedorSimilares.innerHTML = listaHTML;
+        });
+    });
+}
 
-            mostrarPedidos(usuario.email); 
+// ===================================
+// FUNCION: RENDERIZAR GRILLA FAVORITOS (PERFIL)
+// ===================================
+export function renderizarFavoritosPerfil() {
+    const contenedorFavs = document.getElementById("grilla-favoritos");
+    if (!contenedorFavs) return;
 
+    const favsGuardados = obtenerFavoritos();
+
+    if (favsGuardados.length === 0) {
+        contenedorFavs.innerHTML = "<p class='cargando'>No tienes favoritos aún. ¡Ve al catálogo y enamórate de algo!</p>";
+        return;
+    }
+
+    const productosFavs = productos.filter(p => favsGuardados.includes(p.id));
+
+    let htmlFavs = "";
+    const prefijoImagen = window.location.pathname.includes("pages") ? "../" : "";
+    const rutaProducto = window.location.pathname.includes("pages") ? "producto.html" : "pages/producto.html";
+
+    productosFavs.forEach(({ id, nombre, precio, imagen }) => {
+        let rutaImagen = imagen.startsWith("http") ? imagen : prefijoImagen + imagen;
+        import('./ui.js').then(m => {
+            htmlFavs += `
+            <article class="producto animacion-entrada" style="animation-duration: 0.8s;"> 
+                <button class="btn-favorito activo" onclick="toggleFavoritoClick('${id}', this)" title="Añadir a favoritos">❤️</button>
+                <a href="${rutaProducto}?prod=${id}">
+                    <img src="${rutaImagen}" alt="${nombre}" loading="lazy">
+                </a>
+                <div class ="info-producto">
+                    <h3>${nombre}</h3>
+                    <p class="precio">${m.formatearPrecio(precio)}</p>
+                    <button class="btn-comprar" onclick="agregarAlCarrito('${id}')">Comprar</button>
+                </div>
+            </article>`;
+            contenedorFavs.innerHTML = htmlFavs;
+        });
+    });
+}
+
+// Escuchar cuando se borran o agregan favoritos globalmente para actualizar el perfil en tiempo real
+window.addEventListener("favoritosActualizados", () => {
+    // Re-renderizamos los botones del index y las tarjetas del perfil si ambos están vivos
+    const path = window.location.pathname;
+    if (path.includes("perfil.html")) {
+        renderizarFavoritosPerfil();
+    } else {
+        // En productos o index, recargamos la grilla actual
+        const esSubcarpeta = window.location.pathname.includes("pages");
+        if (esSubcarpeta && document.getElementById("input-busqueda")) {
+            // No podemos recargar toda la grilla si no sabemos en qué pagina está, 
+            // pero el toggle ya cambia el icono visualmente (btn.innerText). Así que lo dejamos así para no romper paginación.
         } else {
-            // --- CASO: INVITADO ---
-            console.log("Nadie logueado");
-            usuarioLogueado = null;
-            document.body.classList.remove("sesion-iniciada");
+            // Si estabas en Home y diste click, renderizarDestacados se llama solo? No, main renderiza destacado al ppio.
+        }
+    }
+});
 
-            // LÓGICA DE PERFIL (Solo switch visual)
-            if (contenedorPerfil && mensajeVisitante) {
-                if(tituloPerfil) tituloPerfil.innerText = "Visitante";
-                
-                // OCULTAMOS la lista
-                contenedorPerfil.style.display = "none";
-                
-                // MOSTRAMOS el cartel de error
-                mensajeVisitante.style.display = "block";
+// INICIALIZACIÓN (ARRANQUE)
+inicializarAuth();
+cargarBaseDeDatos().then(renderizarFavoritosPerfil);
+recuperarCarrito();
+
+// EXPOSICIÓN GLOBAL (Para HTML)
+window.cargarProductos = cargarProductos;
+window.renderizarFranquicias = renderizarFranquicias;
+
+
+// FILTROS DE BÚSQUEDA Y AUTOCOMPLETAR
+const inputBusqueda = document.getElementById("input-busqueda");
+const contenedorResultados = document.getElementById("resultados-busqueda");
+
+if (inputBusqueda) {
+    inputBusqueda.addEventListener("keyup", function (evento) {
+        const textoUsuario = evento.target.value.toLowerCase();
+
+        // Si borró todo, ocultamos popup y mostramos los por defecto (o paginación)
+        if (textoUsuario === "") {
+            if (contenedorResultados) contenedorResultados.classList.remove("activo");
+            cargarProductos(productos);
+            return;
+        }
+
+        // Filtramos para la vista oficial global
+        const productosFiltrados = productos.filter(producto => {
+            const enNombre = producto.nombre.toLowerCase().includes(textoUsuario);
+            const enCategoria = producto.categoria.toLowerCase().includes(textoUsuario);
+            const enFranquicia = (producto.franquicia || "").toLowerCase().includes(textoUsuario);
+            return enNombre || enCategoria || enFranquicia;
+        });
+
+        // 1. Mostrar la grilla grandota abajo
+        cargarProductos(productosFiltrados);
+
+        // 2. Mostrar la ventanita Autocompletar Predictiva debajo del Input
+        if (contenedorResultados) {
+            contenedorResultados.innerHTML = ""; // Vaciamos basura vieja
+
+            if (productosFiltrados.length === 0) {
+                contenedorResultados.classList.remove("activo");
+                return;
             }
+
+            // Prendemos la ventanita mostrando max 5 y armamos las minis
+            contenedorResultados.classList.add("activo");
+            const primerosResultados = productosFiltrados.slice(0, 5);
+
+            let htmlPredictivo = "";
+            const prefijoImagen = window.location.pathname.includes("pages") ? "../" : "";
+
+            primerosResultados.forEach(prod => {
+                let rutaImg = prod.imagen.startsWith("http") ? prod.imagen : prefijoImagen + prod.imagen;
+                htmlPredictivo += `
+                    <a href="producto.html?prod=${prod.id}" class="item-busqueda">
+                        <img src="${rutaImg}" alt="${prod.nombre}">
+                        <div class="info-item-busqueda">
+                            <span>${prod.nombre}</span>
+                            <small>$${prod.precio}</small>
+                        </div>
+                    </a>
+                `;
+            });
+
+            contenedorResultados.innerHTML = htmlPredictivo;
+        }
+    });
+
+    // Pequeño truco para que si el usuario hace click afuera de la caja, se cierre el predictivo
+    document.addEventListener("click", (e) => {
+        if (contenedorResultados && !inputBusqueda.contains(e.target) && !contenedorResultados.contains(e.target)) {
+            contenedorResultados.classList.remove("activo");
         }
     });
 }
 
+// FILTROS POR CATEGORÍA
+const botonesCategorias = document.querySelectorAll(".btn-cat");
 
+botonesCategorias.forEach(boton => {
+    boton.addEventListener("click", (e) => {
+        const idBoton = e.currentTarget.id;
 
-function configurarModal(){
-    const btnLogin = document.getElementById("btn-login");
-    const btnCerrar = document.getElementById("btn-cerrar"); 
-    const fondoOscuro = document.getElementById("modal-ingreso");
-
-    if (btnLogin) {
-        btnLogin.addEventListener("click", () => {
-            if(fondoOscuro) fondoOscuro.classList.add("activo");
-        });
-    }
-
-    if (btnCerrar) {
-        btnCerrar.addEventListener("click", () => {
-            if(fondoOscuro) fondoOscuro.classList.remove("activo");
-        });
-    }
-}
-configurarModal();
-
-function logicaLogin(){
-    const form = document.getElementById("form-login-cliente");
-    
-    if (form) {
-        form.addEventListener("submit", async function(evento){
-            evento.preventDefault();
-            const mail = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            
-            try {
-                const credenciales = await signInWithEmailAndPassword(auth, mail, password);
-                
-                const modal = document.getElementById("modal-ingreso");
-                if(modal) modal.classList.remove("activo");
-                
-                mostrarNotificacion("¡Hola " + credenciales.user.email + ", ingresaste con éxito!");            
-                form.reset();
-                
-            } catch (error) {
-                mostrarNotificacion("Error: " + error.message);
-            }
-        });
-    }
-}
-logicaLogin();
-
-logicaLogin()
-
-function alternarFormularios(){
-    const formLogin = document.getElementById("form-login-cliente");
-    const formRegister = document.getElementById("form-register-cliente");
-    const linkRegistro = document.getElementById("link-ir-registro");
-    const linkLogin = document.getElementById("link-volver-login");
-
-    if (linkRegistro) {
-        linkRegistro.addEventListener("click", () => {
-            if(formLogin) formLogin.style.display = "none";
-            if(formRegister) formRegister.style.display ="flex";
-        });
-    }
-
-    if (linkLogin) {
-        linkLogin.addEventListener("click", () => {
-            if(formLogin) formLogin.style.display = "flex";
-            if(formRegister) formRegister.style.display ="none";
-        });
-    }
-}
-alternarFormularios()
-
-function logicaRegistro(){
-    const formRegistrar = document.getElementById("form-register-cliente");
-    
-    if (formRegistrar) {
-        formRegistrar.addEventListener("submit", async function(e){
-            e.preventDefault();
-            const mail = document.getElementById("email-reg").value;
-            const password = document.getElementById("password-reg").value;
-            
-            try {
-                const autenticacion = await createUserWithEmailAndPassword(auth, mail, password);
-                mostrarNotificacion("¡Cuenta creada! Bienvenido/a" + autenticacion.user.email)
-                
-                const modal = document.getElementById("modal-ingreso");
-                if(modal) modal.classList.remove("activo");
-                
-                formRegistrar.reset();
-            } catch (error) {
-                mostrarNotificacion("Hubo un error:" +error.message)
-            }
-        });
-    }
-}
-logicaRegistro();
-
-/* =================================
-   9. CARGA DE DATOS (FETCH)
-   ================================= */
-
-async function cargarBaseDeDatos() {
-    try {
-        const contenedor = document.querySelector(".productos");
-
-        const productosRef = collection(db, "productos");
-
-
-        const querySnapshot = await getDocs(productosRef);
-
- 
-        const datos = querySnapshot.docs.map(doc => {
-            return {
-                id: doc.id,       
-                ...doc.data()     
-            };
-        });
-
-        console.log("✅ Productos recibidos:", datos);
-
-        productos = datos;
-
-
-        const esPaginaProductos = window.location.pathname.includes("pages");
-
-        if (contenedor) {
-                const esPaginaProductos = window.location.pathname.includes("pages");
-
-                if (esPaginaProductos) {
-                    cargarProductos(productos);
-                } else {
-                    const soloDestacados = productos.filter(p => p.destacado === true);
-                    cargarProductos(soloDestacados);
-                
-                    const filtros = document.querySelector(".filtros"); 
-                    if(filtros) filtros.style.display = "none";
-                }
-        }
-        cargarDetalleProducto();
-        renderizarFranquicias();
-
-    } catch (error) {
-        console.error("🔥 Error conectando a Firebase:", error);
-        
-        const contenedor = document.querySelector(".productos");
-        if(contenedor){
-            contenedor.innerHTML = "<h2> Hubo un error cargando los productos desde la nube. </h2>";
-        }
-    }
-}
-
-/* =================================
-   10. FILTROS DINÁMICOS (FRANQUICIAS)
-   ================================= */
-function renderizarFranquicias() {
-    const contenedor = document.getElementById("contenedor-franquicias");
-    
-    // Si no existe el contenedor (por ejemplo en otra página), cortamos acá
-    if (!contenedor) return;
-
-    // 1. Limpiamos lo que haya antes de dibujar
-    contenedor.innerHTML = "";
-
-    // === BOTÓN "BORRAR FILTROS" (INTELIGENTE) ===
-    const btnBorrar = document.createElement("button");
-    btnBorrar.innerText = "Borrar Filtros";
-    btnBorrar.classList.add("btn-franquicia"); 
-    
-    // Estilos visuales para diferenciarlo (Rojo/Negro)
-    btnBorrar.style.borderColor = "#ff5252"; 
-    btnBorrar.style.background = "black";
-    btnBorrar.style.color = "#ff5252";
-
-    btnBorrar.addEventListener("click", () => {
-        
-        // A. Limpieza Visual: Sacamos la clase 'activo' de cualquier otro botón
-        document.querySelectorAll(".btn-franquicia.activo").forEach(btn => btn.classList.remove("activo"));
-
-        // B. Lógica de Redibujado según la página
-        const esPaginaProductos = window.location.pathname.includes("pages");
-
-        if (esPaginaProductos) {
-            // CASO 1: Estoy en el Catálogo -> Muestro TODO
+        if (idBoton === "cat-todos") {
             cargarProductos(productos);
         } else {
-            // CASO 2: Estoy en el Home -> Muestro SOLO DESTACADOS
-            const soloDestacados = productos.filter(p => p.destacado === true);
-            cargarProductos(soloDestacados);
+            const categoriaSeleccionada = idBoton.slice(4);
+            const productosFiltrados = productos.filter(producto => producto.categoria === categoriaSeleccionada);
+            cargarProductos(productosFiltrados);
         }
-    });
-
-    // Lo agregamos PRIMERO a la lista
-    contenedor.appendChild(btnBorrar);
-
-
-    // === BOTONES DE LAS FRANQUICIAS (AUTOMÁTICOS) ===
-    const franquiciasSucias = productos.map(producto => producto.franquicia);
-    // Usamos Set para eliminar duplicados
-    const franquiciasUnicas = [...new Set(franquiciasSucias)];
-
-    franquiciasUnicas.forEach(franquicia => {
-        if(franquicia){
-            const btn = document.createElement("button");
-            btn.innerText = franquicia;
-            btn.classList.add("btn-franquicia");
-            
-            btn.addEventListener("click", () => {
-                // Visual: Marcamos este botón como activo y desmarcamos el resto
-                document.querySelectorAll(".btn-franquicia").forEach(b => b.classList.remove("activo"));
-                btn.classList.add("activo");
-
-                // Lógica: Filtramos los productos
-                const productosFiltrados = productos.filter(p => p.franquicia === franquicia);
-                cargarProductos(productosFiltrados);
-            });
-            
-            contenedor.appendChild(btn);
-        }
-    });
-}
-
-//10. AÑADIR DESCRIPCION AUTOMATICA
-
-// Recibe UN producto por parámetro (no recorre todo el array)
-function generarDescripcion(producto) {
-    
-    // Paso el nombre a minúsculas una sola vez para no repetir código
-    // Uso || "" por si algún producto no tiene nombre y evitar error
-    const nombre = (producto.nombre || "").toLowerCase();
-
-    // 1. MEDIAS
-    // Uso .includes() este metodo es igual a un IN en python
-    if (nombre.includes("medias")) {
-      return `
-        <ul class="descripcion-producto">
-            <li>Medias inspiradas en el universo geek y la cultura pop</li>
-            <li>Diseño pensado para fans que quieren llevar su pasión puesta</li>
-            <li>Ideales para uso diario o para completar un outfit geek</li>
-            <li>Comodidad y estilo en una sola prenda</li>
-            <li>Un detalle infaltable para verdaderos fans</li>
-        </ul>`;
-    }
-
-    // 2. FUNKO 
-    else if (nombre.includes("funko") || nombre.includes("pop")) {
-        return `
-        <ul class="descripcion-producto">
-            <li>Figura Funko Pop original de colección</li>
-            <li>Diseño característico con gran nivel de detalle</li>
-            <li>Ideal para exhibir en caja o fuera de ella</li>
-            <li>Perfecta para coleccionistas y fans</li>
-            <li>Un clásico infaltable en cualquier colección geek</li>
-        </ul>`;
-    }
-
-    // 3. FIGURAS 
-    else if (nombre.includes("llavero")){
-        return `
-           <ul class="descripcion-producto">
-            <li>Llavero inspirado en la cultura geek y personajes icónicos</li>
-            <li>Un detalle ideal para llevar tu fandom a todos lados</li>
-            <li>Perfecto para mochilas, llaves o accesorios</li>
-            <li>Diseño pensado para fans del universo geek</li>
-            <li>Pequeño, práctico y lleno de personalidad</li>
-        </ul>`;
-    }
-
-    // 4. LLAVEROS
-    else if (nombre.includes("figura")) {
-        return `
-            <ul class="descripcion-producto">
-                <li>Figura coleccionable basada en el universo de Naruto </li>
-                <li>Diseñada para destacar en cualquier lado</li>
-                <li>Ideal para fans del Animé</li>
-                <li>Perfecta para exhibir en escritorios o estanterías</li>
-            </ul>`;
-    }
-    
-    // 5. TAZAS
-    else if (nombre.includes("taza")) {
-        return `
-        <ul class="descripcion-producto">
-            <li>Taza de ceramica con diseño inspirado en el mundo geek</li>
-            <li>Ideal para acompañar maratones de series, anime o gaming</li>
-            <li>Perfecta para fans de la cultura GEEK</li>
-            <li>Un clásico del desayuno o la oficina geek</li>
-            <li>Un regalo ideal para cualquier fan</li>
-        </ul>`;
-    }
-
-    // 6. DEFAULT (Si no encontró ninguna palabra clave)
-    return `
-    <ul class="descripcion-producto">
-        <li>Producto oficial de GeekHouse</li>
-        <li>Excelente calidad garantizada</li>
-        <li>Envios a todo el país</li>
-        <li>Compra protegida y segura</li>
-    </ul>`;
-}
-
+    })
+})
 
 const imagenesHero = [
     "./img/banner-star-wars.jpg",
@@ -803,189 +452,13 @@ let indiceActual = 0;
 const imagenElemento = document.getElementById("imagen-hero");
 
 function cambiarImagen() {
-    if (!imagenElemento) return; // Protección por si no estoy en el home
+    if (!imagenElemento) return;
 
-    // 1. Calculo cuál sigue (si se llega al final, se vuelve a 0)
     indiceActual = (indiceActual + 1) % imagenesHero.length;
-
-    // 2. Cambio la foto
-    // Truco visual: Bajo opacidad, cambio foto, subo opacidad
     imagenElemento.style.opacity = 0;
-    
     setTimeout(() => {
         imagenElemento.src = imagenesHero[indiceActual];
         imagenElemento.style.opacity = 1;
-    }, 500); // Se espera medio segundo para cambiarla
+    }, 500);
 }
-
-// 3. Actio el reloj automático (cada 4 segundos)
 setInterval(cambiarImagen, 4000);
-
-/* === LOGICA TOGGLE CARRITO === */
-function toggleCarrito() {
-    const carritoContainer = document.getElementById("carrito-container");
-    // Esto pone y saca la clase .oculto automáticamente
-    carritoContainer.classList.toggle("oculto");
-}
-
-/* ================= FUNCION PARA MOVER CARRUSEL ================= */
-function moverCarrusel(idContenedor, direccion) {
-    // 1. Buscamos el elemento por su ID
-    const contenedor = document.getElementById(idContenedor);
-    
-    // Si no existe (por ejemplo en otra página), no hacemos nada
-    if (!contenedor) return;
-
-    // 2. Definimos cuánto vamos a mover (aprox el ancho de una tarjeta + espacio)
-    const anchoTarjeta = 270; 
-    
-    // 3. Calculamos la nueva posición
-    if (direccion === 'izquierda') {
-        contenedor.scrollBy({ left: -anchoTarjeta, behavior: 'smooth' });
-    } else {
-        contenedor.scrollBy({ left: anchoTarjeta, behavior: 'smooth' });
-    }
-}
-
-
-/* =========================================
-   EXPOSICIÓN GLOBAL (Para que el HTML las vea)
-   ========================================= */
-// 1. Funciones de Compra y Carrito
-window.agregarAlCarrito = agregarAlCarrito; 
-window.eliminarDelCarrito = eliminarDelCarrito; 
-window.finalizarCompra = finalizarCompra;       
-window.toggleCarrito = toggleCarrito;           
-
-// 2. Funciones de Renderizado y Navegación
-window.moverCarrusel = moverCarrusel;
-window.cargarProductos = cargarProductos;       
-window.renderizarFranquicias = renderizarFranquicias;
-
-
-
-
-/* =================================================
-   10.5 FUNCIÓN DESCARTABLE: CARGA MASIVA DE DATOS
-   ================================================= */
-async function subirDatosAFirebase() {
-    // 1. Pedimos confirmación para no hacer macanas
-    const confirmar = confirm("⚠️ ¿Estás seguro de que querés subir TODOS los productos del JSON a Firebase? Esto va a sobrescribir lo que haya.");
-    if (!confirmar) return;
-
-    console.log("🚀 Iniciando carga masiva...");
-
-    try {
-        // 2. Leemos el archivo local (como hacíamos antes)
-        const respuesta = await fetch('./datos/productos.json');
-        const datosLocales = await respuesta.json();
-
-        // 3. Recorremos uno por uno y lo mandamos a la nube
-        for (const producto of datosLocales) {
-                    
-                    // 👇 PASO MAGICO: Limpiamos el ID por si tiene barras prohibidas "/"
-                    // Esto cambia "medias-3/4" por "medias-3-4"
-                    const idLimpio = producto.id.replace(/\//g, "-");
-
-                    // Usamos el ID limpio para la referencia
-                    const referencia = doc(db, "productos", idLimpio);
-                    
-                    // Subimos la info (y nos aseguramos de guardar el ID limpio adentro también)
-                    await setDoc(referencia, { ...producto, id: idLimpio });
-                    
-                    console.log(`✅ Producto subido: ${producto.nombre}`);
-                }
-
-        console.log("✨ ¡TERMINADO! Todos los productos están en la nube.");
-        alert("Carga completa. Ahora recargá la página.");
-
-    } catch (error) {
-        console.error("Error en la migración:", error);
-    }
-}
-
-// Hacemos la función pública para poder llamarla desde la consola
-window.subirDatosAFirebase = subirDatosAFirebase;
-
-/* =================================
-   11. PERFIL DE USUARIO
-   ================================= */
-
-async function cargarHistorial() {
-    const contenedor = document.getElementById("lista-pedidos");
-    if (!contenedor) return; // Si no estoy en perfil.html, me voy.
-
-}
-
-// ESTA ES LA FUNCIÓN QUE HACE EL TRABAJO
-async function mostrarPedidos(emailUsuario) {
-    const contenedor = document.getElementById("lista-pedidos");
-    const emailPerfil = document.getElementById("email-perfil");
-    
-    if (!contenedor) return;
-
-    // Actualizamos el título con el email
-    if(emailPerfil) emailPerfil.innerText = emailUsuario;
-    
-
-    try {
-        contenedor.innerHTML = "<p>Cargando pedidos...</p>";
-
-        const pedidosRef = collection(db, "pedidos");
-        
-        const q = query(
-            pedidosRef, 
-            where("cliente", "==", emailUsuario),
-            orderBy("fecha", "desc") // Ordenar por fecha (más nuevo arriba)
-        );
-
-        // 2. Ejecutamos la consulta
-        const querySnapshot = await getDocs(q);
-
-        // 3. Si no hay nada
-        if (querySnapshot.empty) {
-            contenedor.innerHTML = "<h3>Todavía no hiciste compras. ¡Andá al catálogo! 🛍️</h3>";
-            return;
-        }
-
-        // 4. Dibujamos los pedidos
-        let html = "";
-        
-        querySnapshot.forEach((doc) => {
-            const pedido = doc.data();
-            const fecha = pedido.fecha ? pedido.fecha.toDate().toLocaleDateString() : "Fecha desconocida";
-            
-            // Armamos la lista de items de este pedido
-            let itemsHtml = "";
-            pedido.items.forEach(item => {
-                itemsHtml += `<li>${item.cantidad} x ${item.nombre} (${formatearPrecio(item.precio)})</li>`;
-            });
-
-            html += `
-            <div class="pedido-card">
-                <div class="pedido-header">
-                    <span>Pedido #${doc.id.slice(0, 6)}...</span> <span class="fecha-pedido">${fecha}</span>
-                </div>
-                <div class="items-pedido">
-                    <ul>${itemsHtml}</ul>
-                </div>
-                <div class="total-pedido">
-                    Total: ${formatearPrecio(pedido.total)}
-                    <span class="estado-pendiente">${pedido.estado.toUpperCase()}</span>
-                </div>
-            </div>
-            `;
-        });
-
-        contenedor.innerHTML = html;
-
-    } catch (error) {
-        console.error("Error trayendo pedidos:", error);
-        // A veces falla el orderBy si no cree el índice en Firebase 
-        contenedor.innerHTML = "<p>Hubo un error cargando el historial.</p>";
-    }
-}
-
-verificarUsuario()
-
-// Actualizacion forzada del carrito

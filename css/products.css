@@ -8,10 +8,12 @@
 /* ================= SECCIÓN DESTACADOS ================= */
 .destacados h2 {
     text-align: center;
-    color: rosybrown;
+    color: var(--color-texto);
     text-transform: uppercase;
     padding-bottom: 10px;
-    margin: 20px 0;
+    margin: 30px 0 20px 0;
+    font-size: 2rem;
+    letter-spacing: 2px;
 }
 
 /* ================= GRID DE PRODUCTOS ================= 
@@ -21,10 +23,10 @@
    */
 .productos {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 30px;
     padding: 20px;
-    max-width: var(--max-width-container); 
+    max-width: var(--max-width-container);
     margin: 0 auto;
 }
 
@@ -34,26 +36,92 @@
    Ya que si tuvieramos un titulo demasiado grande */
 
 .productos article {
-    background-color: var(--color-oscuro);
-    border: 1px solid var(--color-borde); 
-    border-radius: var(--border-radius-card); 
-    padding: 15px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius-card);
+    padding: 20px;
     text-align: center;
-    position: relative; 
+    position: relative;
     overflow: hidden;
-    transition: all var(--transition-normal) ease;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
 }
 
-/* Efecto hover: se levanta y brilla */
+/* Efecto hover: se levanta y brilla intensamente */
 .productos article:hover {
-    transform: translateY(-5px);
+    transform: translateY(-10px);
     border-color: var(--color-neon);
-    box-shadow: 0 10px 20px rgba(0, 255, 204, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 255, 204, 0.2),
+        0 0 15px rgba(0, 255, 204, 0.1) inset;
+    background: rgba(30, 30, 45, 0.8);
+}
+
+/* ================= BOTON FAVORITO (CORAZON) ================= */
+.btn-favorito {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    backdrop-filter: blur(5px);
+}
+
+.btn-favorito:hover {
+    transform: scale(1.15);
+    background: rgba(0, 0, 0, 0.8);
+    border-color: #ff4d4d;
+}
+
+.btn-favorito.activo {
+    animation: latidoCorazon 0.4s ease-in-out;
+}
+
+@keyframes latidoCorazon {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.btn-favorito-detalle {
+    background: transparent;
+    border: none;
+    font-size: 1.8rem;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+
+.btn-favorito-detalle:hover {
+    transform: scale(1.2);
+}
+
+.btn-favorito-detalle.activo {
+    animation: latidoCorazon 0.4s ease-in-out;
 }
 
 /* ================= IMAGEN DEL PRODUCTO ================= 
@@ -70,13 +138,13 @@
     width: 100%;
     height: 250px;
     object-fit: contain;
-    transition: transform var(--transition-lenta) ease;
-    filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+    transition: transform 0.5s ease;
+    filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.6));
 }
 
-/* Zoom al pasar el mouse */
+/* Zoom exagerado súper suave al pasar el mouse */
 .productos article:hover img {
-    transform: scale(1.1);
+    transform: scale(1.15) rotate(2deg);
 }
 
 /* ================= INFO DEL PRODUCTO ================= */
@@ -86,20 +154,20 @@
 
 .info-producto h3,
 .productos h3 {
-    font-size: 1.1rem;
-    color: #eee;
-    margin-bottom: 5px;
+    font-size: 1.2rem;
+    color: var(--color-texto);
+    margin-bottom: 8px;
     font-weight: 600;
     width: 100%;
-    margin: 0 auto 5px auto;
 }
 
 .precio {
-    color: var(--color-neon); 
-    font-size: 1.4rem; 
-    font-weight: bold;
+    color: var(--color-neon);
+    font-size: 1.6rem;
+    font-weight: 800;
     margin: 10px 0;
-    text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.4);
+    letter-spacing: 1px;
 }
 
 .envio-info {
@@ -113,20 +181,23 @@
     max-width: 1000px;
     margin: 40px auto;
     padding: 40px;
-    background-color: var(--color-oscuro);
-    border: 1px solid var(--color-borde);
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
     border-radius: 20px;
-    box-shadow: 0 0 50px rgba(0,0,0,0.5);
-    color: #eee;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+    color: var(--color-texto);
 }
 
 .detalle-info h2 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-    color: #c0adad;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    color: var(--color-texto);
     font-family: var(--fuente-harry);
     text-transform: uppercase;
     letter-spacing: 2px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Botón grande de comprar en la página de detalle */
@@ -206,4 +277,152 @@
     content: "⚡ ";
     color: var(--color-neon);
     font-weight: bold;
+}
+
+/* ================= BOTON VOLVER ================= */
+.btn-volver {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--color-texto);
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btn-volver:hover {
+    background: var(--color-header);
+    color: white;
+    box-shadow: 0 4px 20px rgba(116, 27, 124, 0.4);
+    transform: translateX(-5px);
+}
+
+/* ==================================
+   REVIEWS Y OPINIONES (Fase 12)
+================================== */
+
+.seccion-reviews {
+    margin-top: 50px;
+    padding-top: 30px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.reviews-header h2 {
+    color: var(--color-texto);
+    margin-bottom: 20px;
+}
+
+.caja-dejar-review {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 30px;
+}
+
+.estrellas-rating {
+    font-size: 2rem;
+    color: #444;
+    /* Gris por defecto */
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.estrella {
+    transition: color 0.2s;
+}
+
+.estrella.hover,
+.estrella.seleccionada {
+    color: #ffd700;
+    /* Dorado */
+}
+
+#comentario-review {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.mensaje-login-review {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.mensaje-login-review a {
+    color: var(--color-neon);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Lista de Reviews Pintada */
+.lista-reviews {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.review-card {
+    background: rgba(20, 20, 30, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    animation: fadeIn 0.5s ease;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.review-user-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--color-violeta);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.review-estrellas {
+    font-size: 1rem;
+    letter-spacing: 2px;
+}
+
+.estrella-llena {
+    color: #ffd700;
+}
+
+.estrella-vacia {
+    color: #555;
+}
+
+.review-fecha {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #888;
+}
+
+.review-texto {
+    font-size: 0.95rem;
+    color: #ddd;
+    line-height: 1.5;
+    font-style: italic;
 }

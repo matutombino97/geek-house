@@ -5,9 +5,7 @@
    degradado en la parte inferior
    =============================================== */
 
-/* ================= HERO SLIDER ================= 
-   Contenedor del slider con overflow hidden para
-   que las imágenes no se salgan */
+
 .hero-slider {
     position: relative;
     width: 100%;
@@ -43,7 +41,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 50px;
+    height: 100px;
     background: linear-gradient(to top, var(--color-principal), transparent);
     z-index: 3;
 }
@@ -78,11 +76,10 @@
 }
 
 #texto-banner {
-    color: rgb(214, 207, 207);
-    padding: 5px;
-    margin: 5px;
-    border: 1px solid navajowhite;
-    background-color: var(--color-header);
+    color: #fff;
+    padding: 10px;
+    font-size: 1.8rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.4);
 }
 
 /* Animación de entrada suave desde abajo */
@@ -91,6 +88,7 @@
         transform: translateY(30px);
         opacity: 0;
     }
+
     to {
         transform: translateY(0);
         opacity: 1;
@@ -103,14 +101,73 @@
     width: 100%;
     max-width: 500px;
     height: auto;
-    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))
-            drop-shadow(0 0 20px rgba(145, 13, 8, 0.8));
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(145, 13, 8, 0.8));
     animation: subirYaparecer 1s ease-out;
     transition: transform var(--transition-normal) ease;
 }
 
 .logo-hero:hover {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1))
-            drop-shadow(0 0 30px var(--color-neon));
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6)) drop-shadow(0 0 30px var(--color-neon));
+}
+
+/* ================= TARJETAS UNIVERSO (HOME) ================= */
+.universos {
+    padding: 60px 20px;
+    max-width: var(--max-width-container);
+    margin: 0 auto;
+    text-align: center;
+}
+
+.universos h2 {
+    font-size: 2.2rem;
+    color: var(--color-texto);
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+}
+
+.universos-grid {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    padding-bottom: 20px;
+    /* Espacio para scroll shadow si hubiese */
+}
+
+.card-universo {
+    position: relative;
+    width: 250px;
+    /* Ancho fijo para el carrusel */
+    height: 160px;
+    border-radius: 15px;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    overflow: hidden;
+    border: 1px solid var(--glass-border);
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+.card-universo h3 {
+    color: white;
+    font-size: 1.5rem;
+    z-index: 2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+    transition: all 0.3s ease;
+}
+
+.card-universo:hover {
+    transform: translateY(-8px) scale(1.02);
+    border-color: var(--color-neon);
+    box-shadow: 0 15px 30px rgba(0, 255, 204, 0.2);
+}
+
+.card-universo:hover h3 {
+    text-shadow: 0 0 15px var(--color-neon);
+    transform: scale(1.1);
 }

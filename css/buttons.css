@@ -41,72 +41,114 @@ pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
    Botón con degradado que invierte dirección al hover */
 .btn-hero {
     text-decoration: none;
-    background: linear-gradient(to left, #2c2235, var(--color-verde-oscuro));
+    background: linear-gradient(to right, var(--color-violeta), #4a00e0);
     border: none;
     display: block;
     margin: auto;
-    padding: 10px;
+    padding: 12px 30px;
     border-radius: var(--border-radius-btn);
-    font-weight: bold;
-    font-style: italic;
+    font-weight: 800;
+    font-size: 1.1rem;
     color: white;
     cursor: pointer;
-    transition: all var(--transition-lenta) ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.4s ease;
 }
 
 .btn-hero:hover {
-    background: linear-gradient(to right, var(--color-verde-oscuro), #2c2235);
-    transform: scale(1.05);
-    box-shadow: 0 0 10px var(--color-verde-oscuro);
+    background: linear-gradient(to right, #4a00e0, var(--color-violeta));
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 10px 20px rgba(116, 27, 124, 0.5);
 }
 
 /* ================= BOTÓN DE CATEGORÍAS ================= */
 .btn-cat {
     border-radius: var(--border-radius-btn);
-    border: none;
+    border: 1px solid var(--glass-border);
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
     transition: all var(--transition-normal);
-    background-color: #8a3333;
+    background-color: var(--glass-bg);
+    color: var(--color-texto);
+    font-weight: 600;
 }
 
 .btn-cat:hover {
-    background: linear-gradient(to right, rgba(150, 50, 100, 0.5), rgba(100, 50, 150, 0.5));
-    font-weight: bold;
-    transform: scale(1.05);
-    color: white;
+    background: var(--color-neon);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    transform: translateY(-2px);
 }
 
 /* ================= BOTÓN DE FRANQUICIA ================= */
 .btn-franquicia {
-    background-color: transparent;
-    border: 2px solid #0d0c1a;
-    color: white; 
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--color-texto);
     padding: 8px 20px;
     border-radius: var(--border-radius-btn);
     cursor: pointer;
-    font-weight: bold;
-    transition: all var(--transition-normal) ease; 
-    text-transform: capitalize; 
-    white-space: nowrap;
+    font-weight: 600;
+    transition: all var(--transition-normal) ease;
+    text-transform: capitalize;
+    /* Cambio: Permitimos multilínea para textos largos (Ej: Alicia en el Pais de las Maravillas) */
+    white-space: normal;
+    word-wrap: break-word;
+    height: auto;
+    line-height: 1.3;
     flex-shrink: 0;
 }
 
-.btn-franquicia:hover {
+.btn-franquicia:hover,
+.btn-franquicia.activo {
     background-color: var(--color-neon);
     color: #0d0c1a;
     border-color: var(--color-neon);
     transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 204, 0.3);
+}
+
+/* ================= BOTONES DE PAGINACIÓN ================= */
+.paginacion-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+    grid-column: 1 / -1;
+}
+
+.btn-paginacion {
+    background-color: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--color-texto);
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: all var(--transition-normal) ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-paginacion:hover,
+.btn-paginacion.activo {
+    background-color: var(--color-neon);
+    color: #0d0c1a;
+    border-color: var(--color-neon);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+    transform: translateY(-2px);
 }
 
 /* ================= BOTÓN COMPRAR EN TARJETA ================= */
-
-/* A este boton le doy un ancho del 100% del contenedor pq es el boton mas importante de la tarjeta*/
 .btn-comprar {
-    background-color: transparent;
-    color: white;
-    border: 1px solid rgb(70, 11, 146);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--color-texto);
+    border: 1px solid var(--color-violeta);
     padding: 12px;
     width: 100%;
     border-radius: 8px;
@@ -119,8 +161,9 @@ pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
 }
 
 .btn-comprar:hover {
-    background: linear-gradient(90deg, #ca2626 0%, #ff5252 100%);
-    box-shadow: 0 0 15px rgba(202, 38, 38, 0.5);
+    background: var(--color-violeta);
+    color: white;
+    box-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
     transform: scale(1.02);
 }
 
@@ -179,7 +222,7 @@ pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
 }
 
 /* ================= BOTONES DE LOGIN/REGISTRO ================= */
-.btn-login-submit, 
+.btn-login-submit,
 #btn-registro {
     padding: 12px;
     margin-top: 10px;
@@ -193,8 +236,9 @@ pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
     transition: var(--transition-normal);
 }
 
-.btn-login-submit:hover, 
+.btn-login-submit:hover,
 #btn-registro:hover {
     background-color: #00cca3;
     transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
 }

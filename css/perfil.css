@@ -1,0 +1,190 @@
+/* ===============================================
+   PERFIL.CSS - Dashboard de Usuario Premium
+   =============================================== */
+
+/* --- ESTRUCTURA PRINCIPAL (2 COLUMNAS) --- */
+.main-dashboard {
+    display: flex;
+    max-width: 1200px;
+    margin: 40px auto;
+    gap: 30px;
+    padding: 0 20px;
+}
+
+/* --- BARRA LATERAL (SIDEBAR) --- */
+.sidebar-dashboard {
+    width: 250px;
+    background: rgba(20, 20, 30, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px;
+    height: fit-content;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.perfil-foto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.avatar-placeholder {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--color-violeta), var(--color-neon));
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+}
+
+#email-perfil {
+    font-size: 1rem;
+    color: white;
+    text-align: center;
+    word-break: break-all;
+}
+
+.rango-usuario {
+    font-size: 0.8rem;
+    color: var(--color-neon);
+    margin-top: 5px;
+}
+
+.nav-dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tab-btn {
+    background: transparent;
+    color: var(--color-texto);
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    text-align: left;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.tab-btn.activo {
+    background: rgba(0, 255, 204, 0.1);
+    color: var(--color-neon);
+    font-weight: bold;
+    border-left: 4px solid var(--color-neon);
+}
+
+.btn-peligro {
+    color: #ff4d4d;
+    margin-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0;
+    padding-top: 20px;
+}
+
+.btn-peligro:hover {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+}
+
+/* --- CONTENIDO PRINCIPAL (PANELES) --- */
+.contenido-dashboard {
+    flex: 1;
+    height: fit-content;
+    background: rgba(20, 20, 30, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.tab-content {
+    display: none;
+    /* Oculto por defecto */
+    animation: fadeIn 0.4s ease;
+}
+
+.tab-content.activo {
+    display: block;
+    /* Muestra el activo */
+}
+
+.cabecera-tab {
+    margin-bottom: 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 15px;
+}
+
+.cabecera-tab h2 {
+    color: var(--color-violeta-claro);
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.cabecera-tab p {
+    color: var(--color-texto-mutado);
+    font-size: 0.95rem;
+}
+
+/* MIS PEDIDOS & FAVORITOS & AJUSTES*/
+.ajustes-placeholder {
+    text-align: center;
+    padding: 50px 0;
+    color: #888;
+    font-style: italic;
+}
+
+#grilla-favoritos.productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 900px) {
+    .main-dashboard {
+        flex-direction: column;
+    }
+
+    .sidebar-dashboard {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .nav-dashboard {
+        flex-direction: row;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .tab-btn {
+        white-space: nowrap;
+    }
+
+    .btn-peligro {
+        margin-top: 0;
+        border-top: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 12px;
+        padding-left: 20px;
+    }
+}

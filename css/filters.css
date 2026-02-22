@@ -5,54 +5,228 @@
    botones de franquicias
    =============================================== */
 
-/* ================= BARRA DE BÚSQUEDA ================= */
-.filtros {
-    margin: 20px 0;
+/* ================= LAYOUT E-COMMERCE (2 COLUMNAS) ================= */
+.shop-main {
+    padding: 20px 20px 20px 0;
+    /* Arriba 20, Derecha 20, Abajo 20, Izquierda 0 */
+    max-width: 100%;
+    margin: 0;
+}
+
+.shop-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--color-texto);
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+}
+
+.shop-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+/* ================= BARRA LATERAL (SIDEBAR) ================= */
+.shop-sidebar {
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 0 15px 15px 0;
+    /* Borde cuadrado a la izquierda, curvo a la derecha */
+    border-left: none;
+    /* Quitamos borde izquierdo */
+    padding: 25px 20px;
+    position: sticky;
+    top: 100px;
+    box-shadow: 5px 10px 30px rgba(0, 0, 0, 0.5);
+    /* Sombra hacia la derecha */
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+/* Scrollbar estilizado para el sidebar */
+.shop-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.shop-sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+.shop-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.filtro-grupo h3 {
+    margin-bottom: 15px;
+    color: var(--color-neon);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+.sidebar-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    /* Centrar horizontalmente */
+}
+
+/* Hacer que los botones dentro del sidebar tengan ancho consistente */
+.sidebar-lista button {
+    width: 100%;
+    max-width: 200px;
+    /* Evita que crezcan demasiado si la pantalla es ancha */
     text-align: center;
 }
 
+/* ================= BARRA DE BÚSQUEDA (PÍLDORA NEÓN) ================= */
+.search-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    font-size: 1.2rem;
+    pointer-events: none;
+    color: var(--color-texto-mutado);
+    z-index: 2;
+    /* Para que quede arriba del input */
+}
+
 #input-busqueda {
-    margin: 5px;
-    padding: 12px;
-    border-radius: 10px;
-    color: rgb(17, 12, 12);
-    background-color: #ddd8d8;
-    border: 2px solid black;
-    width: 90%;
-    max-width: 400px;
-    transition: var(--transition-normal);
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+#input-busqueda::placeholder {
+    color: var(--color-texto-mutado);
 }
 
 #input-busqueda:hover,
 #input-busqueda:focus {
-    transform: scale(1.03);
     outline: none;
+    border-color: var(--color-neon);
+    box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 /* ================= MENSAJES DE ERROR ================= */
 .error-busqueda {
     text-align: center;
     margin-top: 50px;
+    grid-column: 1 / -1;
 }
 
 .error-busqueda h2,
 .error-busqueda h3 {
     margin: 10px 0;
+    color: var(--color-texto);
 }
 
-/* ================= FILTROS DE CATEGORÍA ================= */
-.categorias-nav {
+/* ================= BUSCADOR AUTOCOMPLETAR ================= */
+.relative-search {
+    position: relative;
+    /* Clave para que el popup se ancle al input */
+}
+
+.resultados-autocomplete {
+    position: absolute;
+    top: 100%;
+    /* Justo debajo del input */
+    left: 0;
+    width: 100%;
+    background-color: rgba(25, 25, 35, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--color-neon);
+    border-radius: 8px;
+    margin-top: 5px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 5px 15px rgba(0, 255, 204, 0.2);
+    display: none;
+    /* Se oculta por defecto */
+}
+
+.resultados-autocomplete.activo {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.item-busqueda {
+    display: flex;
+    align-items: center;
     gap: 10px;
     padding: 10px;
-    margin: 10px;
-    justify-content: center;
+    text-decoration: none;
+    color: white;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.2s;
 }
 
-.categorias-nav h3 {
-    width: 100%;
-    text-align: center;
-    color: white;
-    margin-bottom: 10px;
+.item-busqueda:last-child {
+    border-bottom: none;
+}
+
+.item-busqueda:hover {
+    background-color: rgba(0, 255, 204, 0.1);
+}
+
+.item-busqueda img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.info-item-busqueda {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-item-busqueda span {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.info-item-busqueda small {
+    color: var(--color-neon);
+}
+
+/* RESPONSIVE: Esconder sidebar en móviles y pasarlo arriba */
+@media (max-width: 900px) {
+    .shop-container {
+        grid-template-columns: 1fr;
+    }
+
+    .shop-sidebar {
+        position: relative;
+        top: 0;
+        margin-bottom: 20px;
+    }
+
+    .sidebar-lista {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }

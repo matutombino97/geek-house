@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
-    <meta name="keywords" content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
+    <meta name="description"
+        content="Geek House: La mejor tienda online de productos de anime, series y películas. Figuras, tazas, ropa y accesorios para fans.">
+    <meta name="keywords"
+        content="anime, geek, tienda, figuras, naruto, star wars, argentina, e-commerce, marvel, harry potter">
     <meta name="author" content="Matias Sosa">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Geek House | Tu Mundo Geek">
-    <meta property="og:description" content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
+    <meta property="og:description"
+        content="Encontrá los mejores coleccionables y accesorios. ¡Entrá y mirá nuestras ofertas!">
     <meta property="og:image" content="https://matutombino97.github.io/geek-house/img/logo.png">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://matutombino97.github.io/geek-house/">
@@ -24,48 +28,47 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NTNMKB751"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
 
-    gtag('config', 'G-6NTNMKB751');
+        gtag('config', 'G-6NTNMKB751');
     </script>
 </head>
 
 <body>
-<header>
-    <div class="zona-usuario">
-        
-        <a href="#modal-ingreso" id="btn-login" class="boton-ingresar">
-            👤 Ingresar
-        </a>
+    <header>
+        <div class="zona-usuario">
 
-        <div id="info-usuario">
-            <span id="nombre-usuario">Hola, Cliente</span>
-            <button id="btn-logout">Salir</button>
+            <a href="#modal-ingreso" id="btn-login" class="boton-ingresar">
+                👤 Ingresar
+            </a>
+
+            <div id="info-usuario">
+                <span id="nombre-usuario">Hola, Cliente</span>
+                <button id="btn-logout">Salir</button>
+            </div>
+
         </div>
 
-    </div>
+        <nav class="menu">
+            <a href="pages/productos.html">Productos</a>
+            <a href="pages/contacto.html">Contacto</a>
+            <a href="pages/sobre-nosotros.html">Sobre nosotros</a>
+            <a href="pages/perfil.html">Historial de compras</a>
+        </nav>
 
-    <nav class="menu">
-        <a href="pages/productos.html">Productos</a>
-        <a href="pages/contacto.html">Contacto</a>
-        <a href="pages/sobre-nosotros.html">Sobre nosotros</a>
-        <a href="pages/perfil.html">Historial de compras</a>
-    </nav>
-
-    <div class="zona-derecha">
+        <div class="zona-derecha">
         </div>
-</header>
+    </header>
     <main>
         <section id="hero-slider" class="hero-slider">
             <img id="imagen-hero" src="./img/banner-naruto.jpg" alt="Oferta Geek">
             <div class="hero-overlay">
                 <div class="hero-content">
                     <h1>
-                        <img src="img/logo-sin-fondo-Photoroom.png" 
-                            alt="Geek House - Tienda de Anime, Mangas y Coleccionables" 
-                            class="logo-hero">
+                        <img src="img/logo-sin-fondo-Photoroom.png"
+                            alt="Geek House - Tienda de Anime, Mangas y Coleccionables" class="logo-hero">
                     </h1>
                     <p id="texto-banner">Donde la magia y el anime se encuentran</p>
                     <a href="pages/productos.html" class="btn-hero-glow">VER COLECCIÓN</a>
@@ -75,35 +78,176 @@
         <section class="hero-home">
             <div class="hero-content">
                 <h2>Tu mundo Geek en un solo lugar</h2>
-                <p>Encontrá los mejores coleccionables, figuras y accesorios para llevar tu pasión al siguiente nivel.</p>
+                <p>Encontrá los mejores coleccionables, figuras y accesorios para llevar tu pasión al siguiente nivel.
+                </p>
                 <a href="pages/productos.html" class="btn-hero">Ver Catálogo</a>
             </div>
         </section>
-        
-        <section class="categorias-nav">
-            <h3>Filtrar por categoria</h3>
-            <button class="btn-cat" id="cat-todos">Todos</button>
-            <button class="btn-cat" id="cat-ropa">Ropa</button>
-            <button class="btn-cat" id="cat-Bazar">Bazar</button>
-            <button class="btn-cat" id="cat-accesorio">Accesorios</button>
-            <button class="btn-cat" id="cat-Figuras">Figuras</button>
-        </section>
-        
-        <section class="franquicias-container">
-            <h3>Filtrar por franquicia</h3>
-            
-            <div class="carousel-container">
-                
-                <button class="flecha-carrusel izq" onclick="moverCarrusel('track-franquicias', 'izquierda')">❮</button>
 
-                <div id="track-franquicias" class="carousel-track">
-                    
-                    <div id="contenedor-franquicias" class="lista-franquicias"></div>
-                
+        <section class="universos" id="universos">
+            <h2>Explorá tu universo 🌟</h2>
+
+            <div class="carousel-container">
+                <button class="flecha-carrusel izq" aria-label="Carrusel Universos Anterior"
+                    onclick="moverCarrusel('track-universos', 'izquierda')">❮</button>
+
+                <div id="track-universos" class="carousel-track">
+                    <div class="universos-grid">
+                        <!-- Tarjeta 1: Marvel -->
+                        <a href="pages/productos.html?franquicia=Marvel" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(116, 27, 124, 0.8), rgba(0, 0, 0, 0.9)), url('img/banner-marvel.jpeg') center/cover;">
+                            <h3>🦸‍♂️ Marvel</h3>
+                        </a>
+
+                        <!-- Tarjeta 2: Naruto -->
+                        <a href="pages/productos.html?franquicia=Naruto" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(60, 121, 11, 0.8), rgba(0, 0, 0, 0.9)), url('img/banner-naruto.jpg') center/cover;">
+                            <h3>🍥 Naruto</h3>
+                        </a>
+
+                        <!-- Tarjeta 3: Star Wars -->
+                        <a href="pages/productos.html?franquicia=Star Wars" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(230, 57, 70, 0.8), rgba(0, 0, 0, 0.9)), url('img/banner-star-wars.jpg') center/cover;">
+                            <h3>⚔️ Star Wars</h3>
+                        </a>
+
+                        <!-- Tarjeta 4: Harry Potter -->
+                        <a href="pages/productos.html?franquicia=Harry Potter" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(24, 75, 122, 0.8), rgba(0, 0, 0, 0.9)), url('img/banner-harry-potter.jpg') center/cover;">
+                            <h3>⚡ Harry Potter</h3>
+                        </a>
+
+                        <!-- Tarjeta 5: One Piece -->
+                        <a href="pages/productos.html?franquicia=One Piece" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(220, 20, 60, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🏴‍☠️ One Piece</h3>
+                        </a>
+
+                        <!-- Tarjeta 6: Stranger Things -->
+                        <a href="pages/productos.html?franquicia=Stranger Things" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(139, 0, 0, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🚲 Stranger</h3>
+                        </a>
+
+                        <!-- Tarjeta 7: Bluey -->
+                        <a href="pages/productos.html?franquicia=Bluey" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(30, 144, 255, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🐶 Bluey</h3>
+                        </a>
+
+                        <!-- Tarjeta 8: Piratas Del Caribe -->
+                        <a href="pages/productos.html?franquicia=Piratas Del Caribe" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(105, 105, 105, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>⚓ Piratas Caribe</h3>
+                        </a>
+
+                        <!-- Tarjeta 9: Merlina -->
+                        <a href="pages/productos.html?franquicia=Merlina" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(75, 0, 130, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🕷️ Merlina</h3>
+                        </a>
+
+                        <!-- Tarjeta 10: Monster INC -->
+                        <a href="pages/productos.html?franquicia=Monster INC" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(0, 250, 154, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🚪 Monster INC</h3>
+                        </a>
+
+                        <!-- Tarjeta 11: Era De Hielo -->
+                        <a href="pages/productos.html?franquicia=Era De Hielo" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(135, 206, 235, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🧊 Era De Hielo</h3>
+                        </a>
+
+                        <!-- Tarjeta 12: Buscando A Nemo -->
+                        <a href="pages/productos.html?franquicia=Buscando A Nemo" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(255, 140, 0, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🐠 Buscando A Nemo</h3>
+                        </a>
+
+                        <!-- Tarjeta 13: Freddy At Nights -->
+                        <a href="pages/productos.html?franquicia=Freddy At Nights" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🐻 Freddy At Nights</h3>
+                        </a>
+
+                        <!-- Tarjeta 14: Señor De Los Anillos -->
+                        <a href="pages/productos.html?franquicia=Señor De Los Anillos" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(218, 165, 32, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>💍 Señor De Los Anillos</h3>
+                        </a>
+
+                        <!-- Tarjeta 15: Batman -->
+                        <a href="pages/productos.html?franquicia=Batman" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(105, 105, 105, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🦇 Batman</h3>
+                        </a>
+
+                        <!-- Tarjeta 16: Alicia En El Pais De Las Maravillas -->
+                        <a href="pages/productos.html?franquicia=Alicia En El Pais De Las Maravillas"
+                            class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(255, 105, 180, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🐰 Alicia En El Pais De Las Maravillas</h3>
+                        </a>
+
+                        <!-- Tarjeta 17: Wall-E -->
+                        <a href="pages/productos.html?franquicia=Wall-E" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(189, 183, 107, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🤖 Wall-E</h3>
+                        </a>
+
+                        <!-- Tarjeta 18: Pokémon -->
+                        <a href="pages/productos.html?franquicia=Pokémon" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>⚡ Pokémon</h3>
+                        </a>
+
+                        <!-- Tarjeta 19: El Extraño Mundo De Jack -->
+                        <a href="pages/productos.html?franquicia=El Extraño Mundo De Jack" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(72, 61, 139, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🎃 El Extraño Mundo De Jack</h3>
+                        </a>
+
+                        <!-- Tarjeta 20: Lilo Y Stich -->
+                        <a href="pages/productos.html?franquicia=Lilo Y Stich" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(0, 191, 255, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🌺 Lilo Y Stich</h3>
+                        </a>
+
+                        <!-- Tarjeta 21: DC -->
+                        <a href="pages/productos.html?franquicia=DC" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(0, 0, 139, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🦸‍♂️ DC</h3>
+                        </a>
+
+                        <!-- Tarjeta 22: Dragon Ball Z -->
+                        <a href="pages/productos.html?franquicia=Dragon Ball Z" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(255, 69, 0, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🐉 Dragon Ball Z</h3>
+                        </a>
+
+                        <!-- Tarjeta 23: Grey'S Anatomy -->
+                        <a href="pages/productos.html?franquicia=Grey'S Anatomy" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(176, 196, 222, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🩺 Grey'S Anatomy</h3>
+                        </a>
+
+                        <!-- Tarjeta 24: Disney -->
+                        <a href="pages/productos.html?franquicia=Disney" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(100, 149, 237, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>🏰 Disney</h3>
+                        </a>
+
+                        <!-- Tarjeta 25: Mafalda -->
+                        <a href="pages/productos.html?franquicia=Mafalda" class="card-universo"
+                            style="background: linear-gradient(135deg, rgba(245, 222, 179, 0.8), rgba(0, 0, 0, 0.9));">
+                            <h3>👧🏻 Mafalda</h3>
+                        </a>
+                    </div>
                 </div>
 
-                <button class="flecha-carrusel der" onclick="moverCarrusel('track-franquicias', 'derecha')">❯</button>
-                
+                <button class="flecha-carrusel der" aria-label="Carrusel Universos Siguiente"
+                    onclick="moverCarrusel('track-universos', 'derecha')">❯</button>
             </div>
         </section>
 
@@ -111,21 +255,21 @@
             <h2>Lo más vendido de la semana</h2>
 
             <div class="carousel-container">
-                
-                <button class="flecha-carrusel izq" onclick="moverCarrusel('track-destacados', 'izquierda')">❮</button>
+
+                <button class="flecha-carrusel izq" aria-label="Carrusel Destacados Anterior"
+                    onclick="moverCarrusel('track-destacados', 'izquierda')">❮</button>
 
                 <div id="track-destacados" class="carousel-track">
-                    <div class="productos"></div> 
+                    <div class="productos"></div>
                 </div>
 
-                <button class="flecha-carrusel der" onclick="moverCarrusel('track-destacados', 'derecha')">❯</button>
+                <button class="flecha-carrusel der" aria-label="Carrusel Destacados Siguiente"
+                    onclick="moverCarrusel('track-destacados', 'derecha')">❯</button>
 
             </div>
         </section>
-            
-        <div id="carrito-icono" class="carrito-icono" 
-            onclick="toggleCarrito()" 
-            role="button" 
+
+        <div id="carrito-icono" class="carrito-icono" onclick="toggleCarrito()" role="button"
             aria-label="Abrir carrito de compras">
             🛒
             <span id="contador-burbuja" aria-label="Cantidad de productos">0</span>
@@ -133,17 +277,17 @@
 
         <aside id="carrito-container" class="carrito-flotante oculto">
             <h2>Tu Carrito</h2>
-            <button class="btn-cerrar-carrito" onclick="toggleCarrito()">❌</button>
+            <button class="btn-cerrar-carrito" aria-label="Cerrar Carrito" onclick="toggleCarrito()">❌</button>
             <ul id="lista-carrito">
                 <li>El carrito esta vacio</li>
             </ul>
-            <p>Total: $ <span id="total-carrito">0</span></p>
+            <p>Total: <span id="total-carrito">0</span></p>
             <button id="btn-finalizar" onclick="finalizarCompra()" class="btn-form">Finalizar compra</button>
         </aside>
     </main>
     <footer>
         <div class="footer-container">
-            
+
             <div class="footer-col">
                 <h3>👾 GEEK HOUSE</h3>
                 <p>Tu tienda de coleccionables favorita. Llevamos la pasión geek a tu estantería.</p>
@@ -164,18 +308,20 @@
                 <p>📧 notanmuggles@gmail.com</p>
                 <p>📍 Mendoza, Argentina</p>
                 <div class="redes-sociales">
-                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram </a> | <a href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
+                    <a href="https://www.instagram.com/geekhouse.mza/?hl=es" target="_blank">Instagram </a> | <a
+                        href="https://wa.me/542613433108" target="_blank">Whatsapp</a>
                 </div>
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
+            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a
+                    href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
         </div>
     </footer>
 
-    <div id="modal-ingreso" class ="modal-overlay">
-        <div class = "modal-content">
-            <button id = "btn-cerrar" class ="btn-cerrar-modal"> X </button>
+    <div id="modal-ingreso" class="modal-overlay">
+        <div class="modal-content">
+            <button id="btn-cerrar" aria-label="Cerrar Modal" class="btn-cerrar-modal"> X </button>
             <form id="form-login-cliente">
                 <h2>Iniciar Sesión</h2>
                 <label for="email">Tu correo</label>
@@ -192,7 +338,7 @@
                 <label for="contraseña">Contraseña</label>
                 <input type="password" name="password" id="password-reg" required>
                 <button id="btn-registro">Registrarme</button>
-                <p>Ya tenés cuenta?</p><a href="#btn-volver-login" id="link-volver-login" >Iniciar Sesion</a>
+                <p>Ya tenés cuenta?</p><a href="#btn-volver-login" id="link-volver-login">Iniciar Sesion</a>
             </form>
         </div>
     </div>
@@ -200,4 +346,5 @@
     <script src="js/productos.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
+
 </html>

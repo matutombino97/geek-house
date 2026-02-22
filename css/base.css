@@ -6,7 +6,7 @@
    =============================================== */
 
 /* ================= FUENTE PERSONALIZADA ================= */
-@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&family=Outfit:wght@300;400;600;800&display=swap');
 
 /* ================= RESET GLOBAL ================= 
     Elimino margenes y espaciado interno por defecto, igualmente con border-box, con esto
@@ -21,27 +21,33 @@
     Aca defino la mayoria de las variables globales que vamos a usar, como los colores gnerales o la tipografia, tambien los tamaños y transisiones.
     Para usarlos solo llamamos a la propiedad  */
 :root {
-    /* Colores */
+    /* Colores Original Premium */
     --color-principal: linear-gradient(90deg, #3c790bce, #184b7a);
-    --color-header: hsla(276, 90%, 30%, 0.384);
+    --color-fondo-gradiente: linear-gradient(90deg, #3c790bce, #184b7a);
+    /* Igual al principal para que haga juego en todas partes */
+    --color-header: hsla(276, 90%, 30%, 0.5);
+    /* Violeta translúcido para el glassmorphism */
     --color-texto: rgb(219, 211, 211);
-    --color-fondo: #333;
+    --color-texto-mutado: rgba(219, 211, 211, 0.7);
     --color-neon: #00ffcc;
     --color-oscuro: #1a1a1a;
-    --color-borde: #333;
+    --color-borde: rgba(255, 255, 255, 0.15);
+    /* #333 en el original, pero el blanco transparente va mejor sobre el fondo verde-azul para el glassmorphism */
     --color-rojo: #ff4757;
     --color-violeta: #741b7c;
     --color-verde-oscuro: #076956;
-    
+    --glass-bg: rgba(15, 15, 20, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.1);
+
     /* Fuentes */
-    --fuente-harry: 'Henny Penny', serif;
-    --fuente-principal: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    
+    --fuente-harry: 'Henny Penny', cursive;
+    --fuente-principal: 'Outfit', 'Segoe UI', Roboto, sans-serif;
+
     /* Tamaños */
     --max-width-container: 1200px;
     --border-radius-card: 15px;
     --border-radius-btn: 50px;
-    
+
     /* Transiciones */
     --transition-rapida: 0.2s;
     --transition-normal: 0.3s;
@@ -50,8 +56,8 @@
 
 /* ================= ESTILOS BASE ================= 
    definimos que el body sea lo maximo de su tamaño posible*/
-html, body {
-    height: 100%;
+html {
+    scroll-behavior: smooth;
 }
 
 /*   Aca en el body le damos display flex para que el contenido se pueda dividir. Mas que nada para que el footer quede pegado abajo
@@ -60,15 +66,16 @@ body {
     display: flex;
     flex-direction: column;
     font-family: var(--fuente-principal);
-    font-weight: 100;
-    background: var(--color-principal);
+    font-weight: 400;
+    color: var(--color-texto);
+    background: var(--color-fondo-gradiente);
     min-height: 100vh;
-    
 }
-/*  Aca al main con flex:1 Le dice a los demas que va a usar todo el contenido que le queda a disposicion  */ 
+
+/*  Aca al main con flex:1 0 auto Le dice a los demas que va a usar todo el contenido que le queda a disposicion y nunca encogerse mas que su contenido */
 main {
-    flex: 1;
-    background-color: var(--color-principal);
+    flex: 1 0 auto;
+    background: transparent;
 }
 
 h1 {
