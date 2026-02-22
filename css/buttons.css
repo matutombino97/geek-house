@@ -183,6 +183,55 @@ pusimos una transicion de 0.3s asi no se ve un cambio feo ni brusco*/
     transform: scale(1.2);
 }
 
+/* ================= CONTROLES CANTIDAD CARRITO ================= */
+.controles-cantidad-carrito {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--color-neon);
+    border-radius: 6px;
+    padding: 2px 6px;
+}
+
+.btn-cant-carrito {
+    background: transparent;
+    color: var(--color-neon);
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color var(--transition-rapida);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-cant-carrito:hover {
+    color: white;
+}
+
+.num-cant-carrito {
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    min-width: 20px;
+    text-align: center;
+}
+
+.carrito-item-visual {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.precio-item-carrito {
+    color: var(--color-neon);
+    font-size: 0.85rem;
+}
+
+
 /* ================= BOTÓN FORMULARIO ================= */
 .btn-form {
     background: linear-gradient(to right, #910d08, var(--color-violeta));

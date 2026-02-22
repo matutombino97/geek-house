@@ -84,6 +84,50 @@
         padding: 10px;
     }
 
+    /* --- LAYOUT DE TIENDA Y FILTROS MÓVILES --- */
+    .shop-container {
+        grid-template-columns: 1fr;
+    }
+
+    .btn-filtrar-mobile {
+        display: block;
+        width: 90%;
+        max-width: 300px;
+        margin: 0 auto 20px auto;
+        padding: 12px;
+        background: var(--glass-bg);
+        color: var(--color-neon);
+        border: 2px solid var(--color-neon);
+        border-radius: 20px;
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .btn-filtrar-mobile:hover {
+        background: var(--color-neon);
+        color: black;
+    }
+
+    .shop-sidebar {
+        display: none;
+        /* Oculto inicialmente en móviles */
+        position: static;
+        /* Ya no es sticky en móvil */
+        max-height: none;
+        /* Que el scroll sea normal */
+        border-radius: 15px;
+        border-left: 1px solid var(--glass-border);
+        margin-bottom: 30px;
+    }
+
+    .shop-sidebar.activo {
+        display: flex;
+        animation: fadeInScale 0.3s ease;
+    }
+
     /* --- FILTROS --- */
     #input-busqueda {
         width: 90%;
@@ -186,12 +230,15 @@
     /* --- HERO --- */
     .hero-slider {
         min-height: 300px;
-        height: auto; /* El contenedor se estira si el contenido lo necesita */
+        height: auto;
+        /* El contenedor se estira si el contenido lo necesita */
     }
-    
+
     .hero-slider img {
-        height: 100%; /* La imagen ocupa todo el contenedor */
-        object-fit: cover; /* Para que la imagen no se achate */
+        height: 100%;
+        /* La imagen ocupa todo el contenedor */
+        object-fit: cover;
+        /* Para que la imagen no se achate */
     }
 
     .logo-hero {

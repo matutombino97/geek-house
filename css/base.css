@@ -17,6 +17,13 @@
     box-sizing: border-box;
 }
 
+/* Limitación global anti-desborde para todas las imágenes */
+img {
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
 /* ================= VARIABLES CSS ================= 
     Aca defino la mayoria de las variables globales que vamos a usar, como los colores gnerales o la tipografia, tambien los tamaños y transisiones.
     Para usarlos solo llamamos a la propiedad  */

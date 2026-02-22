@@ -78,8 +78,27 @@ footer {
     color: #666;
 }
 
+.creador-link {
+    color: var(--color-neon);
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.creador-link:hover {
+    color: #fff;
+    text-shadow: 0 0 15px var(--color-neon);
+    transform: scale(1.05);
+}
+
 .redes-sociales a {
     font-style: italic;
-    color: red;
+    color: var(--color-neon);
     text-decoration: none;
+    margin: 0 5px;
 }

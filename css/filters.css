@@ -13,6 +13,11 @@
     margin: 0;
 }
 
+/* Oculto el botón de filtros en escritorio, visible solo en responsive.css */
+.btn-filtrar-mobile {
+    display: none;
+}
+
 .shop-title {
     text-align: center;
     margin-bottom: 30px;
@@ -211,6 +216,115 @@
 
 .info-item-busqueda small {
     color: var(--color-neon);
+}
+
+/* ==================================
+   UX AVANZADA: FILTROS FASE 13
+================================== */
+
+.filtro-precio .inputs-precio {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.inputs-precio input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 5px;
+    padding: 8px 10px;
+    color: white;
+    width: 100%;
+    text-align: center;
+}
+
+.inputs-precio input:focus {
+    outline: none;
+    border-color: var(--color-neon);
+}
+
+.sidebar-lista label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    cursor: pointer;
+    width: 100%;
+    padding: 5px 0;
+    transition: color 0.2s;
+}
+
+.sidebar-lista label:hover {
+    color: var(--color-neon);
+}
+
+.filtro-checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-texto-mutado);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.filtro-checkbox:checked {
+    background: var(--color-neon);
+    border-color: var(--color-neon);
+}
+
+.filtro-checkbox:checked::after {
+    content: "✔";
+    color: black;
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.inputs-precio input::-webkit-outer-spin-button,
+.inputs-precio input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.inputs-precio input[type=number] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.sidebar-actions {
+    position: sticky;
+    bottom: 0px;
+    padding-top: 15px;
+    margin-top: auto;
+    background: transparent;
+    z-index: 10;
+}
+
+.btn-peligro-filtros {
+    width: 100%;
+    background: rgba(20, 20, 30, 0.95);
+    backdrop-filter: blur(5px);
+    border: 1px solid #ff4d4d;
+    color: #ff4d4d;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+}
+
+.btn-peligro-filtros:hover {
+    background: rgba(255, 77, 77, 0.15);
+    box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
 }
 
 /* RESPONSIVE: Esconder sidebar en móviles y pasarlo arriba */

@@ -425,4 +425,113 @@
     color: #ddd;
     line-height: 1.5;
     font-style: italic;
+    margin-bottom: 10px;
+}
+
+.review-actions {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-review-edit,
+.btn-review-delete {
+    background: transparent;
+    border: none;
+    font-size: 0.85rem;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all var(--transition-rapida);
+    opacity: 0.7;
+}
+
+.btn-review-edit {
+    color: var(--color-neon);
+}
+
+.btn-review-edit:hover {
+    color: #fff;
+    opacity: 1;
+    text-shadow: 0 0 5px var(--color-neon);
+}
+
+.btn-review-delete {
+    color: #ff4d4d;
+}
+
+.btn-review-delete:hover {
+    color: #ff0000;
+    opacity: 1;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+/* ==================================
+   SELECTOR DE CANTIDADES (Fase 13)
+================================== */
+
+.control-cantidad {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.control-cantidad label {
+    font-size: 1.1rem;
+    color: var(--color-texto);
+    font-weight: bold;
+}
+
+.selector-numerico {
+    display: flex;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--color-neon);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 40px;
+}
+
+.selector-numerico button {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-neon);
+    border: none;
+    width: 40px;
+    height: 100%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+}
+
+.selector-numerico button:hover {
+    background: var(--color-neon);
+    color: #000;
+}
+
+.selector-numerico input {
+    background: transparent;
+    color: white;
+    border: none;
+    width: 50px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    outline: none;
+    appearance: textfield;
+    -moz-appearance: textfield;
+    /* Quita flechitas en Firefox */
+}
+
+/* Quita flechitas nativas en Chrome/Safari */
+.selector-numerico input::-webkit-outer-spin-button,
+.selector-numerico input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

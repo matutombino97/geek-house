@@ -6,14 +6,14 @@ import { productos } from './main.js'; // necesitamos acceder a la lista global
 
 export let carrito = [];
 
-export function agregarAlCarrito(id) {
+export function agregarAlCarrito(id, cantidadSumada = 1) {
     const productoAgregado = productos.find(producto => producto.id === id);
     const existeEnCarrito = carrito.find(producto => producto.id === id);
 
     if (existeEnCarrito) {
-        existeEnCarrito.cantidad++;
+        existeEnCarrito.cantidad += cantidadSumada;
     } else {
-        const nuevo = { ...productoAgregado, cantidad: 1 };
+        const nuevo = { ...productoAgregado, cantidad: cantidadSumada };
         carrito.push(nuevo);
     }
 
@@ -29,6 +29,30 @@ export function eliminarDelCarrito(id) {
     mostrarNotificacion("Producto eliminado", "error");
 }
 
+export function restarDelCarrito(id) {
+    const item = carrito.find(producto => producto.id === id);
+    if (item) {
+        if (item.cantidad > 1) {
+            item.cantidad--;
+            actualizarCarritoVisual();
+            guardarCarritoEnStorage();
+        } else {
+            eliminarDelCarrito(id);
+        }
+    }
+}
+
+export function sumarAlCarritoBtn(id) {
+    const item = carrito.find(producto => producto.id === id);
+    if (item) {
+        if (item.cantidad < 99) {
+            item.cantidad++;
+            actualizarCarritoVisual();
+            guardarCarritoEnStorage();
+        }
+    }
+}
+
 export function actualizarCarritoVisual() {
     const listaHTML = document.getElementById("lista-carrito");
     const totalHTML = document.getElementById("total-carrito");
@@ -42,11 +66,17 @@ export function actualizarCarritoVisual() {
 
     carrito.forEach(({ id, nombre, precio, cantidad }) => {
         lista += `
-            <li>
+            <li class="carrito-item-visual">
                 <div class='informacion-carrito'>
-                   Cantidad: ${cantidad} | ${nombre} - ${formatearPrecio(precio)}
+                   ${nombre} <br>
+                   <span class="precio-item-carrito">${formatearPrecio(precio)} c/u</span>
                 </div>
-                <button class='btn-eliminar' onclick="eliminarDelCarrito('${id}')">X</button>
+                <div class="controles-cantidad-carrito">
+                    <button class="btn-cant-carrito" onclick="restarDelCarrito('${id}')">-</button>
+                    <span class="num-cant-carrito">${cantidad}</span>
+                    <button class="btn-cant-carrito" onclick="sumarAlCarritoBtn('${id}')">+</button>
+                </div>
+                <button class='btn-eliminar' onclick="eliminarDelCarrito('${id}')" title="Borrar todo">🗑️</button>
             </li>
         `;
         total += precio * cantidad;
@@ -108,5 +138,7 @@ export async function finalizarCompra() {
 // Exponer funciones necesarias globalmente para el HTML
 window.agregarAlCarrito = agregarAlCarrito;
 window.eliminarDelCarrito = eliminarDelCarrito;
+window.restarDelCarrito = restarDelCarrito;
+window.sumarAlCarritoBtn = sumarAlCarritoBtn;
 window.finalizarCompra = finalizarCompra;
 window.toggleCarrito = toggleCarrito;

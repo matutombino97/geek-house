@@ -115,62 +115,22 @@ function renderizarPaginacion(totalProductos) {
 }
 
 export function renderizarFranquicias() {
-    const contenedor = document.getElementById("contenedor-franquicias");
+    const contenedor = document.getElementById("contenedor-franquicias-checks");
     if (!contenedor) return;
 
     contenedor.innerHTML = "";
 
-    const btnBorrar = document.createElement("button");
-    btnBorrar.innerText = "Borrar Filtros";
-    btnBorrar.classList.add("btn-franquicia");
-
-    btnBorrar.style.borderColor = "#ff5252";
-    btnBorrar.style.background = "black";
-    btnBorrar.style.color = "#ff5252";
-
-    btnBorrar.addEventListener("click", () => {
-        document.querySelectorAll(".btn-franquicia.activo").forEach(btn => btn.classList.remove("activo"));
-
-        const esPaginaProductos = window.location.pathname.includes("pages");
-
-        if (esPaginaProductos) {
-            cargarProductos(productos);
-        } else {
-            const soloDestacados = productos.filter(p => p.destacado === true);
-            cargarProductos(soloDestacados);
-        }
-    });
-
-    contenedor.appendChild(btnBorrar);
-
+    // Obtenemos las franquicias únicas de nuestra BD global
     const franquiciasSucias = productos.map(producto => producto.franquicia);
-    const franquiciasUnicas = [...new Set(franquiciasSucias)];
+    const franquiciasUnicas = [...new Set(franquiciasSucias)].filter(f => f); // filtramos undefined o vacios
 
     franquiciasUnicas.forEach(franquicia => {
-        if (franquicia) {
-            const btn = document.createElement("button");
-            btn.innerText = franquicia;
-            btn.classList.add("btn-franquicia");
-
-            btn.addEventListener("click", () => {
-                document.querySelectorAll(".btn-franquicia").forEach(b => b.classList.remove("activo"));
-                btn.classList.add("activo");
-
-                // Limpiamos la URL para no arrastrar el parametro viejo
-                window.history.pushState({}, document.title, window.location.pathname);
-
-                const productosFiltrados = productos.filter(p => p.franquicia === franquicia);
-                cargarProductos(productosFiltrados);
-            });
-
-            // Si venimos de la Home con el parámetro en la URL, pintar este botón
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('franquicia') === franquicia) {
-                btn.classList.add("activo");
-            }
-
-            contenedor.appendChild(btn);
-        }
+        const divFiltro = document.createElement("label");
+        divFiltro.innerHTML = `
+            <input type="checkbox" class="filtro-checkbox" value="${franquicia}" data-tipo="franquicia">
+            ${franquicia}
+        `;
+        contenedor.appendChild(divFiltro);
     });
 }
 
@@ -213,7 +173,25 @@ export async function cargarDetalleProducto() {
                         <p class="descripcion">${producto.descripcion || generarDescripcion(producto)}</p>
                         <p class="categoria">Categoría: <span>${producto.categoria}</span></p>
                         
-                        <button class="btn-comprar-detalle" onclick="agregarAlCarrito('${docSnap.id}')">
+                        <div class="control-cantidad">
+                            <label for="cantidad-producto">Cantidad:</label>
+                            <div class="selector-numerico">
+                                <button type="button" class="btn-restar-cant" onclick="
+                                    const input = document.getElementById('cantidad-producto');
+                                    if(input.value > 1) input.value = parseInt(input.value) - 1;
+                                ">-</button>
+                                <input type="number" id="cantidad-producto" value="1" min="1" max="99" readonly>
+                                <button type="button" class="btn-sumar-cant" onclick="
+                                    const input = document.getElementById('cantidad-producto');
+                                    if(input.value < 99) input.value = parseInt(input.value) + 1;
+                                ">+</button>
+                            </div>
+                        </div>
+
+                        <button class="btn-comprar-detalle" onclick="
+                            const cantidad = parseInt(document.getElementById('cantidad-producto').value);
+                            agregarAlCarrito('${docSnap.id}', cantidad);
+                        ">
                             Agregar al Carrito 🛒
                         </button>
                     </div>
@@ -425,22 +403,108 @@ if (inputBusqueda) {
     });
 }
 
-// FILTROS POR CATEGORÍA
-const botonesCategorias = document.querySelectorAll(".btn-cat");
+// ===================================
+// SISTEMA MAESTRO DE FILTROS AVANZADOS (Fase 13)
+// ===================================
+function aplicarFiltrosAvanzados() {
+    let productosFiltrados = [...productos]; // Hacemos copia del catálogo original
 
-botonesCategorias.forEach(boton => {
-    boton.addEventListener("click", (e) => {
-        const idBoton = e.currentTarget.id;
+    // 1. Filtro de Texto (Buscador Superior)
+    const inputBusqueda = document.getElementById("input-busqueda");
+    const textoBuscar = inputBusqueda ? inputBusqueda.value.toLowerCase().trim() : "";
+    if (textoBuscar) {
+        productosFiltrados = productosFiltrados.filter(prod =>
+            prod.nombre.toLowerCase().includes(textoBuscar) ||
+            prod.categoria.toLowerCase().includes(textoBuscar) ||
+            (prod.franquicia || "").toLowerCase().includes(textoBuscar)
+        );
+    }
 
-        if (idBoton === "cat-todos") {
-            cargarProductos(productos);
+    // 2. Filtro de Precios (Min y Max)
+    const precioMin = document.getElementById("precio-min") ? parseFloat(document.getElementById("precio-min").value) : NaN;
+    const precioMax = document.getElementById("precio-max") ? parseFloat(document.getElementById("precio-max").value) : NaN;
+
+    if (!isNaN(precioMin) && precioMin > 0) {
+        productosFiltrados = productosFiltrados.filter(prod => prod.precio >= precioMin);
+    }
+    if (!isNaN(precioMax) && precioMax > 0) {
+        productosFiltrados = productosFiltrados.filter(prod => prod.precio <= precioMax);
+    }
+
+    // 3. Filtros Interactivos: Categorías
+    const checksCategorias = document.querySelectorAll(".filtro-checkbox[data-tipo='categoria']:checked");
+    const categoriasSeleccionadas = Array.from(checksCategorias).map(cb => cb.value);
+
+    if (categoriasSeleccionadas.length > 0) {
+        productosFiltrados = productosFiltrados.filter(prod => categoriasSeleccionadas.includes(prod.categoria));
+    }
+
+    // 4. Filtros Interactivos: Franquicias
+    const checksFranquicias = document.querySelectorAll(".filtro-checkbox[data-tipo='franquicia']:checked");
+    const franquiciasSeleccionadas = Array.from(checksFranquicias).map(cb => cb.value);
+
+    if (franquiciasSeleccionadas.length > 0) {
+        productosFiltrados = productosFiltrados.filter(prod => franquiciasSeleccionadas.includes(prod.franquicia));
+    }
+
+    // MANDAMOS TODO AL MOZO (Paginación incluida, la mandamos al inicio)
+    cargarProductos(productosFiltrados, 1);
+}
+
+// Escuchamos el cambio de cualquier Checkbox de filtro (Event Delegation)
+document.addEventListener("change", (e) => {
+    if (e.target.classList.contains("filtro-checkbox")) {
+        aplicarFiltrosAvanzados();
+    }
+});
+
+// Escuchamos el precio en tiempo real (Live Search)
+const precioMinInput = document.getElementById("precio-min");
+if (precioMinInput) {
+    precioMinInput.addEventListener("input", aplicarFiltrosAvanzados);
+}
+
+const precioMaxInput = document.getElementById("precio-max");
+if (precioMaxInput) {
+    precioMaxInput.addEventListener("input", aplicarFiltrosAvanzados);
+}
+
+// Escuchamos el Botón "Limpiar"
+const btnLimpiarFiltros = document.getElementById("btn-limpiar-filtros");
+if (btnLimpiarFiltros) {
+    btnLimpiarFiltros.addEventListener("click", () => {
+        // Limpiar inputs Numéricos y de Texto
+        if (document.getElementById("input-busqueda")) document.getElementById("input-busqueda").value = "";
+        if (document.getElementById("precio-min")) document.getElementById("precio-min").value = "";
+        if (document.getElementById("precio-max")) document.getElementById("precio-max").value = "";
+
+        // Destildar boxes
+        document.querySelectorAll(".filtro-checkbox:checked").forEach(cb => cb.checked = false);
+
+        // Limpiar URL si habia parametros viejos
+        window.history.pushState({}, document.title, window.location.pathname);
+
+        // Resetear la Grilla Completa
+        cargarProductos(productos);
+    });
+}
+
+// Escuchamos el Botón "Filtros en Móvil"
+const btnToggleFiltros = document.getElementById("btn-toggle-filtros");
+const sidebarFiltros = document.querySelector(".shop-sidebar");
+
+if (btnToggleFiltros && sidebarFiltros) {
+    btnToggleFiltros.addEventListener("click", () => {
+        sidebarFiltros.classList.toggle("activo");
+
+        // Cambiamos el texto del botón según el estado
+        if (sidebarFiltros.classList.contains("activo")) {
+            btnToggleFiltros.innerText = "Ocultar Filtros ▴";
         } else {
-            const categoriaSeleccionada = idBoton.slice(4);
-            const productosFiltrados = productos.filter(producto => producto.categoria === categoriaSeleccionada);
-            cargarProductos(productosFiltrados);
+            btnToggleFiltros.innerText = "Filtros ▾";
         }
-    })
-})
+    });
+}
 
 const imagenesHero = [
     "./img/banner-star-wars.jpg",

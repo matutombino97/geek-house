@@ -1,4 +1,6 @@
-import { formatearPrecio } from './ui.js';
+import { formatearPrecio, mostrarNotificacion } from './ui.js';
+import { db, auth } from './firebase-config.js';
+import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     // 1. Levantamos lo que el usuario guardó en el carrito desde el LocalStorage
@@ -48,11 +50,10 @@ function renderizarResumen(carrito) {
     spanTotal.innerText = formatearPrecio(totalAcumulado);
 }
 
-function generarOrdenWhatsApp(carrito) {
-    // Ya no pedimos datos de envío porque GeekHouse todavía no hace envíos a domicilio.
-
-    // 2. Armar el Texto para WhatsApp (El salto de linea en URL es %0A )
+async function generarOrdenWhatsApp(carrito) {
+    // 1. Armar el Texto para WhatsApp (El salto de linea en URL es %0A )
     let totalPagar = 0;
+    const itemsSimplificados = [];
 
     let mensaje = `*¡Hola GeekHouse! Quiero hacer un pedido:*%0A`;
     mensaje += `%0A*Resumen del Pedido:*%0A`;
@@ -60,23 +61,45 @@ function generarOrdenWhatsApp(carrito) {
     carrito.forEach(prod => {
         totalPagar += prod.precio * prod.cantidad;
         mensaje += `- ${prod.cantidad}x ${prod.nombre} ($${prod.precio * prod.cantidad})%0A`;
+
+        // Preparamos un array liviano para subir a Firebase
+        itemsSimplificados.push({
+            id: prod.id,
+            nombre: prod.nombre,
+            precio: prod.precio,
+            cantidad: prod.cantidad
+        });
     });
 
     mensaje += `%0A💰 *TOTAL:* $${totalPagar}%0A`;
     mensaje += `%0A¿Me confirmás el stock y por dónde paso a retirarlo?`;
 
-    // 3. Crear el Link y abrir la Pestaña
-    // NOTA PARA EL CREADOR: Cambiá este número por TU WhatsApp REAL (ej: 5492613123456)
-    const waNumber = "5492613433108";
+    // 2. Grabar en Firebase (Historial de Compras) si el usuario está logueado
+    try {
+        const usuarioLogueadoAhora = auth.currentUser;
+        if (usuarioLogueadoAhora) {
+            await addDoc(collection(db, "pedidos"), {
+                cliente: usuarioLogueadoAhora.email,
+                items: itemsSimplificados,
+                total: totalPagar,
+                fecha: serverTimestamp(),
+                estado: "Pendiente"
+            });
+            console.log("Pedido registrado en BBDD para el historial.");
+        } else {
+            console.warn("Compra anónima, no se guardará en el historial de un perfil.");
+        }
+    } catch (error) {
+        console.error("No se pudo guardar el pedido en el historial:", error);
+    }
 
-    // Abrimos WhatsApp con el número del Local y el msj armado.
+    // 3. Crear el Link y abrir WhatsApp
+    const waNumber = "5492613433108";
     const urlWa = `https://wa.me/${waNumber}?text=${mensaje}`;
 
-    // Opcional: Vaciarle el carrito luego de mandarlo a Whatsapp porque asumimos "Venta Concretada"
+    // Vaciamos el carrito
     localStorage.removeItem("carritoGeek");
 
     window.open(urlWa, "_blank");
-
-    // Redirigimos al Home para limpiar la URL del checkout
     window.location.href = "../index.html";
 }

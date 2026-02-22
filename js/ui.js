@@ -34,6 +34,37 @@ export function mostrarNotificacion(mensaje, tipo = "exito") {
     }, 3000);
 }
 
+export function mostrarConfirmacion(mensaje, callback) {
+    // 1. Crear el overlay oscuro
+    const overlay = document.createElement("div");
+    overlay.className = "confirmacion-modal-overlay";
+
+    // 2. Crear la caja del modal
+    const modal = document.createElement("div");
+    modal.className = "confirmacion-modal";
+
+    modal.innerHTML = `
+        <p>${mensaje}</p>
+        <div class="confirmacion-acciones">
+            <button class="btn-cancelar" id="btn-conf-cancelar">Cancelar</button>
+            <button class="btn-confirmar" id="btn-conf-aceptar">Aceptar</button>
+        </div>
+    `;
+
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // 3. Listeners
+    document.getElementById("btn-conf-cancelar").addEventListener("click", () => {
+        document.body.removeChild(overlay);
+    });
+
+    document.getElementById("btn-conf-aceptar").addEventListener("click", () => {
+        document.body.removeChild(overlay);
+        callback(); // Ejecuta la acción si aceptó
+    });
+}
+
 export function generarDescripcion(producto) {
     const nombre = (producto.nombre || "").toLowerCase();
 

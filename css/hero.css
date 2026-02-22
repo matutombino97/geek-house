@@ -1,8 +1,5 @@
 /* ===============================================
    HERO.CSS - Banner Principal
-   ===============================================
-   El slider hero con el logo animado y el
-   degradado en la parte inferior
    =============================================== */
 
 
@@ -113,7 +110,7 @@
 
 /* ================= TARJETAS UNIVERSO (HOME) ================= */
 .universos {
-    padding: 60px 20px;
+    padding: 5px 5px;
     max-width: var(--max-width-container);
     margin: 0 auto;
     text-align: center;

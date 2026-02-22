@@ -55,6 +55,11 @@
     <main class="shop-main">
         <h1 class="shop-title">Nuestro catálogo de productos</h1>
 
+        <!-- Botón para mostrar filtros dinámicamente en celular -->
+        <button id="btn-toggle-filtros" class="btn-filtrar-mobile">
+            Filtros ▾
+        </button>
+
         <div class="shop-container">
             <!-- COLUMNA IZQUIERDA: FILTROS -->
             <aside class="shop-sidebar">
@@ -68,31 +73,50 @@
                     </div>
                 </div>
 
-                <div class="filtro-grupo">
-                    <h3>Categorías</h3>
-                    <div class="categorias-nav sidebar-lista">
-                        <button class="btn-cat" id="cat-todos">Todos</button>
-                        <button class="btn-cat" id="cat-ropa">Ropa</button>
-                        <button class="btn-cat" id="cat-Bazar">Bazar</button>
-                        <button class="btn-cat" id="cat-accesorio">Accesorios</button>
-                        <button class="btn-cat" id="cat-Figuras">Figuras</button>
+                <div class="filtro-grupo filtro-precio">
+                    <h3>Rango de Precios</h3>
+                    <div class="inputs-precio">
+                        <input type="number" id="precio-min" placeholder="Min $" min="0">
+                        <span>-</span>
+                        <input type="number" id="precio-max" placeholder="Max $" min="0">
                     </div>
                 </div>
 
                 <div class="filtro-grupo">
-                    <h3>Explorá tu universo 🌟</h3>
-                    <!-- El JS de main.js inyectará los botones aquí ("Borrar Filtros" y demás) -->
-                    <div id="contenedor-franquicias" class="sidebar-lista"></div>
+                    <h3>Categorías</h3>
+                    <div class="categorias-nav sidebar-lista">
+                        <label><input type="checkbox" class="filtro-checkbox" value="Ropa" data-tipo="categoria">
+                            Ropa</label>
+                        <label><input type="checkbox" class="filtro-checkbox" value="Bazar" data-tipo="categoria">
+                            Bazar</label>
+                        <label><input type="checkbox" class="filtro-checkbox" value="Accesorios" data-tipo="categoria">
+                            Accesorios</label>
+                        <label><input type="checkbox" class="filtro-checkbox" value="Figuras" data-tipo="categoria">
+                            Figuras</label>
+                    </div>
                 </div>
+
+                <div class="filtro-grupo">
+                    <h3>Franquicias 🌟</h3>
+                    <div id="contenedor-franquicias-checks" class="sidebar-lista">
+                        <!-- JS inyectará los checkboxes de franquicias acá -->
+                    </div>
+                </div>
+
+                <div class="sidebar-actions">
+                    <button id="btn-limpiar-filtros" class="btn-peligro-filtros">Limpiar Todos</button>
+                </div>
+
             </aside>
 
             <!-- COLUMNA DERECHA: GRILLA DE PRODUCTOS -->
             <section class="productos">
                 <!-- JS inyecta artículos aquí -->
             </section>
+        </div> <!-- Cierre de #grilla-productos faltante -->
 
-            <!-- Contenedor de Paginación -->
-            <div id="paginacion" class="paginacion-container"></div>
+        <!-- Contenedor de Paginación -->
+        <div id="paginacion" class="paginacion-container"></div>
         </div>
         <div id="carrito-icono" class="carrito-icono" onclick="toggleCarrito()" role="button"
             aria-label="Abrir carrito de compras">
@@ -144,8 +168,9 @@
             </div>
         </div>
         <div class="copyright">
-            <p>© 2025 Geek House. Todos los derechos reservados. | Codeado por <a
-                    href="https://www.instagram.com/matutombino/?hl=es" target="_blank">Matias Sosa</a>🚀</p>
+            <p>© 2025 Geek House. Todos los derechos reservados. | Desarrollado con 💻 por <a
+                    href="https://www.instagram.com/matutombino/?hl=es" target="_blank" class="creador-link">Matias
+                    Sosa</a> 🚀</p>
         </div>
     </footer>
     <div id="modal-ingreso" class="modal-overlay">
