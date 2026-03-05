@@ -24,49 +24,8 @@
    =============================================== */
 
 /* Base: Variables CSS y reset global */
-@import url('base.css');
+/* Cargado individualmente en el HTML para mejor rendimiento */
 
-/* Componentes de navegación */
-@import url('header.css');
-
-/* Banner principal y hero */
-@import url('hero.css');
-
-/* Todos los botones del sitio */
-@import url('buttons.css');
-
-/* Tarjetas de productos y páginas de detalle */
-@import url('products.css');
-
-/* Carruseles de productos y franquicias */
-@import url('carousel.css');
-
-/* Filtros y barra de búsqueda */
-@import url('filters.css');
-
-/* Carrito de compras flotante */
-@import url('cart.css');
-
-/* Formularios (contacto, admin, login) */
-@import url('forms.css');
-
-/* Ventanas modales */
-@import url('modal.css');
-
-/* Notificaciones toast */
-@import url('notifications.css');
-
-/* Páginas especiales (sobre nosotros, perfil) */
-@import url('pages.css');
-
-/* Pie de página */
-@import url('footer.css');
-
-/* Keyframes y animaciones */
-@import url('animations.css');
-
-/* Media queries para responsive */
-@import url('responsive.css');
 
 
 /* VENTAJAS DE LA MODULARIZACIÓN:

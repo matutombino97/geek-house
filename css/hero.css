@@ -134,7 +134,6 @@
 .card-universo {
     position: relative;
     width: 250px;
-    /* Ancho fijo para el carrusel */
     height: 160px;
     border-radius: 15px;
     display: flex;
@@ -148,10 +147,33 @@
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
+.card-universo-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.4s ease;
+}
+
+/* Efecto oscurecedor sobre la imagen */
+.card-universo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
 .card-universo h3 {
     color: white;
     font-size: 1.5rem;
-    z-index: 2;
+    z-index: 3;
     text-transform: uppercase;
     letter-spacing: 2px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
@@ -163,6 +185,11 @@
     border-color: var(--color-neon);
     box-shadow: 0 15px 30px rgba(0, 255, 204, 0.2);
 }
+
+.card-universo:hover .card-universo-img {
+    transform: scale(1.1);
+}
+
 
 .card-universo:hover h3 {
     text-shadow: 0 0 15px var(--color-neon);

@@ -6,7 +6,8 @@
    =============================================== */
 
 /* ================= FUENTE PERSONALIZADA ================= */
-@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&family=Outfit:wght@300;400;600;800&display=swap');
+/* Cargado en el HTML para evitar bloqueo de renderizado */
+
 
 /* ================= RESET GLOBAL ================= 
     Elimino margenes y espaciado interno por defecto, igualmente con border-box, con esto

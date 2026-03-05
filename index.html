@@ -21,7 +21,15 @@
     <!-- Favicon -->
     <link rel="icon" href="https://matutombino97.github.io/geek-house/img/ojos-naruto.jpg">
 
-    <link rel="stylesheet" href="./css/style.css">
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Henny+Penny&family=Outfit:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Stylesheets (Bundled for performance) -->
+    <link rel="stylesheet" href="./css/bundle.css">
+
     <title>Geek House | Tu Tienda de Coleccionables</title>
 
     <!-- Google Analitycs -->
@@ -63,12 +71,13 @@
     </header>
     <main>
         <section id="hero-slider" class="hero-slider">
-            <img id="imagen-hero" src="./img/banner-naruto.jpg" alt="Oferta Geek">
+            <img id="imagen-hero" src="./img/banner-naruto.jpg" alt="Oferta Geek" fetchpriority="high" loading="eager">
             <div class="hero-overlay">
                 <div class="hero-content">
                     <h1>
                         <img src="img/logo-sin-fondo-Photoroom.png"
-                            alt="Geek House - Tienda de Anime, Mangas y Coleccionables" class="logo-hero">
+                            alt="Geek House - Tienda de Anime, Mangas y Coleccionables" class="logo-hero"
+                            fetchpriority="high">
                     </h1>
                     <p id="texto-banner">Donde la magia y el anime se encuentran</p>
                     <a href="pages/productos.html" class="btn-hero-glow">VER COLECCIÓN</a>
@@ -94,153 +103,177 @@
                 <div id="track-universos" class="carousel-track">
                     <div class="universos-grid">
                         <!-- Tarjeta 1: Marvel -->
-                        <a href="pages/productos.html?franquicia=Marvel" class="card-universo"
-                            style="background: url('img/cajita-franquicia-Marvel.jpg') center/cover;">
+                        <a href="pages/productos.html?franquicia=Marvel" class="card-universo">
+                            <img src="img/cajita-franquicia-Marvel.jpg" alt="Marvel" class="card-universo-img"
+                                loading="lazy">
                             <h3>Marvel</h3>
                         </a>
 
                         <!-- Tarjeta 2: Naruto -->
-                        <a href="pages/productos.html?franquicia=Naruto" class="card-universo"
-                            style="background: url('img/cajita-franquicia-naruto.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Naruto" class="card-universo">
+                            <img src="img/cajita-franquicia-naruto.jpg" alt="Naruto" class="card-universo-img"
+                                loading="lazy">
                             <h3>Naruto</h3>
                         </a>
 
                         <!-- Tarjeta 3: Star Wars -->
-                        <a href="pages/productos.html?franquicia=Star Wars" class="card-universo"
-                            style="background: url('img/cajita-franquicia-star-wars.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Star Wars" class="card-universo">
+                            <img src="img/cajita-franquicia-star-wars.jpg" alt="Star Wars" class="card-universo-img"
+                                loading="lazy">
                             <h3> Star Wars</h3>
                         </a>
 
                         <!-- Tarjeta 4: Harry Potter -->
-                        <a href="pages/productos.html?franquicia=Harry Potter" class="card-universo"
-                            style="background: url('img/cajita-franquicia-Harry-Potter.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Harry Potter" class="card-universo">
+                            <img src="img/cajita-franquicia-Harry-Potter.jpg" alt="Harry Potter"
+                                class="card-universo-img" loading="lazy">
                             <h3>Harry Potter</h3>
                         </a>
 
                         <!-- Tarjeta 5: One Piece -->
-                        <a href="pages/productos.html?franquicia=One Piece" class="card-universo"
-                            style="background: url('img/cajita-franquicia-onepiece.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=One Piece" class="card-universo">
+                            <img src="img/cajita-franquicia-onepiece.jpg" alt="One Piece" class="card-universo-img"
+                                loading="lazy">
                             <h3>One Piece</h3>
                         </a>
 
                         <!-- Tarjeta 6: Stranger Things -->
-                        <a href="pages/productos.html?franquicia=Stranger Things" class="card-universo"
-                            style="background: url('img/cajita-franquicia-stranger-things.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Stranger Things" class="card-universo">
+                            <img src="img/cajita-franquicia-stranger-things.jpg" alt="Stranger Things"
+                                class="card-universo-img" loading="lazy">
                             <h3>Stranger Things</h3>
                         </a>
 
                         <!-- Tarjeta 7: Bluey -->
-                        <a href="pages/productos.html?franquicia=Bluey" class="card-universo"
-                            style="background: linear-gradient(135deg, rgba(30, 144, 255, 0.8), rgba(0, 0, 0, 0.2)), url('img/cajita-franquicia-bluey.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Bluey" class="card-universo">
+                            <img src="img/cajita-franquicia-bluey.jpg" alt="Bluey" class="card-universo-img"
+                                loading="lazy">
                             <h3>Bluey</h3>
                         </a>
 
                         <!-- Tarjeta 8: Piratas Del Caribe -->
-                        <a href="pages/productos.html?franquicia=Piratas Del Caribe" class="card-universo"
-                            style="background: url('img/cajita-franquicia-piratas-del-caribe.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Piratas Del Caribe" class="card-universo">
+                            <img src="img/cajita-franquicia-piratas-del-caribe.jpg" alt="Piratas Del Caribe"
+                                class="card-universo-img" loading="lazy">
                             <h3>Piratas del Caribe</h3>
                         </a>
 
                         <!-- Tarjeta 9: Merlina -->
-                        <a href="pages/productos.html?franquicia=Merlina" class="card-universo"
-                            style="background: url('img/cajita-franquicia-merlina.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Merlina" class="card-universo">
+                            <img src="img/cajita-franquicia-merlina.jpg" alt="Merlina" class="card-universo-img"
+                                loading="lazy">
                             <h3>Merlina</h3>
                         </a>
 
                         <!-- Tarjeta 10: Monster INC -->
-                        <a href="pages/productos.html?franquicia=Monster INC" class="card-universo"
-                            style="background: url('img/cajita-franquicia-monster-inc.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Monster INC" class="card-universo">
+                            <img src="img/cajita-franquicia-monster-inc.jpg" alt="Monster INC" class="card-universo-img"
+                                loading="lazy">
                             <h3>Monster INC</h3>
                         </a>
 
                         <!-- Tarjeta 11: Era De Hielo -->
-                        <a href="pages/productos.html?franquicia=Era De Hielo" class="card-universo"
-                            style="background: url('img/cajita-franquicia-era-hielo.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Era De Hielo" class="card-universo">
+                            <img src="img/cajita-franquicia-era-hielo.jpg" alt="Era De Hielo" class="card-universo-img"
+                                loading="lazy">
                             <h3>Era De Hielo</h3>
                         </a>
 
                         <!-- Tarjeta 12: Buscando A Nemo -->
-                        <a href="pages/productos.html?franquicia=Buscando A Nemo" class="card-universo"
-                            style="background: url('img/cajita-franquicia-buscando-a-nemo.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Buscando A Nemo" class="card-universo">
+                            <img src="img/cajita-franquicia-buscando-a-nemo.jpg" alt="Buscando A Nemo"
+                                class="card-universo-img" loading="lazy">
                             <h3>Buscando A Nemo</h3>
                         </a>
 
                         <!-- Tarjeta 13: Freddy At Nights -->
-                        <a href="pages/productos.html?franquicia=Freddy At Nights" class="card-universo"
-                            style="background: url('img/cajita-franquicia-freddy-at-night.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Freddy At Nights" class="card-universo">
+                            <img src="img/cajita-franquicia-freddy-at-night.jpg" alt="Freddy At Nights"
+                                class="card-universo-img" loading="lazy">
                             <h3>Freddy At Nights</h3>
                         </a>
 
                         <!-- Tarjeta 14: Señor De Los Anillos -->
-                        <a href="pages/productos.html?franquicia=Señor De Los Anillos" class="card-universo"
-                            style="background: url('img/cajita-franquicia-señor-anillos.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Señor De Los Anillos" class="card-universo">
+                            <img src="img/cajita-franquicia-señor-anillos.jpg" alt="Señor De Los Anillos"
+                                class="card-universo-img" loading="lazy">
                             <h3>Señor De Los Anillos</h3>
                         </a>
 
                         <!-- Tarjeta 15: Batman -->
-                        <a href="pages/productos.html?franquicia=Batman" class="card-universo"
-                            style="background: url('img/cajita-franquicia-batman.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Batman" class="card-universo">
+                            <img src="img/cajita-franquicia-batman.jpg" alt="Batman" class="card-universo-img"
+                                loading="lazy">
                             <h3>Batman</h3>
                         </a>
 
                         <!-- Tarjeta 16: Alicia En El Pais De Las Maravillas -->
                         <a href="pages/productos.html?franquicia=Alicia En El Pais De Las Maravillas"
-                            class="card-universo"
-                            style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.8), rgba(0, 0, 0, 0.2)), url('img/cajita-franquicia-alicia.jpg') center/cover no-repeat;">
+                            class="card-universo">
+                            <img src="img/cajita-franquicia-alicia.jpg" alt="Alicia En El Pais De Las Maravillas"
+                                class="card-universo-img" loading="lazy">
                             <h3>Alicia En El Pais De Las Maravillas</h3>
                         </a>
 
                         <!-- Tarjeta 17: Wall-E -->
-                        <a href="pages/productos.html?franquicia=Wall-E" class="card-universo"
-                            style="background: url('img/cajita-franquicia-walle.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Wall-E" class="card-universo">
+                            <img src="img/cajita-franquicia-walle.jpg" alt="Wall-E" class="card-universo-img"
+                                loading="lazy">
                             <h3>Wall-E</h3>
                         </a>
 
                         <!-- Tarjeta 18: Pokémon -->
-                        <a href="pages/productos.html?franquicia=Pokémon" class="card-universo"
-                            style="background: url('img/cajita-franquicia-pokemon.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Pokémon" class="card-universo">
+                            <img src="img/cajita-franquicia-pokemon.jpg" alt="Pokémon" class="card-universo-img"
+                                loading="lazy">
                             <h3>Pokémon</h3>
                         </a>
 
                         <!-- Tarjeta 19: El Extraño Mundo De Jack -->
-                        <a href="pages/productos.html?franquicia=El Extraño Mundo De Jack" class="card-universo"
-                            style="background: url('img/cajita-franquicia-jack.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=El Extraño Mundo De Jack" class="card-universo">
+                            <img src="img/cajita-franquicia-jack.jpg" alt="El Extraño Mundo De Jack"
+                                class="card-universo-img" loading="lazy">
                             <h3>El Extraño Mundo De Jack</h3>
                         </a>
 
                         <!-- Tarjeta 20: Lilo Y Stich -->
-                        <a href="pages/productos.html?franquicia=Lilo Y Stich" class="card-universo"
-                            style="background: url('img/cajita-franquicia-lilo-stich.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Lilo Y Stich" class="card-universo">
+                            <img src="img/cajita-franquicia-lilo-stich.jpg" alt="Lilo Y Stich" class="card-universo-img"
+                                loading="lazy">
                             <h3>Lilo Y Stich</h3>
                         </a>
 
                         <!-- Tarjeta 21: DC -->
-                        <a href="pages/productos.html?franquicia=DC" class="card-universo"
-                            style="background: url('img/cajita-franquicia-dc.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=DC" class="card-universo">
+                            <img src="img/cajita-franquicia-dc.jpg" alt="DC" class="card-universo-img" loading="lazy">
                             <h3>DC</h3>
                         </a>
 
                         <!-- Tarjeta 22: Dragon Ball Z -->
-                        <a href="pages/productos.html?franquicia=Dragon Ball Z" class="card-universo"
-                            style="background: url('img/cajita-franquicia-dbz.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Dragon Ball Z" class="card-universo">
+                            <img src="img/cajita-franquicia-dbz.jpg" alt="Dragon Ball Z" class="card-universo-img"
+                                loading="lazy">
                             <h3>Dragon Ball Z</h3>
                         </a>
 
                         <!-- Tarjeta 23: Grey'S Anatomy -->
-                        <a href="pages/productos.html?franquicia=Grey'S Anatomy" class="card-universo"
-                            style="background: url('img/cajita-franquicia-greys-anatomy.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Grey'S Anatomy" class="card-universo">
+                            <img src="img/cajita-franquicia-greys-anatomy.jpg" alt="Grey'S Anatomy"
+                                class="card-universo-img" loading="lazy">
                             <h3>Grey'S Anatomy</h3>
                         </a>
 
                         <!-- Tarjeta 24: Disney -->
-                        <a href="pages/productos.html?franquicia=Disney" class="card-universo"
-                            style="background: url('img/cajita-franquicia-disney.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Disney" class="card-universo">
+                            <img src="img/cajita-franquicia-disney.jpg" alt="Disney" class="card-universo-img"
+                                loading="lazy">
                             <h3>Disney</h3>
                         </a>
 
                         <!-- Tarjeta 25: Mafalda -->
-                        <a href="pages/productos.html?franquicia=Mafalda" class="card-universo"
-                            style="background: linear-gradient(135deg, rgba(255, 165, 0, 0.8), rgba(0, 0, 0, 0.2)), url('img/cajita-franquicia-mafalda.jpg') center/cover no-repeat;">
+                        <a href="pages/productos.html?franquicia=Mafalda" class="card-universo">
+                            <img src="img/cajita-franquicia-mafalda.jpg" alt="Mafalda" class="card-universo-img"
+                                loading="lazy">
                             <h3>Mafalda</h3>
                         </a>
                     </div>
