@@ -4,7 +4,7 @@
     "nombre": "Medias Bulbasaur",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-bullbasaur.png",
+    "imagen": "img/medias-bullbasaur.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -12,7 +12,7 @@
     "nombre": "Medias Charmander",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-charmander.png",
+    "imagen": "img/medias-charmander.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -20,7 +20,7 @@
     "nombre": "Medias Pikachu",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-pikachu.png",
+    "imagen": "img/medias-pikachu.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -28,7 +28,7 @@
     "nombre": "Medias Snorlax",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-snorlax.png",
+    "imagen": "img/medias-snorlax.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -36,7 +36,7 @@
     "nombre": "Medias Squirtle",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-squirtle.png",
+    "imagen": "img/medias-squirtle.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -44,7 +44,7 @@
     "nombre": "Medias Clefairy",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-clefairy.png",
+    "imagen": "img/medias-clefairy.webp",
     "franquicia": "Pokémon"
   },
   {
@@ -52,7 +52,7 @@
     "nombre": "Medias Gryffindor",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-gryffindor.png",
+    "imagen": "img/medias-gryffindor.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -60,7 +60,7 @@
     "nombre": "Medias Harry Potter",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-harry.png",
+    "imagen": "img/medias-harry.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -68,7 +68,7 @@
     "nombre": "Medias 3/4 Harry Potter",
     "precio": 5500,
     "categoria": "ropa",
-    "imagen": "img/medias-harry-2.png",
+    "imagen": "img/medias-harry-2.webp",
     "franquicia": "Harry Potter",
     "destacado": true
   },
@@ -77,7 +77,7 @@
     "nombre": "Medias Hedwing",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-hedwing.png",
+    "imagen": "img/medias-hedwing.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -85,7 +85,7 @@
     "nombre": "Medias Hermione",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-hermione.png",
+    "imagen": "img/medias-hermione.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -93,7 +93,7 @@
     "nombre": "Medias Harry Potter",
     "precio": 5500,
     "categoria": "ropa",
-    "imagen": "img/medias-hp-dibujo.png",
+    "imagen": "img/medias-hp-dibujo.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -101,7 +101,7 @@
     "nombre": "Medias Harry & Hedwing",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-hp-hedwing.png",
+    "imagen": "img/medias-hp-hedwing.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -109,7 +109,7 @@
     "nombre": "Medias Hufflepuff",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-hufflepuff.png",
+    "imagen": "img/medias-hufflepuff.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -117,7 +117,7 @@
     "nombre": "Medias Harry Potter Cicatriz",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-lentes.png",
+    "imagen": "img/medias-lentes.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -125,7 +125,7 @@
     "nombre": "Medias Luna Lovegood",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-luna.png",
+    "imagen": "img/medias-luna.webp",
     "franquicia": "Harry Potter",
     "destacado": true
 
@@ -135,7 +135,7 @@
     "nombre": "Medias Malfoy",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-malfoy.png",
+    "imagen": "img/medias-malfoy.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -143,7 +143,7 @@
     "nombre": "Medias Reliquias de la Muerte",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-reliquias.png",
+    "imagen": "img/medias-reliquias.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -151,7 +151,7 @@
     "nombre": "Medias Reliquias de la Muerte",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-reliquias-dos.png",
+    "imagen": "img/medias-reliquias-dos.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -159,7 +159,7 @@
     "nombre": "Medias Ravenclaw",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-ravenclaw.png",
+    "imagen": "img/medias-ravenclaw.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -167,7 +167,7 @@
     "nombre": "Medias Ron Weasley",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-ron.png",
+    "imagen": "img/medias-ron.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -175,7 +175,7 @@
     "nombre": "Medias Slytherin",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-slytherin.png",
+    "imagen": "img/medias-slytherin.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -183,7 +183,7 @@
     "nombre": "Medias Vagon-9/3/4",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-vagon.png",
+    "imagen": "img/medias-vagon.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -191,7 +191,7 @@
     "nombre": "Medias Varita Harry Potter",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-vara.png",
+    "imagen": "img/medias-vara.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -199,7 +199,7 @@
     "nombre": "Medias Jack",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-jack-negro.png",
+    "imagen": "img/medias-jack-negro.webp",
     "franquicia": "El extraño mundo de Jack"
   },
   {
@@ -207,7 +207,7 @@
     "nombre": "Medias Jack",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-jack-rosado.png",
+    "imagen": "img/medias-jack-rosado.webp",
     "franquicia": "El extraño mundo de Jack"
   },
   {
@@ -215,7 +215,7 @@
     "nombre": "Medias Jack & Sally",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-jack-sally.png",
+    "imagen": "img/medias-jack-sally.webp",
     "franquicia": "El extraño mundo de Jack"
   },
   {
@@ -223,7 +223,7 @@
     "nombre": "Medias Sally &Jack",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-sally-jack.png",
+    "imagen": "img/medias-sally-jack.webp",
     "franquicia": "El extraño mundo de Jack"
   },
   {
@@ -231,15 +231,15 @@
     "nombre": "Medias Jack y Sally",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-jack-sally-gris.png",
+    "imagen": "img/medias-jack-sally-gris.webp",
     "franquicia": "El extraño mundo de Jack"
   },
   {
-    "id": "medias-ohana.png",
+    "id": "medias-ohana.webp",
     "nombre": "Medias Stich Ohana",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-ohana.png",
+    "imagen": "img/medias-ohana.webp",
     "franquicia": "Lilo y Stich"
   },
   {
@@ -247,7 +247,7 @@
     "nombre": "Medias Stich Ohana",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-ohana-blanco.png",
+    "imagen": "img/medias-ohana-blanco.webp",
     "franquicia": "Lilo y Stich"
   },
   {
@@ -255,7 +255,7 @@
     "nombre": "Medias Stich ",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-stich-azul.png",
+    "imagen": "img/medias-stich-azul.webp",
     "franquicia": "Lilo y Stich"
   },
   {
@@ -263,7 +263,7 @@
     "nombre": "Medias Stich",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-stich-claro.png",
+    "imagen": "img/medias-stich-claro.webp",
     "franquicia": "Lilo y Stich"
   },
   {
@@ -271,7 +271,7 @@
     "nombre": "Medias Stich",
     "precio": 4500,
     "categoria": "ropa",
-    "imagen": "img/medias-stich-juguete.png",
+    "imagen": "img/medias-stich-juguete.webp",
     "franquicia": "Lilo y Stich"
   },
   {
@@ -279,7 +279,7 @@
     "nombre": "Llavero Baby Rocket",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-baby-rocket.png",
+    "imagen": "img/llavero-baby-rocket.webp",
     "franquicia": "Marvel"
   },
   {
@@ -287,7 +287,7 @@
     "nombre": "Llavero Baby Yoda",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-baby-yoda.png",
+    "imagen": "img/llavero-baby-yoda.webp",
     "franquicia": "Star Wars"
   },
   {
@@ -295,7 +295,7 @@
     "nombre": "Llavero Bluey",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-bluey.png",
+    "imagen": "img/llavero-bluey.webp",
     "franquicia": "Bluey"
   },
   {
@@ -303,7 +303,7 @@
     "nombre": "Llavero Reina de Corazones ",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-reina-corazones.png",
+    "imagen": "img/llavero-reina-corazones.webp",
     "franquicia": "Alicia en el pais de las maravillas"
   },
   {
@@ -311,7 +311,7 @@
     "nombre": "Llavero Buu Monster INC",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-buu.png",
+    "imagen": "img/llavero-buu.webp",
     "franquicia": "Monster INC"
   },
   {
@@ -319,7 +319,7 @@
     "nombre": "Llavero Darth Vader",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-darth-vader.png",
+    "imagen": "img/llavero-darth-vader.webp",
     "franquicia": "Star Wars"
   },
   {
@@ -327,7 +327,7 @@
     "nombre": "Llavero Freddy At Nigths",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-freddy.png",
+    "imagen": "img/llavero-freddy.webp",
     "franquicia": "Freddy at Nitghs"
   },
   {
@@ -335,7 +335,7 @@
     "nombre": "Llavero Gandalf ",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-gandalf.png",
+    "imagen": "img/llavero-gandalf.webp",
     "franquicia": "Señor de los anillos",
     "destacado": true
   },
@@ -344,7 +344,7 @@
     "nombre": "Llavero Dustin Stranger Things",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-dustin-st.png",
+    "imagen": "img/llavero-dustin-st.webp",
     "franquicia": "Stranger Things"
   },
   {
@@ -352,7 +352,7 @@
     "nombre": "Llavero Eddie Stranger Things",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-eddie-st.png",
+    "imagen": "img/llavero-eddie-st.webp",
     "franquicia": "Stranger Things"
   },
   {
@@ -360,7 +360,7 @@
     "nombre": "Llavero Jack Sparrow ",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-jack-sparrow.png",
+    "imagen": "img/llavero-jack-sparrow.webp",
     "franquicia": "Piratas del Caribe"
   },
   {
@@ -368,7 +368,7 @@
     "nombre": "Llavero Naruto",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-naruto.png",
+    "imagen": "img/llavero-naruto.webp",
     "franquicia": "Naruto"
   },
   {
@@ -376,7 +376,7 @@
     "nombre": "Llavero Sombrerero",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-sombrerero.png",
+    "imagen": "img/llavero-sombrerero.webp",
     "franquicia": "Alicia en el pais de las maravillas"
   },
   {
@@ -384,7 +384,7 @@
     "nombre": "Llavero Voldemort",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-voldemort.png",
+    "imagen": "img/llavero-voldemort.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -392,7 +392,7 @@
     "nombre": "Llavero Wall-E",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-wall-e.png",
+    "imagen": "img/llavero-wall-e.webp",
     "franquicia": "Wall- E"
   },
   {
@@ -400,15 +400,15 @@
     "nombre": "Llavero Diego Era de Hielo",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-diego.png",
+    "imagen": "img/llavero-diego.webp",
     "franquicia": "Era de Hielo"
   },
   {
-    "id": "llavero-dory.png",
+    "id": "llavero-dory.webp",
     "nombre": "Llavero Dory",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-dory.png",
+    "imagen": "img/llavero-dory.webp",
     "franquicia": "Buscando a Nemo"
   },
   {
@@ -416,7 +416,7 @@
     "nombre": "Llavero Gambito Marvel",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-gambito.png",
+    "imagen": "img/llavero-gambito.webp",
     "franquicia": "Marvel"
   },
   {
@@ -424,7 +424,7 @@
     "nombre": "Llavero Joker",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-guason.png",
+    "imagen": "img/llavero-guason.webp",
     "franquicia": "Batman"
   },
   {
@@ -432,7 +432,7 @@
     "nombre": "Llavero Harry Potter Escoba",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-harry-potter-escoba.png",
+    "imagen": "img/llavero-harry-potter-escoba.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -440,7 +440,7 @@
     "nombre": "Llavero Legolas",
     "precio": 4500,
     "categoria": "accesorio",
-    "imagen": "img/llavero-legolas.png",
+    "imagen": "img/llavero-legolas.webp",
     "franquicia": "Señor de los anillos"
   },
   {
@@ -448,7 +448,7 @@
     "nombre": "Figura Gaara",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-gaara.png",
+    "imagen": "img/figura-gaara.webp",
     "franquicia": "Naruto"
   },
   {
@@ -456,7 +456,7 @@
     "nombre": "Figura Hinata",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-hinata.png",
+    "imagen": "img/figura-hinata.webp",
     "franquicia": "Naruto"
   },
   {
@@ -464,7 +464,7 @@
     "nombre": "Figura Itachi Akatsuki",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-itachi-con-capa.png",
+    "imagen": "img/figura-itachi-con-capa.webp",
     "franquicia": "Naruto"
   },
   {
@@ -472,7 +472,7 @@
     "nombre": "Figura Itachi ",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-itachi-sin-capa.png",
+    "imagen": "img/figura-itachi-sin-capa.webp",
     "franquicia": "Naruto"
   },
   {
@@ -480,7 +480,7 @@
     "nombre": "Figura Jiraiya",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-jiraiya.png",
+    "imagen": "img/figura-jiraiya.webp",
     "franquicia": "Naruto"
   },
   {
@@ -488,7 +488,7 @@
     "nombre": "Figura Kakashi",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-kakashi.png",
+    "imagen": "img/figura-kakashi.webp",
     "franquicia": "Naruto",
     "destacado": true
   },
@@ -497,7 +497,7 @@
     "nombre": "Figura Naruto Jutsu",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-naruto-jutsu.png",
+    "imagen": "img/figura-naruto-jutsu.webp",
     "franquicia": "Naruto"
   },
   {
@@ -505,7 +505,7 @@
     "nombre": "Figura Naruto Ojos Zorro",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-naruto-ojos-rojos.png",
+    "imagen": "img/figura-naruto-ojos-rojos.webp",
     "franquicia": "Naruto"
   },
   {
@@ -513,7 +513,7 @@
     "nombre": "Figura Sakura",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-sakura.png",
+    "imagen": "img/figura-sakura.webp",
     "franquicia": "Naruto"
   },
   {
@@ -521,7 +521,7 @@
     "nombre": "Figura Sasuke Shippuden",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-sasuke-shipp.png",
+    "imagen": "img/figura-sasuke-shipp.webp",
     "franquicia": "Naruto"
   },
   {
@@ -529,7 +529,7 @@
     "nombre": "Figura Sasuke The Last",
     "precio": 5000,
     "categoria": "Figuras",
-    "imagen": "img/figura-sasuke-pelicula.png",
+    "imagen": "img/figura-sasuke-pelicula.webp",
     "franquicia": "Naruto",
     "destacado": true
   },
@@ -538,7 +538,7 @@
     "nombre": "Funko Bianca Barclay Wednesday",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-bianca-barclay-wednesday.png",
+    "imagen": "img/funko-bianca-barclay-wednesday.webp",
     "franquicia": "Merlina"
   },
   {
@@ -546,7 +546,7 @@
     "nombre": "Funko Boa Hancock One Piece",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-boa-hancock-one-piece.png",
+    "imagen": "img/funko-boa-hancock-one-piece.webp",
     "franquicia": "One Piece"
   },
   {
@@ -554,7 +554,7 @@
     "nombre": "Funko Draco Malfoy",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-draco-malfoy.png",
+    "imagen": "img/funko-draco-malfoy.webp",
     "franquicia": "Harry Potter",
     "destacado": true
   },
@@ -563,7 +563,7 @@
     "nombre": "Funko Enid Sinclair Wednesday",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-enid-sinclair-wednesday.png",
+    "imagen": "img/funko-enid-sinclair-wednesday.webp",
     "franquicia": "Merlina"
   },
   {
@@ -571,7 +571,7 @@
     "nombre": "Funko Ghost Will Turner",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-ghost-will-turner.png",
+    "imagen": "img/funko-ghost-will-turner.webp",
     "franquicia": "Piratas del Caribe"
   },
   {
@@ -579,7 +579,7 @@
     "nombre": "Funko Harry Potter",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-harry-potter.png",
+    "imagen": "img/funko-harry-potter.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -587,7 +587,7 @@
     "nombre": "Funko Madara Uchiha",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-madara-uchiha.png",
+    "imagen": "img/funko-madara-uchiha.webp",
     "franquicia": "Naruto",
     "destacado": true
   },
@@ -596,7 +596,7 @@
     "nombre": "Funko Pickett Animales Fantasticos",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-pickett-animales-fantasticos.png",
+    "imagen": "img/funko-pickett-animales-fantasticos.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -604,7 +604,7 @@
     "nombre": "Funko Ron Weasley",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-ron-weasley.png",
+    "imagen": "img/funko-ron-weasley.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -612,7 +612,7 @@
     "nombre": "Funko Roronoa Zoro",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-roronoa-zoro.png",
+    "imagen": "img/funko-roronoa-zoro.webp",
     "franquicia": "One Piece"
   },
   {
@@ -620,7 +620,7 @@
     "nombre": "Funko Capitan Salazar",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-salazar-piratas-caribe.png",
+    "imagen": "img/funko-salazar-piratas-caribe.webp",
     "franquicia": "Piratas del Caribe",
     "destacado": true
   },
@@ -629,7 +629,7 @@
     "nombre": "Funko Sasuke Uchiha",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-sasuke-uchiha.png",
+    "imagen": "img/funko-sasuke-uchiha.webp",
     "franquicia": "Naruto"
   },
   {
@@ -637,7 +637,7 @@
     "nombre": "Funko Severus Snape",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-severus-snape.png",
+    "imagen": "img/funko-severus-snape.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -645,7 +645,7 @@
     "nombre": "Funko Trafalgar Law",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-trafalgar-law-one-piece.png",
+    "imagen": "img/funko-trafalgar-law-one-piece.webp",
     "franquicia": "One Piece"
   },
   {
@@ -653,7 +653,7 @@
     "nombre": "Funko Voldemort",
     "precio": 12500,
     "categoria": "Figuras",
-    "imagen": "img/funko-voldemort.png",
+    "imagen": "img/funko-voldemort.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -661,7 +661,7 @@
     "nombre": "Taza Batman",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-batman-lado-izq.png",
+    "imagen": "img/taza-batman-lado-izq.webp",
     "franquicia": "DC"
   },
   {
@@ -669,7 +669,7 @@
     "nombre": "Taza DBZ Super",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-dbz-frente.png",
+    "imagen": "img/taza-dbz-frente.webp",
     "franquicia": "Dragon Ball Z"
   },
   {
@@ -677,7 +677,7 @@
     "nombre": "Taza Dobby",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-dobby-izq.png",
+    "imagen": "img/taza-dobby-izq.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -685,7 +685,7 @@
     "nombre": "Taza DBZ saga Cell",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-dragonball-izquierda.png",
+    "imagen": "img/taza-dragonball-izquierda.webp",
     "franquicia": "Dragon Ball Z"
   },
   {
@@ -693,7 +693,7 @@
     "nombre": "Taza Grey´s Anatomy",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-greys-anatomy-izquierda.png",
+    "imagen": "img/taza-greys-anatomy-izquierda.webp",
     "franquicia": "Grey´s Anatomy"
   },
   {
@@ -701,7 +701,7 @@
     "nombre": "Taza Luca Disney",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-luca-frente.png",
+    "imagen": "img/taza-luca-frente.webp",
     "franquicia": "Disney"
   },
   {
@@ -709,7 +709,7 @@
     "nombre": "Taza Luffy Buscado",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-luffy-izq.png",
+    "imagen": "img/taza-luffy-izq.webp",
     "franquicia": "One Piece"
   },
   {
@@ -717,7 +717,7 @@
     "nombre": "Taza Mafalda Viñetas",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-mafalda-derecha.png",
+    "imagen": "img/taza-mafalda-derecha.webp",
     "franquicia": "Mafalda"
   },
   {
@@ -725,7 +725,7 @@
     "nombre": "Taza Mapa del Merodeador",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-mapa-merodeador-izquierda.png",
+    "imagen": "img/taza-mapa-merodeador-izquierda.webp",
     "franquicia": "Harry Potter"
   },
   {
@@ -733,7 +733,7 @@
     "nombre": "Taza Robin DC",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-robin-izq.png",
+    "imagen": "img/taza-robin-izq.webp",
     "franquicia": "DC"
   },
   {
@@ -741,7 +741,7 @@
     "nombre": "Taza Spiderman",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-spiderman-derecha.png",
+    "imagen": "img/taza-spiderman-derecha.webp",
     "franquicia": "Marvel"
   },
   {
@@ -749,7 +749,7 @@
     "nombre": "Taza Star-Lord",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-starlord-izquierda.png",
+    "imagen": "img/taza-starlord-izquierda.webp",
     "franquicia": "Marvel"
   },
   {
@@ -757,7 +757,7 @@
     "nombre": "Taza Stich & Chimuelo",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-stich-chimuelo-izquierda.png",
+    "imagen": "img/taza-stich-chimuelo-izquierda.webp",
     "franquicia": "Disney"
   },
   {
@@ -765,7 +765,7 @@
     "nombre": "Taza Tres Spidermans",
     "precio": 8000,
     "categoria": "Bazar",
-    "imagen": "img/taza-tres-spiderman-derecha.png",
+    "imagen": "img/taza-tres-spiderman-derecha.webp",
     "franquicia": "Marvel"
   }
 ]

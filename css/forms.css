@@ -6,7 +6,7 @@
 
 /* ================= FORMULARIO CONTACTO ================= */
 .body-contacto {
-    background: url("../img/fondo-harry-malfoy.jpg") no-repeat top center fixed;
+    background: url("../img/fondo-harry-malfoy.webp") no-repeat top center fixed;
     background-size: cover;
     min-height: 100vh;
 }
